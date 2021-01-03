@@ -31,16 +31,16 @@ yarn dev
 Then [http://localhost:3000](http://localhost:3000).
 
 
-# All Contributors ✨
+# Contributors ✨
 
 <table>
   <tr>
     <td align="center">
         <a href="https://twitter.com/samullman">
-            <img src="https://avatars3.githubusercontent.com/u/10147333?v=4" width="100px;" alt=""/>
+            <img src="https://ucarecdn.com/3fabfa7b-c8db-4304-aedb-2292cfcc2f54/bastian.jpg" width="100px;" alt=""/>
             <br />
             <sub>
-                <b>Sam Ullman</b>
+                <b>Hieu Le-Ngoc</b>
             </sub>
         </a>
         <br />
@@ -57,10 +57,10 @@ Then [http://localhost:3000](http://localhost:3000).
     </td>
     <td align="center">
         <a href="https://twitter.com/samullman">
-            <img src="https://avatars3.githubusercontent.com/u/10147333?v=4" width="100px;" alt=""/>
+            <img src="https://ucarecdn.com/a8c95a3a-48a8-4c3a-844f-1d8e7e0c0ea3/wale.jpg" width="100px;" alt=""/>
             <br />
             <sub>
-                <b>Sam Ullman</b>
+                <b>Wale Martins</b>
             </sub>
         </a>
         <br />
