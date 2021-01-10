@@ -17,7 +17,7 @@ export default function Home() {
 
       
 
-      <Box position="relative" height="100vh" >
+      <Box position="relative" height={["calc(100vh - 70px)", "calc(100vh - 70px)", "calc(100vh - 80px)"]} >
       <Image
         src="/index.jpg"
         layout="fill"
