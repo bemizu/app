@@ -1,0 +1,36 @@
+
+type Profile {
+   id: ID! 
+   uid: String! @unique
+   email: String! @unique
+   name: String!
+   username: String! @unique
+   plan: Int!
+   skills: [Skill]
+   organizations: [Organization]
+}
+
+type Skill {
+   id: ID!
+   profile: Profile!
+   title: String!
+}
+
+type Organization {
+   id: ID!
+   title: String!
+   profile: Profile!
+}
+
+type Job {
+   id: ID!
+   title: String!
+   organization: Organization!
+}
+
+type Query {
+   jobs: [Job]
+   profiles: [Profile]
+   organizations: [Organization]
+   skills: [Skill]
+}
