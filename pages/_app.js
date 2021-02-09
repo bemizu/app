@@ -5,14 +5,18 @@ import { useState, useEffect  } from "react";
 
 function App ({ Component, pageProps, USERBASE_APP_ID }) {
   const [user, setUser] = useState();
+  const [ session, setSession ] = useState();
 
 
-  useEffect(() => {
-    userbase.init({ appId: `${USERBASE_APP_ID}` })
+  useEffect( () => {
+    userbase.init({ appId: `${USERBASE_APP_ID}` }).then( (data) => {
+      setSession( data );
+    });
+    
   }, []);
 
   return <ChakraProvider>
-    <Component {...pageProps} user={user} setUser={ setUser } />
+    <Component {...pageProps} user={user} setUser={ setUser } session={ session } />
   </ChakraProvider>
 
 }

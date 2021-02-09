@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { Box } from "@chakra-ui/react";
-import Header from "../components/header"
+import Header from "./header"
+import Footer from './footer';
 
 const Layout = ( props ) => (
     <div >
@@ -17,8 +18,7 @@ const Layout = ( props ) => (
         </Box>
     </main>
 
-    <footer>
-    </footer>
+    <Footer />
   </div>
 )
 

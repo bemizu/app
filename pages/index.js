@@ -1,6 +1,7 @@
 import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
 import Container from "../components/container";
+import Section from "../components/section";
 import Image from "next/image"
 
 
@@ -19,13 +20,14 @@ import {
 import theme from "../public/theme";
 
 
-export default function Home() {
+export default function Home({ session, user }) {
+  console.log( session )
   return (
 
     <Layout title="Home">
 
 
-      <Box position="relative" height={["calc(100vh - 70px)", "calc(100vh - 70px)", "calc(100vh - 80px)"]} >
+      <Box position="relative" height={["calc(100vh - 60px)", "calc(100vh - 60px)", "calc(100vh - 70px)"]} >
         <Image
           src="/index.jpg"
           layout="fill"
@@ -83,6 +85,11 @@ export default function Home() {
         </Box>
 
       </Box>
+
+      <Section>
+
+      </Section>
+        
 
     </Layout>
   )
