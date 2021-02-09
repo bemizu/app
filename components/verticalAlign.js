@@ -1,4 +1,4 @@
-export default ( props ) => (
+const VerticalAlign = ( props ) => (
     <span style={{ display: "table", height: "100%", width: "100%" }}>
     <span style={{ display: "table-cell", verticalAlign: "middle" }}>
       {
@@ -8,8 +8,4 @@ export default ( props ) => (
     </span>
 ) 
     
-  
-            
-     
-  
-  
+export default VerticalAlign;

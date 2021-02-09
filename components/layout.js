@@ -12,7 +12,7 @@ const Layout = ( props ) => (
     <Header />
 
     <main>
-      <Box pt={[0, 0, "80px"]} pb={[70, 70, 0]}>
+      <Box pt={["60px", "60px", "70px"]} >
         { props.children }
         </Box>
     </main>

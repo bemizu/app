@@ -3,6 +3,7 @@ import VerticalAlign from "../components/verticalAlign";
 import Container from "../components/container";
 import Image from "next/image"
 
+
 import {
   Box,
   Button,
@@ -24,7 +25,6 @@ export default function Home() {
     <Layout title="Home">
 
 
-
       <Box position="relative" height={["calc(100vh - 70px)", "calc(100vh - 70px)", "calc(100vh - 80px)"]} >
         <Image
           src="/index.jpg"
@@ -41,13 +41,10 @@ export default function Home() {
               <SimpleGrid columns={[1, 1, 2]} spacing={10}>
 
                 <Box>
-                  <Heading color="white" fontSize="120px">
-                    Be water,
-        </Heading>
+                  <Heading color="white" fontSize={[55, 75, 100, 110, ]} >
+                    21ST CENTURY STAFFING
+                  </Heading>
 
-                  <Heading color="white" fontSize="100px">
-                    my friends!
-        </Heading>
                 </Box>
 
 
@@ -56,13 +53,7 @@ export default function Home() {
 
                     <Box rounded="lg" shadow="lg" p={5} bg="#ffffffcc">
                       <Box mb={5}>
-                        daskjfnaksdjnfa
-                        asdlfknasldkfna
-                        sdkfn
-                        asdlfknasldkfnaaskdnf
-                        asdlfknasldk fnaaslk;dnf
-                        asdlfknasld kfnaalsdknf
-                        asdlknf
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                       </Box>
 
                       <ButtonGroup>

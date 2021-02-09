@@ -18,8 +18,8 @@ import {
 
 import theme from "../public/theme";
 
-export default () => {
-    return  <Grid gridTemplateColumns="100px calc(100% - 100px)" bg={ theme.blue } height={["70px", "70px",  "80px"]} position="fixed" width="100vw" zIndex="600" top={["none", "none", "0"]} bottom={["0", "0", "none"]} px={ 5 }>
+const Header =  () => {
+    return  <Grid gridTemplateColumns="100px calc(100% - 100px)" bg={ theme.blue } height={["60px", "60px",  "70px"]} position="fixed" width="100vw" zIndex="600" top={"0"} px={ 5 }>
 
         <Box>
             <VerticalAlign>
@@ -51,3 +51,5 @@ export default () => {
     </Grid>
 
 }
+
+export default Header;
