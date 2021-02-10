@@ -48,6 +48,7 @@ export default function Login({ session, user, setUser }) {
       password: loginPassword
     }).then((user) => {
       setUser( user )
+      window.location.href = "/"
     }).catch((e) => console.error(e))
   }
 
@@ -60,6 +61,7 @@ export default function Login({ session, user, setUser }) {
       password: signUpPassword
     }).then((user) => {
       setUser( user )
+      window.location.href = "/"
     }).catch((e) => console.error(e))
   }
 
