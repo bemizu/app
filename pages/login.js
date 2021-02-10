@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Layout from "../components/layout";
+import { useRouter } from 'next/router'
 
 import VerticalAlign from "../components/verticalAlign";
 import Section from "../components/section";
@@ -29,6 +30,8 @@ import {
 import theme from "../public/theme";
 
 export default function Login({ session, user, setUser }) {
+  const router = useRouter()
+
   const [ loginUsername, setLoginUsername ] = useState();
   const [ loginPassword, setLoginPassword ] = useState();
 
@@ -36,8 +39,6 @@ export default function Login({ session, user, setUser }) {
   const [ signUpUsername, setSignUpUsername ] = useState();
   const [ signUpEmail, setSignUpEmail ] = useState();
   const [ signUpPassword, setSignUpPassword ] = useState();
-  
-
   
 
   function loginUser ( e ) {
@@ -63,6 +64,12 @@ export default function Login({ session, user, setUser }) {
       setUser( user )
       window.location.href = "/"
     }).catch((e) => console.error(e))
+  }
+
+
+  // redirect if user signed in
+  if ( session.user ) {
+    router.push("/")
   }
 
   return (
