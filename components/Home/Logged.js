@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Layout from "../layout";
 import Section from "../section";
+import EditProfile from "../Profile/edit";
 
 import {
     Box,
@@ -68,10 +69,7 @@ function Logged ({ session }) {
                   </Button>
                   </Link>
 
-                  <Button size="sm" rounded="full" colorScheme="blue">
-                      Edit
-
-                  </Button>
+                    <EditProfile user={ session.user } />
               </ButtonGroup>
             </Box>
 
