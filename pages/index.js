@@ -1,6 +1,5 @@
 import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
-import Container from "../components/container";
 import Section from "../components/section";
 import Lorem from "../components/lorem";
 import Image from "next/image";
@@ -16,6 +15,7 @@ import {
   Heading,
   SimpleGrid,
   Spinner,
+  Container, 
 } from "@chakra-ui/react";
 
 import theme from "../public/theme";

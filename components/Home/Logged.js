@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Layout from "../layout";
-import Container from "../container";
 import Section from "../section";
 
 import {
@@ -11,8 +10,10 @@ import {
     Button, 
     Grid,
     Divider, 
+    Container, 
 } from "@chakra-ui/react";
 import VerticalAlign from "../verticalAlign";
+import Link from "next/link";
   
 
 function Logged ({ session }) {
@@ -94,7 +95,7 @@ function Logged ({ session }) {
                 <Divider mb={2} />
 
                 <Box mb={4}>
-                    <Grid templateColumns={["50% 50%", "50px 120px calc(100% - 370px) 80px 80px"]} mb={1} gap={"10px"} >
+                    <Grid templateColumns={["100%", "100%", "50px 120px calc(100% - 370px) 80px 80px"]} mb={1} gap={"10px"} >
                         <Box>
                         
                         </Box>
@@ -134,9 +135,9 @@ function Logged ({ session }) {
                         jobs.map( (el) => {
                             return (
                                 <Box id={ el.id }>
-                                    <Grid templateColumns={["50% 50%", "50px 120px calc(100% - 370px) 80px 80px"]} mb={1} gap={"10px"}>
+                                    <Grid templateColumns={["100%", "100% ", "50px 120px calc(100% - 370px) 80px 80px"]} mb={1} gap={"10px"}>
                                 <Box>
-                                    <Box rounded="md" overflow="hidden" position="relative" height="50px" mb={1}>
+                                    <Box rounded="md" overflow="hidden" position="relative" height="50px" width="50px" mb={1}>
                                     <Image src="/bemizu.jpg" width={50} height={50} alt="Bemizu Logo" />
                                     </Box>
                                 </Box>
@@ -149,7 +150,7 @@ function Logged ({ session }) {
 
                                 <Box>
                                     <VerticalAlign>
-                                        
+
                                     </VerticalAlign>
                                 </Box>
 
@@ -174,9 +175,11 @@ function Logged ({ session }) {
                 </Box>
 
                 <ButtonGroup>
+                    <Link href="find-jobs">
                     <Button colorScheme="orange" rounded="full">
                         Find Jobs
                     </Button>
+                    </Link>
                 </ButtonGroup>
               </Box>
             

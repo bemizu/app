@@ -1,5 +1,4 @@
 import Layout from "../layout";
-import Container from "../container";
 import Section from "../section";
 import VerticalAlign from "../verticalAlign";
 import Lorem from "../lorem";
@@ -13,6 +12,7 @@ import {
     Button,
     ButtonGroup,
     SimpleGrid,
+    Container, 
 } from "@chakra-ui/react";
   
 
@@ -33,7 +33,7 @@ function LoggedOut ({ session }) {
           <Box position="absolute" width="100vw" height="100%">
             <VerticalAlign>
   
-              <Container>
+              <Container maxWidth="1200px">
                 <SimpleGrid columns={[1, 1, 2]} spacing={10}>
   
                   <Box>
