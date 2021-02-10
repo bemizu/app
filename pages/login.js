@@ -1,8 +1,11 @@
+import { useState, useEffect } from "react";
 import Layout from "../components/layout";
 
 import VerticalAlign from "../components/verticalAlign";
 import Section from "../components/section";
 import Image from "next/image";
+
+import userbase from "userbase-js";
 
 import {
   Box,
@@ -25,10 +28,43 @@ import {
 
 import theme from "../public/theme";
 
-export default function Login({ session, user }) {
-  console.log(session);
+export default function Login({ session, user, setUser }) {
+  const [ loginUsername, setLoginUsername ] = useState();
+  const [ loginPassword, setLoginPassword ] = useState();
+
+
+  const [ signUpUsername, setSignUpUsername ] = useState();
+  const [ signUpEmail, setSignUpEmail ] = useState();
+  const [ signUpPassword, setSignUpPassword ] = useState();
+  
+
+  
+
+  function loginUser ( e ) {
+    e.preventDefault();
+    
+    userbase.signIn({
+      username: loginUsername,
+      password: loginPassword
+    }).then((user) => {
+      setUser( user )
+    }).catch((e) => console.error(e))
+  }
+
+  function signUpUser ( e ) {
+    e.preventDefault();
+    
+    userbase.signUp({
+      username: signUpUsername,
+      email: signUpEmail,
+      password: signUpPassword
+    }).then((user) => {
+      setUser( user )
+    }).catch((e) => console.error(e))
+  }
+
   return (
-    <Layout title="Home">
+    <Layout title="Login">
       <Section>
         <Container>
           <Box bg="white" rounded="lg" shadow="lg" p={[3, 6]}>
@@ -39,7 +75,7 @@ export default function Login({ session, user }) {
                     Login
                     
                 </Tab>
-                <Tab fontSize="lg" rounded="full" ml={2}>
+                <Tab fontSize="lg" rounded="full" ml={2} >
                   Sign Up
                 </Tab>
               </TabList>
@@ -51,19 +87,20 @@ export default function Login({ session, user }) {
                   Login
                 </Heading>
 
-            <FormControl mb={2}>
-              <FormLabel>Email</FormLabel>
-              <Input type="email" />
+              <form onSubmit={ loginUser }>
+            <FormControl mb={2} isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input type="text" onChange={ ( e ) => { setLoginUsername( e.currentTarget.value ) } } />
             </FormControl>
 
-            <FormControl mb={2}>
+            <FormControl mb={2} isRequired>
               <FormLabel>Password</FormLabel>
-              <Input type="password" />
+              <Input type="password" onChange={ ( e ) => { setLoginPassword( e.currentTarget.value ) } }  />
             </FormControl>
 
             <Box mb={3} mt={4}>
               <ButtonGroup>
-                <Button rounded="full">Login</Button>
+                <Button rounded="full" size="lg" colorScheme="pink" type="submit">Login</Button>
               </ButtonGroup>
             </Box>
 
@@ -76,10 +113,40 @@ export default function Login({ session, user }) {
                 Forgot password?
               </ChakraLink>
             </Box>
+
+            </form>
                 
               </TabPanel>
-              <TabPanel>
-                <p>two!</p>
+              <TabPanel p={0} pt={4} outline="none">
+
+                <Heading size="lg" mb={5}>
+                  Sign Up
+                </Heading>
+
+                <form onSubmit={ signUpUser }>
+                <FormControl mb={2} isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input type="text" onChange={ ( e ) => { setSignUpUsername( e.currentTarget.value ) } }  />
+            </FormControl>
+
+            <FormControl mb={2} isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input type="email" onChange={ ( e ) => { setSignUpEmail( e.currentTarget.value ) } }  />
+            </FormControl>
+
+            <FormControl mb={2} isRequired>
+              <FormLabel>Password</FormLabel>
+              <Input type="password" onChange={ ( e ) => { setSignUpPassword( e.currentTarget.value ) } }  />
+            </FormControl>
+
+            <Box mb={3} mt={4}>
+              <ButtonGroup>
+                <Button rounded="full" size="lg" colorScheme="yellow" type="submit">Sign Up</Button>
+              </ButtonGroup>
+            </Box>
+
+            </form>
+                
               </TabPanel>
             </TabPanels>
 

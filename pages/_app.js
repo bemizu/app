@@ -3,14 +3,15 @@ import { ChakraProvider } from "@chakra-ui/react";
 import userbase from 'userbase-js';
 import { useState, useEffect  } from "react";
 
-function App ({ Component, pageProps, USERBASE_APP_ID }) {
+function App ({ Component, pageProps  }) {
   const [user, setUser] = useState();
   const [ session, setSession ] = useState();
 
 
   useEffect( () => {
-    userbase.init({ appId: `${USERBASE_APP_ID}` }).then( (data) => {
+    userbase.init({ appId: `9647171f-9f97-44c6-9fa6-2cc9c3217152` }).then( (data) => {
       setSession( data );
+      console.log( data );
     });
     
   }, []);
@@ -23,13 +24,3 @@ function App ({ Component, pageProps, USERBASE_APP_ID }) {
 
 export default App
 
-
-export async function getStaticProps(context) {
-  let USERBASE_APP_ID = process.env.USERBASE_APP_ID;
-
-  return {
-    props: {
-      USERBASE_APP_ID,
-    }, // will be passed to the page component as props
-  }
-}

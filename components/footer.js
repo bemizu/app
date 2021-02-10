@@ -9,12 +9,13 @@ import {
   Divider,
   Grid,
 } from "@chakra-ui/react";
+import Section from "./section";
 
 function Footer() {
   return (
-    <Box bg="#0a0a0a" color="white" py={20} px={5}>
-      <Container maxWidth="1400px" textAlign={["center", "center", "left"]}>
-        <SimpleGrid columns={[1, 1, 3, 3]} mb={[0, 0, 12]} mt={5}>
+    <Section bg="#0a0a0a" color="white">
+      <Container maxWidth="1200px" textAlign={["center", "center", "left"]}>
+        <SimpleGrid columns={[1, 1, 3, 3]}>
           <Box mb={[10, 10, 0]}>
             <Link href="/">
               <Box
@@ -30,13 +31,15 @@ function Footer() {
             </Link>
 
 
-            <Socials />
+            <Box mt={5}>
+              <Socials />
+            </Box>
           </Box>
 
 
         </SimpleGrid>
       </Container>
-    </Box>
+    </Section>
   );
 }
 

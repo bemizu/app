@@ -2,8 +2,8 @@ import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
 import Container from "../components/container";
 import Section from "../components/section";
-import Image from "next/image"
-
+import Image from "next/image";
+import Link from "next/link";
 
 import {
   Box,
@@ -55,17 +55,19 @@ export default function Home({ session, user }) {
 
                     <Box rounded="lg" shadow="lg" p={5} bg="#ffffffcc">
                       <Box mb={5}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        Bemizu is a two-sided marketplace focusing on... 
                       </Box>
 
                       <ButtonGroup>
                         <Button rounded="full" colorScheme="blue">
-                          Find out more
+                          Read more
                         </Button>
 
+                        <Link href="/login#signup">
                         <Button colorScheme="pink" rounded="full">
                           Sign Up
                         </Button>
+                        </Link>
                       </ButtonGroup>
 
 
