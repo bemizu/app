@@ -62,10 +62,11 @@ function Logged ({ session }) {
               </Heading>
 
               <ButtonGroup>
+                  <Link href={`/profile/${ session.user.username }`}>
                   <Button size="sm" rounded="full" colorScheme="green">
                       View
-
                   </Button>
+                  </Link>
 
                   <Button size="sm" rounded="full" colorScheme="blue">
                       Edit

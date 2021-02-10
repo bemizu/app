@@ -75,7 +75,7 @@ export default function Login({ session, user, setUser }) {
   return (
     <Layout title="Messages">
       <Section>
-        <Container maxWidth="800px">
+        <Container maxWidth="1200px">
           <Box bg="white" rounded="lg" shadow="lg" p={[3, 6]}>
             <Heading>
               Messages
