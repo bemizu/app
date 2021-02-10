@@ -65,10 +65,7 @@ function Messages ({ session, user, setUser }) {
   }
 
 
-  // redirect if user signed in
-  if ( !session.user && typeof window !== undefined ) {
-    window.location.href = "/"
-  }
+  
 
   return (
     <Layout title="Messages">
