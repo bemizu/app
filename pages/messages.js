@@ -68,7 +68,7 @@ export default function Login({ session, user, setUser }) {
 
 
   // redirect if user signed in
-  if ( !session.user ) {
+  if ( !session.user && typeof window !== undefined ) {
     router.push("/")
   }
 
