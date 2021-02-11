@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import {
   Box,
   Modal,
@@ -10,10 +12,25 @@ import {
   ButtonGroup,
   Button,
   useDisclosure,
+  FormControl,
+  FormLabel,
+  InputGroup,
+  Input,
+  InputLeftElement,
 } from "@chakra-ui/react";
 
-function EditProfile() {
+import { Widget } from "@uploadcare/react-widget";
+import { useState } from "react";
+
+function EditProfile () {
+  const widgetApi = useRef();
+  const [user, setUser] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  function setImage ( e ) {
+    e.originalUrl;
+    
+  } 
 
   return (
     <Box>
@@ -27,7 +44,41 @@ function EditProfile() {
           <ModalHeader>Edit Profile</ModalHeader>
           <ModalCloseButton />
 
-          <ModalBody>asdf</ModalBody>
+          <ModalBody>
+            <FormControl mb={2}>
+              <FormLabel>Username</FormLabel>
+
+              <Input />
+            </FormControl>
+
+            <FormControl mb={4}>
+              <FormLabel>Full name</FormLabel>
+
+              <Input />
+            </FormControl>
+
+            <Box mb={4}>
+              <Button
+                onClick={ () => widgetApi.current.openDialog() }
+                rounded="full"
+                colorScheme="orange"
+                size="md"
+              >
+                Upload Image
+              </Button>
+
+              <Box display="none">
+                <Widget
+                  ref={widgetApi}
+                  publicKey="8514f02a633e4dc5af92"
+                  effects="all"
+                  tabs="all"
+                  previewStep={true}
+                  imagesOnly={true}
+                />
+              </Box>
+            </Box>
+          </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose} rounded="full">
