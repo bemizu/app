@@ -7,7 +7,7 @@ import Session from "../../contexts/session";
 
 function Page() {
   const session = Session((state) => state);
-  const user = session.user;
+  const user = session.user || {};
   const profile = user.profile;
 
   let fullName = profile.fullName ? <Heading size="sm" mb={2} color="gray.700">{ profile.fullName }</Heading> : "";
