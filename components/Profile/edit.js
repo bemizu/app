@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import userbase from "userbase-js";
 
 import {
   Box,
@@ -17,20 +18,69 @@ import {
   InputGroup,
   Input,
   InputLeftElement,
+  Textarea,
 } from "@chakra-ui/react";
 
 import { Widget } from "@uploadcare/react-widget";
 import { useState } from "react";
+import Session from "../../contexts/session";
 
-function EditProfile () {
+function EditProfile() {
+  const session = Session((state) => state);
   const widgetApi = useRef();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(session.user);
+  const [profile, setProfile] = useState(user.profile || {});
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  function setImage ( e ) {
-    e.originalUrl;
-    
-  } 
+  function setImage(e) {
+    debugger;
+    let updatedProfile = profile;
+    updatedProfile.profileImg = e.originalUrl;
+    setProfile(updatedProfile);
+  }
+
+  function update(e) {
+    let updatedUser = user;
+    updatedUser[e.currentTarget.dataset.path] = e.currentTarget.value;
+    setUser(updatedUser);
+  }
+
+  function updateProfile(e) {
+    let updatedProfile = profile;
+    updatedProfile[e.currentTarget.dataset.path] = e.currentTarget.value;
+    setProfile(updatedProfile);
+  }
+
+  function updateSessionNewUser() {
+    session.setUser(user);
+    onClose();
+  }
+
+  function save() {
+    userbase
+      .updateUser({
+        username: user.username,
+        profile,
+      })
+      .then(updateSessionNewUser.bind(this))
+      .catch((e) => console.error(e));
+  }
+
+  let profileImg = profile.profileImg ? (
+    <Box
+      rounded="full"
+      overflow="hidden"
+      borderWidth={2}
+      height="100px"
+      width="100px"
+    >
+      <img src={profile.profileImg} style={{ height: 100, width: 100 }} />{" "}
+    </Box>
+  ) : (
+    <Box bg="blue.500" height="100px" width="100px">
+      {" "}
+    </Box>
+  );
 
   return (
     <Box>
@@ -48,21 +98,31 @@ function EditProfile () {
             <FormControl mb={2}>
               <FormLabel>Username</FormLabel>
 
-              <Input />
+              <Input
+                defaultValue={user.username}
+                data-path="username"
+                onChange={update}
+              />
             </FormControl>
 
             <FormControl mb={4}>
               <FormLabel>Full name</FormLabel>
 
-              <Input />
+              <Input
+                defaultValue={profile.fullName}
+                data-path="fullName"
+                onChange={updateProfile}
+              />
             </FormControl>
+
+            <Box mb={2}>{profileImg}</Box>
 
             <Box mb={4}>
               <Button
-                onClick={ () => widgetApi.current.openDialog() }
+                onClick={() => widgetApi.current.openDialog()}
                 rounded="full"
                 colorScheme="orange"
-                size="md"
+                size="sm"
               >
                 Upload Image
               </Button>
@@ -75,16 +135,29 @@ function EditProfile () {
                   tabs="all"
                   previewStep={true}
                   imagesOnly={true}
+                  onChange={setImage}
                 />
               </Box>
             </Box>
+
+            <FormControl mb={2}>
+              <FormLabel>Bio</FormLabel>
+
+              <Textarea
+                defaultValue={profile.bio}
+                data-path="bio"
+                onChange={ updateProfile }
+              />
+            </FormControl>
+
+            
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose} rounded="full">
               Close
             </Button>
-            <Button colorScheme="green" rounded="full">
+            <Button colorScheme="green" rounded="full" onClick={save}>
               Save
             </Button>
           </ModalFooter>
