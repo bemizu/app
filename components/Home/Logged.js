@@ -15,9 +15,10 @@ import {
 } from "@chakra-ui/react";
 import VerticalAlign from "../verticalAlign";
 import Link from "next/link";
-  
+import Session from "../../contexts/session"; 
 
-function Logged ({ session }) {
+function Logged () {
+    const session = Session( state => state.session );
 
     const jobs = [
         {
