@@ -26,11 +26,13 @@ import {
   Tab,
   TabPanel,
 } from "@chakra-ui/react";
+import Session from "../contexts/session";
 
 import theme from "../public/theme";
 
-export default function Login({ session, user, setUser }) {
+export default function Login() {
   const router = useRouter()
+  const session = Session( state => state);
 
   const [ loginUsername, setLoginUsername ] = useState();
   const [ loginPassword, setLoginPassword ] = useState();
@@ -48,7 +50,7 @@ export default function Login({ session, user, setUser }) {
       username: loginUsername,
       password: loginPassword
     }).then((user) => {
-      setUser( user )
+      session.setUser( user )
       window.location.href = "/"
     }).catch((e) => console.error(e))
   }
@@ -61,7 +63,7 @@ export default function Login({ session, user, setUser }) {
       email: signUpEmail,
       password: signUpPassword
     }).then((user) => {
-      setUser( user )
+      session.setUser( user )
       window.location.href = "/"
     }).catch((e) => console.error(e))
   }
