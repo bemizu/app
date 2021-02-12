@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import Layout from "../components/layout";
-
+// import {CometChatUnified} from "../UIKit/CometChat/index.js";
 import VerticalAlign from "../components/verticalAlign";
 import Section from "../components/section";
 import Image from "next/image";
+import Session from "../contexts/session";
+// import { CometChat } from "@cometchat-pro/chat";
 
 import userbase from "userbase-js";
 
@@ -28,53 +30,21 @@ import {
 
 import theme from "../public/theme";
 
-function Messages ({ session, user, setUser }) {
+function Messages() {
 
-  const [ loginUsername, setLoginUsername ] = useState();
-  const [ loginPassword, setLoginPassword ] = useState();
+  const session = Session( state => state );
 
 
-  const [ signUpUsername, setSignUpUsername ] = useState();
-  const [ signUpEmail, setSignUpEmail ] = useState();
-  const [ signUpPassword, setSignUpPassword ] = useState();
+  useEffect(() => {
   
-
-  function loginUser ( e ) {
-    e.preventDefault();
-    
-    userbase.signIn({
-      username: loginUsername,
-      password: loginPassword
-    }).then((user) => {
-      setUser( user )
-      window.location.href = "/"
-    }).catch((e) => console.error(e))
-  }
-
-  function signUpUser ( e ) {
-    e.preventDefault();
-    
-    userbase.signUp({
-      username: signUpUsername,
-      email: signUpEmail,
-      password: signUpPassword
-    }).then((user) => {
-      setUser( user )
-      window.location.href = "/"
-    }).catch((e) => console.error(e))
-  }
-
-
-  
+  }, []);
 
   return (
     <Layout title="Messages">
       <Section>
         <Container maxWidth="1200px">
           <Box bg="white" rounded="lg" shadow="lg" p={[3, 6]}>
-            <Heading>
-              Messages
-            </Heading>
+            <Heading>Messages</Heading>
           </Box>
         </Container>
       </Section>

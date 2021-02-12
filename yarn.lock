@@ -628,6 +628,11 @@
   dependencies:
     "@chakra-ui/utils" "1.0.2"
 
+"@cometchat-pro/chat@2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@cometchat-pro/chat/-/chat-2.1.7.tgz#53d181a15ebdb47c5ee3f90cf9a54b461f66f083"
+  integrity sha512-vB2dlkPI2tvVx9EH/lVrxOIIhgcK3/ddFWP2HXBinf32rv5swNXh1JKSnqna/i624Otfare5dBExB7hU/CucCA==
+
 "@emotion/babel-plugin@^11.0.0":
   version "11.1.2"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.1.2.tgz#68fe1aa3130099161036858c64ee92056c6730b7"

@@ -150,6 +150,57 @@ function EditProfile() {
               />
             </FormControl>
 
+            <FormControl mb={2}>
+              <FormLabel>Skills</FormLabel>
+
+              <Textarea
+                defaultValue={profile.skills}
+                data-path="skills"
+                onChange={ updateProfile }
+              />
+            </FormControl>
+
+            <FormControl mb={2}>
+              <FormLabel>Availability</FormLabel>
+
+              <Textarea
+                defaultValue={profile.availability}
+                data-path="availability"
+                onChange={ updateProfile }
+              />
+            </FormControl>
+
+          
+            <FormControl mb={2}>
+              <FormLabel>Certifications</FormLabel>
+
+              <Textarea
+                defaultValue={profile.certifications}
+                data-path="certifications"
+                onChange={ updateProfile }
+              />
+            </FormControl>
+
+            <FormControl mb={2}>
+              <FormLabel>References</FormLabel>
+
+              <Textarea
+                defaultValue={profile.references}
+                data-path="references"
+                onChange={ updateProfile }
+              />
+            </FormControl>
+
+            <FormControl mb={2}>
+              <FormLabel>Resume</FormLabel>
+
+              <Textarea
+                defaultValue={profile.resume}
+                data-path="resume"
+                onChange={ updateProfile }
+              />
+            </FormControl>
+
             
           </ModalBody>
 
