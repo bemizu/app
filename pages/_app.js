@@ -10,7 +10,7 @@ function App ({ Component, pageProps  }) {
   const session = Session( state => state );
 
   useEffect( () => {
-    userbase.init({ appId: `9647171f-9f97-44c6-9fa6-2cc9c3217152` }).then( (data) => {
+    userbase.init({ appId: `APP ID HERE FOR USERBASE` }).then( (data) => {
       session.setSession( data );
       session.setUser( data.user );
       setLoading( false );
