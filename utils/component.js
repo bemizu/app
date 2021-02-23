@@ -1,13 +1,14 @@
-import {
-    Box,
- } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 
-function Component () {
-    return (
-            <Box>
-               Component
-            </Box>
-    )
+const Styles = styled.div``;
+
+function Component() {
+  return (
+    <Styles>
+      <Box>Component</Box>
+    </Styles>
+  );
 }
 
 export default Component;

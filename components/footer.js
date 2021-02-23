@@ -19,7 +19,7 @@ function Footer() {
           <Box mb={[10, 10, 0]}>
             <Link href="/">
               <Box
-                rounded="lg"
+                rounded="md"
                 
                 height={"60px"}
                 width="62px"
