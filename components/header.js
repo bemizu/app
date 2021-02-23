@@ -1,8 +1,7 @@
 import VerticalAlign from "../components/verticalAlign";
 import Image from "next/image";
-import userbase from "userbase-js";
 import Link from "next/link";
-import { RiNotification3Line } from "react-icons/ri";
+import Sidebar from "./sidebar";
 
 import { FaRegEnvelope, FaRegBell } from "react-icons/fa";
 
@@ -12,32 +11,26 @@ import {
   Box,
   Button,
   Grid,
-  IconButton,
-  SimpleGrid,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuIcon,
-  MenuCommand,
-  MenuDivider,
 } from "@chakra-ui/react";
 
-import { BsChevronUp } from "react-icons/bs";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import theme from "../public/theme";
 
 const Header = () => {
-  const session = Session((state) => state.session);
+  const { user, logout  } = useAuth0();
 
-  const situation = session.user ? (
-    <SimpleGrid
-      columns={[3]}
+  const situation = user ? (
+    <Grid
+      templateColumns={"40px 40px 70px"}
       display="inline-grid"
-      maxWidth="160px"
+      position="relative"
+      top="3px"
+      right="6px"
       float="right"
     >
       <Box color="white">
@@ -77,24 +70,16 @@ const Header = () => {
           Logout
         </Button>
       </Box>
-    </SimpleGrid>
+    </Grid>
   ) : (
     <Link href="/login">
-      <Button rounded="full" size="md" colorScheme="green" float="right">
+      <Button rounded="full" size="sm" colorScheme="green" float="right">
         Login
       </Button>
     </Link>
   );
 
-  function logout() {
-    userbase
-      .signOut()
-      .then(() => {
-        // user logged out
-        window.location.href = "/";
-      })
-      .catch((e) => console.error(e));
-  }
+  
   return (
     <Grid
       gridTemplateColumns="100px calc(100% - 100px)"
@@ -115,7 +100,11 @@ const Header = () => {
       </Box>
 
       <Box>
-        <VerticalAlign>{situation}</VerticalAlign>
+        <VerticalAlign>
+          
+          <Sidebar />
+          { situation }
+        </VerticalAlign>
       </Box>
     </Grid>
   );

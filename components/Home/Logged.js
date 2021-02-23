@@ -2,6 +2,7 @@ import Image from "next/image";
 import Layout from "../layout";
 import Section from "../section";
 import EditProfile from "../Profile/edit";
+import { useAuth, useAuth0 } from "@auth0/auth0-react";
 
 import {
     Box,
@@ -19,7 +20,7 @@ import Session from "../../contexts/session";
 
 function Logged () {
     const session = Session( state => state.session );
-
+    const { user } = useAuth0();
     const jobs = [
         {
             id: "foobar",
@@ -54,7 +55,7 @@ function Logged () {
         },
     ];
     return (
-        <Layout title={ session.user.username }>
+        <Layout title={ "Home" }>
         <Section>
           <Container maxWidth="1200px" >
               <SimpleGrid columns={[1, 2, 3]} spacing={[4, 8, 12]} mb={[4, 8, 12]}>
@@ -64,13 +65,13 @@ function Logged () {
               </Heading>
 
               <ButtonGroup>
-                  <Link href={`/profile/${ session.user.username }`}>
+                  <Link href={`/profile/${ user.email }`}>
                   <Button size="sm" rounded="full" colorScheme="green">
                       View
                   </Button>
                   </Link>
 
-                    <EditProfile user={ session.user } />
+                    {/* <EditProfile user={ session.user } /> */}
               </ButtonGroup>
             </Box>
 

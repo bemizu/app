@@ -7,7 +7,6 @@ import Image from "next/image";
 import Session from "../contexts/session";
 // import { CometChat } from "@cometchat-pro/chat";
 
-import userbase from "userbase-js";
 
 import {
   Box,
