@@ -15,71 +15,15 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
 import theme from "../public/theme";
+import { useState } from "react";
 
 const Header = () => {
-  const { user, logout  } = useAuth0();
-
-  const situation = user ? (
-    <Grid
-      templateColumns={"40px 40px 70px"}
-      display="inline-grid"
-      position="relative"
-      top="3px"
-      right="6px"
-      float="right"
-    >
-      <Box color="white">
-        <VerticalAlign>
-          <Menu autoSelect={false}>
-            <MenuButton>
-              <FaRegBell
-                style={{ position: "relative", top: 3, fontSize: 22 }}
-              />
-            </MenuButton>
-            <MenuList>
-              <MenuItem color="black" _hover={{ bg: "white" }}>
-                No new notifications.
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </VerticalAlign>
-      </Box>
-
-      <Box textAlign="center" color="white">
-        <VerticalAlign>
-          <Link href="/messages">
-            <FaRegEnvelope style={{ cursor: "pointer", fontSize: 22 }} />
-          </Link>
-        </VerticalAlign>
-      </Box>
-
-      <Box>
-        {" "}
-        <Button
-          colorScheme="red"
-          size="sm"
-          rounded="full"
-          float="right"
-          onClick={logout}
-        >
-          Logout
-        </Button>
-      </Box>
-    </Grid>
-  ) : (
-    <Link href="/login">
-      <Button rounded="full" size="sm" colorScheme="green" float="right">
-        Login
-      </Button>
-    </Link>
-  );
-
-  
   return (
     <Grid
       gridTemplateColumns="100px calc(100% - 100px)"
@@ -101,9 +45,8 @@ const Header = () => {
 
       <Box>
         <VerticalAlign>
-          
           <Sidebar />
-          { situation }
+          <AuthBox />
         </VerticalAlign>
       </Box>
     </Grid>
@@ -111,3 +54,81 @@ const Header = () => {
 };
 
 export default Header;
+
+function AuthBox() {
+  const { user, isLoading, logout, loginWithRedirect } = useAuth0();
+
+  if (isLoading) {
+    return (
+      <Box float="right" >
+        <Spinner size="md" position="relative" top="7px" right="14px" />
+      </Box>
+    );
+  }
+
+  if (user) {
+    return (
+      <Grid
+        templateColumns={"40px 40px 70px"}
+        display="inline-grid"
+        position="relative"
+        top="3px"
+        right="6px"
+        float="right"
+      >
+        <Box color="white">
+          <VerticalAlign>
+            <Menu autoSelect={false}>
+              <MenuButton>
+                <FaRegBell
+                  style={{ position: "relative", top: 3, fontSize: 22 }}
+                />
+              </MenuButton>
+              <MenuList>
+                <MenuItem color="black" _hover={{ bg: "white" }}>
+                  No new notifications.
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </VerticalAlign>
+        </Box>
+
+        <Box textAlign="center" color="white">
+          <VerticalAlign>
+            <Link href="/messages">
+              <FaRegEnvelope style={{ cursor: "pointer", fontSize: 22 }} />
+            </Link>
+          </VerticalAlign>
+        </Box>
+
+        <Box>
+          {" "}
+          <Button
+            colorScheme="red"
+            size="sm"
+            rounded="full"
+            float="right"
+            onClick={logout}
+          >
+            Logout
+          </Button>
+        </Box>
+      </Grid>
+    );
+  } else {
+    return (
+      <Button
+        rounded="full"
+        size="sm"
+        colorScheme="green"
+        float="right"
+        position="relative"
+        top="3px"
+        right="6px"
+        onClick={loginWithRedirect}
+      >
+        Login
+      </Button>
+    );
+  }
+}

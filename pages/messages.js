@@ -7,6 +7,7 @@ import Image from "next/image";
 import Session from "../contexts/session";
 // import { CometChat } from "@cometchat-pro/chat";
 
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 import {
   Box,
@@ -51,4 +52,8 @@ function Messages() {
   );
 }
 
-export default Messages;
+
+export default withAuthenticationRequired(Messages, {
+  // Show a message while the user waits to be redirected to the login page.
+  onRedirecting: () => (<div>Login required...</div>)
+});
