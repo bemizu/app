@@ -8,7 +8,7 @@ function Loading() {
   return (
     <Layout title="Loading...">
       <Box textAlign="center" py="25vh">
-        <Spinner />
+        <Spinner size="md" />
       </Box>
     </Layout>
   );

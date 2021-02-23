@@ -20,7 +20,6 @@ function Footer() {
             <Link href="/">
               <Box
                 rounded="md"
-                
                 height={"60px"}
                 width="62px"
                 overflow="hidden"
@@ -31,13 +30,10 @@ function Footer() {
               </Box>
             </Link>
 
-
             <Box mt={5}>
               <Socials />
             </Box>
           </Box>
-
-
         </SimpleGrid>
       </Container>
     </Section>

@@ -38,7 +38,9 @@ const Header = () => {
       <Box>
         <VerticalAlign>
           <Link href="/">
-            <Image src="/bemizu.jpg" width={60} height={60} alt="Home" />
+            <Box display="inline-block" cursor="pointer">
+            <Image src="/bemizu.jpg" width={60} height={60} alt="Home"  />
+            </Box>
           </Link>
         </VerticalAlign>
       </Box>
@@ -61,7 +63,7 @@ function AuthBox() {
   if (isLoading) {
     return (
       <Box float="right" >
-        <Spinner size="md" position="relative" top="7px" right="14px" />
+        <Spinner size="sm" position="relative" top="7px" right="14px" />
       </Box>
     );
   }
