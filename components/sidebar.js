@@ -60,7 +60,7 @@ function Sidebar(props) {
         variant="ghost"
         colorScheme="none"
         fontSize="30px"
-        color="white"
+        color={ theme.blue }
         onClick={onOpen}
       />
 
@@ -71,11 +71,11 @@ function Sidebar(props) {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay>
-          <DrawerContent bg={theme.blue}>
-            <DrawerCloseButton color="white" rounded="sm" />
+          <DrawerContent bg={"gray.100"}>
+            <DrawerCloseButton color={ theme.blue } rounded="sm" />
             <DrawerHeader></DrawerHeader>
 
-            <DrawerBody color="white">
+            <DrawerBody color={ theme.blue }>
               {menuItems.map((el) => {
                 return (
                   <Box mb={4} key={el.text}>

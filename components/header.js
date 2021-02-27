@@ -2,7 +2,7 @@ import VerticalAlign from "../components/verticalAlign";
 import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "./sidebar";
-
+import { useSession } from 'next-auth/client';
 import { FaRegEnvelope, FaRegBell } from "react-icons/fa";
 
 import Session from "../contexts/session";
@@ -27,8 +27,8 @@ const Header = () => {
   return (
     <Grid
       gridTemplateColumns="100px calc(100% - 100px)"
-      bg={theme.blue}
-      height={["60px", "60px", "70px"]}
+      bg={"gray.100"}
+      height={"70px"}
       position="fixed"
       width="100vw"
       zIndex="600"
@@ -38,8 +38,8 @@ const Header = () => {
       <Box>
         <VerticalAlign>
           <Link href="/">
-            <Box display="inline-block" cursor="pointer">
-            <Image src="/bemizu.jpg" width={60} height={60} alt="Home"  />
+            <Box display="inline-block" cursor="pointer" width="160px" height="48px" position="relative" top={0} left={0}>
+            <Image src="/logo-long.png" layout="fill" objectFit="cover" alt="Logo Square"  />
             </Box>
           </Link>
         </VerticalAlign>
@@ -59,8 +59,9 @@ export default Header;
 
 function AuthBox() {
   const { user, isLoading, logout, loginWithRedirect } = useAuth0();
+  const [ session, loading ] = useSession();
 
-  if (isLoading) {
+  if (loading) {
     return (
       <Box float="right" >
         <Spinner size="sm" position="relative" top="7px" right="14px" />
@@ -68,7 +69,7 @@ function AuthBox() {
     );
   }
 
-  if (user) {
+  if (session) {
     return (
       <Grid
         templateColumns={"40px 40px 70px"}
@@ -119,6 +120,7 @@ function AuthBox() {
     );
   } else {
     return (
+      <Link href="/api/auth/signin">
       <Button
         rounded="full"
         size="sm"
@@ -126,11 +128,14 @@ function AuthBox() {
         float="right"
         position="relative"
         top="3px"
-        right="6px"
-        onClick={loginWithRedirect}
+        
+        
+        right="8px"
+        // onClick={loginWithRedirect}
       >
         Login
       </Button>
+      </Link>
     );
   }
 }

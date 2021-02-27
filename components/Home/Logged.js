@@ -2,7 +2,7 @@ import Image from "next/image";
 import Layout from "../layout";
 import Section from "../section";
 import EditProfile from "../Profile/edit";
-import { useAuth, useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import {
     Box,
@@ -20,7 +20,6 @@ import Session from "../../contexts/session";
 
 function Logged () {
     const session = Session( state => state.session );
-    const { user } = useAuth0();
     const jobs = [
         {
             id: "foobar",
@@ -65,11 +64,9 @@ function Logged () {
               </Heading>
 
               <ButtonGroup>
-                  <Link href={`/profile/${ user.email }`}>
                   <Button size="sm" rounded="full" colorScheme="green">
                       View
                   </Button>
-                  </Link>
 
                     {/* <EditProfile user={ session.user } /> */}
               </ButtonGroup>

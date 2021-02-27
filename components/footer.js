@@ -13,20 +13,18 @@ import Section from "./section";
 
 function Footer() {
   return (
-    <Section bg="#0a0a0a" color="white">
+    <Section bg={ "gray.200" } color="white">
       <Container maxWidth="1200px" textAlign={["center", "center", "left"]}>
         <SimpleGrid columns={[1, 1, 3, 3]}>
           <Box mb={[10, 10, 0]}>
             <Link href="/">
               <Box
-                rounded="md"
                 height={"60px"}
                 width="62px"
-                overflow="hidden"
                 margin={["0 auto", "0 auto", "0"]}
                 cursor="pointer"
               >
-                <Image src="/bemizu.jpg" width={62} height={60} alt="sam" />
+                <Image src="/logo-square.svg" width={62} height={60} alt="sam" />
               </Box>
             </Link>
 
