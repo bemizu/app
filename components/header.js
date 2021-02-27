@@ -61,7 +61,7 @@ function AuthBox() {
   const { user, isLoading, logout, loginWithRedirect } = useAuth0();
   const [ session, loading ] = useSession();
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Box float="right" >
         <Spinner size="sm" position="relative" top="7px" right="14px" />
@@ -69,7 +69,7 @@ function AuthBox() {
     );
   }
 
-  if (session) {
+  if (user) {
     return (
       <Grid
         templateColumns={"40px 40px 70px"}
@@ -120,7 +120,7 @@ function AuthBox() {
     );
   } else {
     return (
-      <Link href="/api/auth/signin">
+      // <Link href="/api/auth/signin">
       <Button
         rounded="full"
         size="sm"
@@ -128,14 +128,12 @@ function AuthBox() {
         float="right"
         position="relative"
         top="3px"
-        
-        
         right="8px"
-        // onClick={loginWithRedirect}
+        onClick={loginWithRedirect}
       >
         Login
       </Button>
-      </Link>
+      // </Link>
     );
   }
 }

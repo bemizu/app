@@ -8,9 +8,9 @@ function Home() {
   const { isLoading, isAuthenticated } = useAuth0();
   const [ session, loading ] = useSession();
 
-  if ( loading ) {
+  if ( isLoading ) {
     return <Loading />;
-  } else if ( session ) {
+  } else if ( isAuthenticated ) {
     return <Logged />;
   } else {
     return <LoggedOut />;
