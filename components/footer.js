@@ -19,12 +19,12 @@ function Footer() {
           <Box mb={[10, 10, 0]}>
             <Link href="/">
               <Box
-                height={"60px"}
-                width="62px"
+                height={"104px"}
+                width="101px"
                 margin={["0 auto", "0 auto", "0"]}
                 cursor="pointer"
               >
-                <Image src="/logo-square.svg" width={62} height={60} alt="sam" />
+                <Image src="/logo-square.svg" width={104} height={101} alt="sam" />
               </Box>
             </Link>
 

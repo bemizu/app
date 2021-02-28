@@ -18,7 +18,7 @@ import {
 
 function LoggedOut ({ session }) {
     return (
-        <Layout title="Home">
+        <Layout title="Home | Bemizu">
   
   
         <Box position="relative" height="100vh" bg="gray.500" >
