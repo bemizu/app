@@ -79,7 +79,7 @@ function AuthBox() {
         right="6px"
         float="right"
       >
-        <Box color="white">
+        <Box color={ theme.blue }>
           <VerticalAlign>
             <Menu autoSelect={false}>
               <MenuButton>
@@ -96,7 +96,7 @@ function AuthBox() {
           </VerticalAlign>
         </Box>
 
-        <Box textAlign="center" color="white">
+        <Box textAlign="center" color={ theme.blue }>
           <VerticalAlign>
             <Link href="/messages">
               <FaRegEnvelope style={{ cursor: "pointer", fontSize: 22 }} />

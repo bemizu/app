@@ -136,7 +136,7 @@ function Logged () {
                                     <Grid templateColumns={["100%", "100% ", "50px 120px calc(100% - 370px) 80px 80px"]} mb={1} gap={"10px"}>
                                 <Box>
                                     <Box rounded="md" overflow="hidden" position="relative" height="50px" width="50px" mb={1}>
-                                    <Image src="/bemizu.jpg" width={50} height={50} alt="Bemizu Logo" />
+                                    <Image src="/drop.png" width={50} height={50} alt="Bemizu Logo" />
                                     </Box>
                                 </Box>
 
