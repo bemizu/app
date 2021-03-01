@@ -9,9 +9,7 @@ export default class MyDocument extends Document {
         <Head>
 
 
-          <GoogleFonts href="https://fonts.googleapis.com/css2?family=Lato&display=swap" />
-          <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" />
-          <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" />
+          <GoogleFonts href="https://fonts.googleapis.com/css2?family=Lato&family=Roboto&family=Roboto+Mono&display=swap" />
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script
             async
