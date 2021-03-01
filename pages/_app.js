@@ -2,6 +2,9 @@ import "../styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { Provider as AuthProvider } from 'next-auth/client'
+import theme from "../public/theme";
+import Fonts from "../components/fonts";
+
 
 
 function App({ Component, pageProps }) {
@@ -13,7 +16,7 @@ function App({ Component, pageProps }) {
       redirectUri={"http://localhost:3000/"}
     >
     <AuthProvider session={pageProps.session}>
-      <ChakraProvider>
+      <ChakraProvider theme={ theme }>
         <Component {...pageProps} />
       </ChakraProvider>
       </AuthProvider>

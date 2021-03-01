@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { GA_TRACKING_ID } from '../utils/analytics'
-
+import { GoogleFonts } from "next-google-fonts";
 
 export default class MyDocument extends Document {
   render() {
@@ -9,6 +9,9 @@ export default class MyDocument extends Document {
         <Head>
 
 
+          <GoogleFonts href="https://fonts.googleapis.com/css2?family=Lato&display=swap" />
+          <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" />
+          <GoogleFonts href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" />
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script
             async
