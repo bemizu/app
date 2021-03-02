@@ -27,11 +27,12 @@ const Header = () => {
   return (
     <Grid
       gridTemplateColumns="100px calc(100% - 100px)"
-      bg={"gray.100"}
+      bg={ theme.white }
       height={"70px"}
       position="fixed"
       width="100vw"
       zIndex="600"
+      shadow="lg"
       top={"0"}
       px={5}
     >

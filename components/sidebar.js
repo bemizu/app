@@ -71,7 +71,7 @@ function Sidebar(props) {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay>
-          <DrawerContent bg={"gray.100"}>
+          <DrawerContent bg={ theme.white }>
             <DrawerCloseButton color={ theme.blue } rounded="sm" />
             <DrawerHeader></DrawerHeader>
 

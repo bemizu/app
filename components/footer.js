@@ -11,9 +11,11 @@ import {
 } from "@chakra-ui/react";
 import Section from "./section";
 
+import theme from "../public/theme";
+
 function Footer() {
   return (
-    <Section bg={ "gray.200" } color="white">
+    <Section bg={ theme.white } color="white">
       <Container maxWidth="1200px" textAlign={["center", "center", "left"]}>
         <SimpleGrid columns={[1, 1, 3, 3]}>
           <Box mb={[10, 10, 0]}>

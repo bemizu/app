@@ -46,7 +46,7 @@ function About() {
       <Section>
         <Container
           maxWidth={theme.width}
-          bg="white"
+          bg={ theme.white }
           rounded="md"
           py={5}
           mb={10}
@@ -64,7 +64,7 @@ function About() {
           </Box>
         </Container>
 
-        <Container maxWidth={theme.width} bg="white" rounded="md" py={5}>
+        <Container maxWidth={theme.width} bg={ theme.white } rounded="md" py={5}>
           <Heading mb={8}>Team</Heading>
 
           {members.map((el) => {

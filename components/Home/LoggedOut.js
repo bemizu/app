@@ -5,6 +5,7 @@ import Lorem from "../lorem";
 import Image from "next/image";
 import Link from "next/link";
 
+import theme from "../../public/theme";
 
 import {
     Box,
@@ -32,7 +33,7 @@ function LoggedOut ({ session }) {
   
           <Container maxWidth="1200px">
             <SimpleGrid columns={[1, 1, 3]} spacing={[4, 8, 8, 12]}>
-              <Box rounded="lg" bg="white" p={5}>
+              <Box rounded="lg" bg={ theme.white } p={5}>
                 <Heading size="lg" mb={2}>
                   Heading here
                 </Heading>
@@ -43,7 +44,7 @@ function LoggedOut ({ session }) {
                 
               </Box>
   
-              <Box rounded="lg" bg="white" p={5}>
+              <Box rounded="lg" bg={ theme.white } p={5}>
               <Heading size="lg" mb={2}>
                   Heading here
                 </Heading>
@@ -53,7 +54,7 @@ function LoggedOut ({ session }) {
                 </Box>
               </Box>
   
-              <Box rounded="lg" bg="white" p={5}>
+              <Box rounded="lg" bg={ theme.white } p={5}>
               <Heading size="lg" mb={2}>
                   Heading here
                 </Heading>
