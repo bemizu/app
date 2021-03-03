@@ -23,6 +23,8 @@ import {
 } from "@chakra-ui/react";
 
 import { BiMenuAltRight } from "react-icons/bi";
+import { HiOutlineMenuAlt1 } from "react-icons/hi";
+
 
 import theme from "../public/theme.js";
 
@@ -53,14 +55,15 @@ function Sidebar(props) {
     <>
       <IconButton
         ref={btnRef}
-        icon={<BiMenuAltRight />}
+        icon={<HiOutlineMenuAlt1 />}
         rounded="sm"
+        transform="rotateY(180deg)"
         aria-label="Menu"
         float="right"
         variant="ghost"
         colorScheme="none"
         fontSize="30px"
-        color={ theme.blue }
+        color={ theme.black }
         onClick={onOpen}
       />
 
@@ -72,16 +75,16 @@ function Sidebar(props) {
       >
         <DrawerOverlay>
           <DrawerContent bg={ theme.white }>
-            <DrawerCloseButton color={ theme.blue } rounded="sm" />
+            <DrawerCloseButton color={ theme.black } rounded="sm" />
             <DrawerHeader></DrawerHeader>
 
-            <DrawerBody color={ theme.blue }>
+            <DrawerBody color={ theme.black }>
               {menuItems.map((el) => {
                 return (
                   <Box mb={4} key={el.text}>
                     <Box
                       letterSpacing="1"
-                      _hover={{ color: "gray.300" }}
+                      _hover={{ color: theme.blue }}
                       transition="0.2s ease"
                       display="inline-block"
                       fontWeight="600"
