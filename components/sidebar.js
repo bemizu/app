@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-
+import { useAuth0 } from "@auth0/auth0-react";
+import { useSession } from 'next-auth/client';
 import {
   Box,
   Button,
@@ -62,7 +63,7 @@ function Sidebar(props) {
         float="right"
         variant="ghost"
         colorScheme="none"
-        fontSize="30px"
+        fontSize="28px"
         color={ theme.black }
         onClick={onOpen}
       />
@@ -94,6 +95,8 @@ function Sidebar(props) {
                   </Box>
                 );
               })}
+
+            <AuthBox />
             </DrawerBody>
 
             <DrawerFooter px={5} display="block"></DrawerFooter>
@@ -138,4 +141,75 @@ function LoginModal() {
       </Modal>
     </>
   );
+}
+
+
+
+function AuthBox() {
+  const { user, isLoading, logout, loginWithRedirect } = useAuth0();
+  const [ session, loading ] = useSession();
+
+  if (user) {
+    return (
+      <Grid
+        templateColumns={"40px 40px 70px"}
+        display="inline-grid"
+        position="relative"
+        top="3px"
+        right="6px"
+        float="right"
+      >
+        <Box color={ theme.blue }>
+          <VerticalAlign>
+            <Menu autoSelect={false}>
+              <MenuButton>
+                <FaRegBell
+                  style={{ position: "relative", top: 3, fontSize: 22 }}
+                />
+              </MenuButton>
+              <MenuList>
+                <MenuItem color="black" _hover={{ bg: "white" }}>
+                  No new notifications.
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </VerticalAlign>
+        </Box>
+
+        <Box textAlign="center" color={ theme.blue }>
+          <VerticalAlign>
+            <Link href="/messages">
+              <FaRegEnvelope style={{ cursor: "pointer", fontSize: 22 }} />
+            </Link>
+          </VerticalAlign>
+        </Box>
+
+        <Box>
+          {" "}
+          <Button
+            colorScheme="red"
+            size="sm"
+            rounded="full"
+            onClick={logout}
+          >
+            Logout
+          </Button>
+        </Box>
+      </Grid>
+    );
+  } else {
+    return (
+      // <Link href="/api/auth/signin">
+      <Button
+        rounded="sm"
+        size="sm"
+        colorScheme="green"
+        position="relative"
+        onClick={loginWithRedirect}
+      >
+        Login
+      </Button>
+      // </Link>
+    );
+  }
 }

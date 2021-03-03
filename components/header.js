@@ -26,7 +26,7 @@ import { useState } from "react";
 const Header = () => {
   return (
     <Grid
-      gridTemplateColumns="100px calc(100% - 100px)"
+      gridTemplateColumns={["40px calc(100% - 80px) 40px", "40px calc(100% - 80px) 40px", "100px calc(100% - 100px)"]}
       bg={ theme.white }
       height={"70px"}
       position="fixed"
@@ -34,9 +34,11 @@ const Header = () => {
       zIndex="600"
       shadow="lg"
       top={"0"}
-      px={5}
+      pl={[0, 0, 5]}
+      pr={[2, 2, 3]}
     >
-      <Box>
+      <Box display={["block", "block", "none"]} pl={[3]}></Box>
+      <Box textAlign={["center", "center", "left"]}>
         <VerticalAlign>
           <Link href="/">
             <Box display="inline-block" cursor="pointer" width="160px" height="48px" position="relative" top={0} left={0}>
@@ -49,7 +51,7 @@ const Header = () => {
       <Box>
         <VerticalAlign>
           <Sidebar />
-          <AuthBox />
+          
         </VerticalAlign>
       </Box>
     </Grid>
@@ -57,84 +59,3 @@ const Header = () => {
 };
 
 export default Header;
-
-function AuthBox() {
-  const { user, isLoading, logout, loginWithRedirect } = useAuth0();
-  const [ session, loading ] = useSession();
-
-  if (isLoading) {
-    return (
-      <Box float="right" >
-        <Spinner size="sm" position="relative" top="7px" right="14px" />
-      </Box>
-    );
-  }
-
-  if (user) {
-    return (
-      <Grid
-        templateColumns={"40px 40px 70px"}
-        display="inline-grid"
-        position="relative"
-        top="3px"
-        right="6px"
-        float="right"
-      >
-        <Box color={ theme.blue }>
-          <VerticalAlign>
-            <Menu autoSelect={false}>
-              <MenuButton>
-                <FaRegBell
-                  style={{ position: "relative", top: 3, fontSize: 22 }}
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem color="black" _hover={{ bg: "white" }}>
-                  No new notifications.
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </VerticalAlign>
-        </Box>
-
-        <Box textAlign="center" color={ theme.blue }>
-          <VerticalAlign>
-            <Link href="/messages">
-              <FaRegEnvelope style={{ cursor: "pointer", fontSize: 22 }} />
-            </Link>
-          </VerticalAlign>
-        </Box>
-
-        <Box>
-          {" "}
-          <Button
-            colorScheme="red"
-            size="sm"
-            rounded="full"
-            float="right"
-            onClick={logout}
-          >
-            Logout
-          </Button>
-        </Box>
-      </Grid>
-    );
-  } else {
-    return (
-      // <Link href="/api/auth/signin">
-      <Button
-        rounded="full"
-        size="sm"
-        colorScheme="green"
-        float="right"
-        position="relative"
-        top="3px"
-        right="8px"
-        onClick={loginWithRedirect}
-      >
-        Login
-      </Button>
-      // </Link>
-    );
-  }
-}
