@@ -8,68 +8,56 @@ import Link from "next/link";
 import theme from "../../public/theme";
 
 import {
-    Box,
-    Heading,
-    Button,
-    ButtonGroup,
-    SimpleGrid,
-    Container, 
+  Box,
+  Heading,
+  Button,
+  ButtonGroup,
+  SimpleGrid,
+  Container,
 } from "@chakra-ui/react";
-  
 
-function LoggedOut ({ session }) {
-    return (
-        <Layout title="Home | Bemizu">
-  
-  
-        <Box position="relative" height="100vh" bg="gray.500" >
-       
-  
-  
-  
-        </Box>
-  
-        <Section>
-  
-          <Container maxWidth="1200px">
-            <SimpleGrid columns={[1, 1, 3]} spacing={[4, 8, 8, 12]}>
-              <Box rounded="lg" bg={ theme.white } p={5}>
-                <Heading size="lg" mb={2}>
-                  Heading here
-                </Heading>
-  
-                <Box>
-                <Lorem />
-                </Box>
-                
-              </Box>
-  
-              <Box rounded="lg" bg={ theme.white } p={5}>
+function LoggedOut({ session }) {
+  return (
+    <Layout title="Home | Bemizu">
+      <Box position="relative" height="100vh" className="home-hero"></Box>
+
+      <Section>
+        <Container maxWidth="1200px">
+          <SimpleGrid columns={[1, 1, 3]} spacing={[4, 8, 8, 12]}>
+            <Box rounded="lg" bg={theme.white} p={5}>
               <Heading size="lg" mb={2}>
-                  Heading here
-                </Heading>
-  
-                <Box>
+                Heading here
+              </Heading>
+
+              <Box>
                 <Lorem />
-                </Box>
               </Box>
-  
-              <Box rounded="lg" bg={ theme.white } p={5}>
+            </Box>
+
+            <Box rounded="lg" bg={theme.white} p={5}>
               <Heading size="lg" mb={2}>
-                  Heading here
-                </Heading>
-  
-                <Box>
-                  <Lorem />
-                </Box>
+                Heading here
+              </Heading>
+
+              <Box>
+                <Lorem />
               </Box>
-            </SimpleGrid>
-  
-          </Container>
-  
-        </Section>
-      </Layout>
-    )
+            </Box>
+
+            <Box rounded="lg" bg={theme.white} p={5}>
+              <Heading size="lg" mb={2}>
+                Heading here
+              </Heading>
+
+              <Box>
+                <Lorem />
+              </Box>
+            </Box>
+          </SimpleGrid>
+        </Container>
+      </Section>
+    </Layout>
+  );
 }
 
 export default LoggedOut;
