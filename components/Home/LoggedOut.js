@@ -91,7 +91,7 @@ function LoggedOut({ session }) {
               </Box>
 
               <Box maxWidth={["100%", "320px", "370px"]} margin="0px auto">
-                <Box color={theme.white} mb={[0, 0, 1]} fontSize={[16,]}>
+                <Box color={theme.white} mb={ 1 } fontSize={[16,]}>
                   Sign up for upcoming launch
                 </Box>
 
@@ -99,7 +99,7 @@ function LoggedOut({ session }) {
                   <Grid
                     templateColumns={[
                       "repeat(100%)",
-                      "calc(100% - 92px) 20%",
+                      "calc(100% - 92px) 88px",
                     ]}
                     gap={"4px"}
                   >
@@ -316,11 +316,11 @@ function LoggedOut({ session }) {
             <PageHeader>Sign up for our upcoming launch!</PageHeader>
           </Box>
 
-          <Box maxWidth={[300, 400, "500px"]} margin="0 auto">
+          <Box maxWidth={["100%", "320px", "370px"]} margin="0 auto">
             <Grid
               templateColumns={[
                 "repeat(100%)",
-                "calc(100% - 92px) 20%",
+                "calc(100% - 92px) 88px",
               ]}
               gap={"4px"}
             >

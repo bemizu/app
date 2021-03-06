@@ -41,7 +41,7 @@ const Header = () => {
       <Box textAlign={["center", "center", "left"]}>
         <VerticalAlign>
           <Link href="/">
-            <Box display="inline-block" cursor="pointer" width="160px" height="48px" position="relative" top={0} left={0}>
+            <Box display="inline-block" cursor="pointer" width={145} height={43} position="relative" top={0} left={0}>
             <Image src="/logo-long.png" layout="fill" objectFit="cover" alt="Logo Square"  />
             </Box>
           </Link>
