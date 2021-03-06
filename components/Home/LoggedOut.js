@@ -22,9 +22,9 @@ import {
 function LoggedOut({ session }) {
   return (
     <Layout title="Home | Bemizu">
-      <Box position="relative" minHeight={[600, 700, 700, 700, 800]} height="calc(100vh - 70px)" className="home-hero">
+      <Box position="relative" minHeight={[600, 700, 700, 700, 800]} height="calc(100vh - 70px)" className="home-hero" overflow="hidden">
         <Box position="absolute" height={[800, 900, 900, 900, 1000]} width="100%" zIndex="0" overflow="hidden">
-          <Box >
+          <Box overflow="hidden">
         <VerticalAlign>
 
           <img src="/pattern-vector.svg" style={{width: "100%", height:"100%", position: "absolute",  bottom: 50, objectFit: "cover", opacity: 0.6}} />
