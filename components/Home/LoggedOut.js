@@ -181,13 +181,13 @@ function LoggedOut({ session }) {
         </Box>
       </Box>
 
-      <Box id="next" bg={theme.white} pb={20}>
+      <Box id="next" bg={theme.white} pb={20} pt={[5, 5, 10]}>
         <Container position="relative" px={10} maxWidth={theme.width}>
-          <Heading mb={[10, 10]}>I have work to offer</Heading>
+          <Heading mb={[10, 10]} textAlign={["center", "center", "left"]}>I have work to offer</Heading>
 
           <SimpleGrid columns={[1, 1, 3]} spacing={[8, 10, "50px"]} textAlign={["center", "center", "left"]}>
             <Box>
-              <Box height="300px" position="relative" mb={[1, 2, 5]}>
+              <Box height="300px" position="relative" mb={[2, 2, 5]}>
                 <Image src="/be-your-best.svg" layout="fill" />
               </Box>
 
@@ -200,7 +200,7 @@ function LoggedOut({ session }) {
             </Box>
 
             <Box>
-              <Box height="300px" position="relative" mb={[1, 2, 5]}>
+              <Box height="300px" position="relative" mb={[2, 2, 5]}>
                 <Image src="/personal.svg" layout="fill" />
               </Box>
 
@@ -213,7 +213,7 @@ function LoggedOut({ session }) {
             </Box>
 
             <Box>
-              <Box height="300px" position="relative" mb={[1, 2, 5]}>
+              <Box height="300px" position="relative" mb={[2, 2, 5]}>
                 <Image src="/synced-up.svg" layout="fill" />
               </Box>
 
@@ -266,11 +266,11 @@ function LoggedOut({ session }) {
           zIndex="4"
           mb={20}
         >
-          <Heading mb={[5, 5, 10]}>I have work to be done</Heading>
+          <Heading mb={[5, 5, 10]} textAlign={["center", "center", "left"]}>I have work to be done</Heading>
 
           <SimpleGrid columns={[1, 1, 2]} spacing={[10, 10, 20]} textAlign={["center", "center", "left"]}>
             <Box>
-              <Box height={[250,  300, "400px"]} position="relative" mb={[0, 0, 5]}>
+              <Box height={[250,  300, "400px"]} position="relative" mb={[1, 1, 5]}>
                 <Image src="/manage-and-recruit.svg" layout="fill" />
               </Box>
 
@@ -282,7 +282,7 @@ function LoggedOut({ session }) {
             </Box>
 
             <Box>
-              <Box height={[250,  300, "400px"]} position="relative" mb={[0, 0, 5]}>
+              <Box height={[250,  300, "400px"]} position="relative" mb={[1, 1, 5]}>
                 <Image src="/hr-partnerships.svg" layout="fill" />
               </Box>
 
