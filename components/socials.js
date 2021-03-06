@@ -8,13 +8,13 @@ import {
 
 function Socials() {
     return (
-        <Box textAlign={["center", "center", "left"]}>
-        <Grid gridTemplateColumns={"repeat(5, 1fr)"} gap={4} maxWidth="300px" display="inline-grid">
+        <Box textAlign={["center", "center"]}>
+        <Grid gridTemplateColumns={"repeat(3, 1fr)"} gap={4} minWidth="200px" display="inline-grid">
 
             <Box rounded="md" height="30px" overflow="hidden" >
                 <a href="https://instagram.com/bemizu" target="_blank" rel="noopener noreferrer">
                     <Image
-                        src="/instagram-icon.svg"
+                        src="/facebook.svg"
                         width={30}
                         height={30}
                     />
@@ -26,7 +26,7 @@ function Socials() {
             <Box rounded="md" height="30px" overflow="hidden">
                 <a href="https://twitter.com/bemizu" target="_blank" rel="noopener noreferrer">
                     <Image
-                        src="/twitter-icon.svg"
+                        src="/twitter.svg"
                         width={30}
                         height={30}
                     />
@@ -38,7 +38,7 @@ function Socials() {
 
                 <a href="https://www.linkedin.com/in/bemizu/" target="_blank" rel="noopener noreferrer">
                     <Image
-                        src="/linkedin-icon.svg"
+                        src="/linkedin.svg"
                         width={30}
                         height={30}
                     />

@@ -7,7 +7,7 @@ import theme from "../public/theme";
 
 export const PageHeader = ( props ) => {
     return (
-        <Heading fontFamily="Roboto" as={"h1"}  fontSize={["46px", "46px", "80px"]}  fontWeight="600">
+        <Heading as={"h1"}  fontSize={["46px", "46px", "80px"]}  fontWeight="600">
             { props.children }
         </Heading>
     )

@@ -16,25 +16,21 @@ import theme from "../public/theme";
 function Footer() {
   return (
     <Section bg={ theme.white } color="white">
-      <Container maxWidth="1200px" textAlign={["center", "center", "left"]}>
-        <SimpleGrid columns={[1, 1, 3, 3]}>
+      <Container maxWidth="1200px" textAlign={["center", "center"]}>
           <Box mb={[10, 10, 0]}>
             <Link href="/">
               <Box
-                height={"104px"}
-                width="101px"
-                margin={["0 auto", "0 auto", "0"]}
+                margin={["0 auto", "0 auto"]}
                 cursor="pointer"
               >
-                <Image src="/logo-square.svg" width={104} height={101} alt="sam" />
+                <Image src="/logo-long.png" width={145} height={43} alt="sam" />
               </Box>
             </Link>
 
-            <Box mt={5}>
+            <Box mt={5} textAlign="center">
               <Socials />
             </Box>
           </Box>
-        </SimpleGrid>
       </Container>
     </Section>
   );
