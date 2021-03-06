@@ -1,5 +1,7 @@
 import Layout from "../layout";
+import { useState } from "react";
 import Section from "../section";
+import styled from "@emotion/styled";
 import VerticalAlign from "../verticalAlign";
 import Lorem from "../lorem";
 import Image from "next/image";
@@ -14,14 +16,55 @@ import {
   Button,
   ButtonGroup,
   SimpleGrid,
+  Stack, 
   Container,
   Grid,
   Input,
+  Radio, RadioGroup
 } from "@chakra-ui/react";
 
+const Styles = styled.div`
+  .chooser-box {
+    height: 0;
+    opacity: 0;
+    z-index: -1;
+    transition: 0.1s ease;
+    margin-top: 4px;
+    position: absolute;
+    width: 100%;
+
+    &.active {
+      height: 40px;
+      opacity: 1;
+      z-index: 7;
+    }
+  }
+
+  .mobile-button {
+    transition: 0.1s ease;
+    margin-top: 0px;
+
+    &.active {
+      @media screen and (max-width: ${ theme.breakpoints[1] }) {
+        margin-top: 44px;
+      }
+      
+    }
+  }
+`
+
 function LoggedOut({ session }) {
+  const [ email, setEmail ] = useState("");
+  const [ value, setValue ] = useState("employee");
+  function updateEmail ( e ) {
+    setEmail( e.currentTarget.value )
+  }
+
+  let chooserBoxActive = email.length ? "active" : "" ;
+
   return (
     <Layout title="Home | Bemizu">
+      <Styles>
       <Box
         position="relative"
         minHeight={[600, 700, 700, 700, 700]}
@@ -90,7 +133,7 @@ function LoggedOut({ session }) {
                 can Be You! (v. You Be You) Stay tuned for new developments.
               </Box>
 
-              <Box maxWidth={["100%", "320px", "370px"]} margin="0px auto">
+              <Box maxWidth={["100%", "370px", "370px"]} margin="0px auto">
                 <Box color={theme.white} mb={ 1 } fontSize={[16,]}>
                   Sign up for upcoming launch
                 </Box>
@@ -104,10 +147,23 @@ function LoggedOut({ session }) {
                     gap={"4px"}
                   >
                     <Box>
-                      <Input bg={theme.white} color={theme.blue} rounded="sm" />
+                      <Input bg={theme.white} color={ theme.darkBlue } rounded="sm" onChange={ updateEmail } />
+                      
+                      <Box position="relative">
+                      <Box className={"chooser-box " + chooserBoxActive } bg={ theme.white } rounded="sm" shadow="md">
+                      <RadioGroup onChange={setValue} value={value} margin="0 auto">
+                      <Stack direction="row" py={2}>
+        <Radio value="employee" mx={2}><small>I am a job seeker</small></Radio>
+        <Radio value="employer" mx={2}><small>I am an employer</small></Radio>
+      </Stack>
+
+                      </RadioGroup>
+
+                      </Box>
+                      </Box>
                     </Box>
 
-                    <Box>
+                    <Box className={"mobile-button " + chooserBoxActive }>
                       <Button
                         bg={theme.orange}
                         rounded="sm"
@@ -164,7 +220,7 @@ function LoggedOut({ session }) {
           position="absolute"
           width="100%"
           bottom={"0px"}
-          height={["13.4vw", "13.4vw"]}
+          height={["13.6vw", "13.6vw"]}
           zIndex="1"
         >
           <img
@@ -325,7 +381,7 @@ function LoggedOut({ session }) {
               gap={"4px"}
             >
               <Box>
-                <Input bg={theme.white} color={theme.blue} rounded="sm" />
+                <Input bg={theme.white} color={theme.darkBlue } rounded="sm" />
               </Box>
 
               <Box>
@@ -368,6 +424,7 @@ function LoggedOut({ session }) {
           ></Box>
         </Container>
       </Box>
+      </Styles>
     </Layout>
   );
 }

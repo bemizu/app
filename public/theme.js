@@ -5,7 +5,7 @@ const theme = extendTheme({
     lightBlue: "#98d5f4",
     orange: "#f07b22",
     white: "#F8FAFF",
-    black: "#2D3958",
+    darkBlue: "#2D3958",
     width: 1200,
     fonts: {
       heading: "'Lato', sans-serif",

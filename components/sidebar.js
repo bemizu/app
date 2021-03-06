@@ -64,7 +64,7 @@ function Sidebar(props) {
         variant="ghost"
         colorScheme="none"
         fontSize="28px"
-        color={ theme.black }
+        color={ theme.darkBlue }
         onClick={onOpen}
       />
 
