@@ -83,7 +83,7 @@ function LoggedOut({ session }) {
                 color={theme.white}
                 maxWidth="460px"
                 margin="0px auto"
-                mb={[5, 5, 10]}
+                mb={[ 10]}
                 fontSize={[16, 18, 20]}
               >
                 We are working diligently to cultivate an environment where you
@@ -91,14 +91,15 @@ function LoggedOut({ session }) {
               </Box>
 
               <Box maxWidth={["100%", "320px", "370px"]} margin="0px auto">
-                <Box color={theme.white} mb={1} fontSize={[16, 18, 20]}>
+                <Box color={theme.white} mb={[0, 0, 1]} fontSize={[16,]}>
                   Sign up for upcoming launch
                 </Box>
 
                 <Box>
                   <Grid
                     templateColumns={[
-                      "calc(80% - 4px) 20%",
+                      "repeat(100%)",
+                      "calc(100% - 92px) 20%",
                     ]}
                     gap={"4px"}
                   >
@@ -110,6 +111,7 @@ function LoggedOut({ session }) {
                       <Button
                         bg={theme.orange}
                         rounded="sm"
+                        width="100%"
                         color={theme.white}
                         _hover={{ bg: theme.orange + "cc" }}
                       >
@@ -185,7 +187,7 @@ function LoggedOut({ session }) {
 
           <SimpleGrid columns={[1, 1, 3]} spacing={[8, 10, "50px"]} textAlign={["center", "center", "left"]}>
             <Box>
-              <Box height="300px" position="relative" mb={5}>
+              <Box height="300px" position="relative" mb={[1, 2, 5]}>
                 <Image src="/be-your-best.svg" layout="fill" />
               </Box>
 
@@ -198,7 +200,7 @@ function LoggedOut({ session }) {
             </Box>
 
             <Box>
-              <Box height="300px" position="relative" mb={5}>
+              <Box height="300px" position="relative" mb={[1, 2, 5]}>
                 <Image src="/personal.svg" layout="fill" />
               </Box>
 
@@ -211,7 +213,7 @@ function LoggedOut({ session }) {
             </Box>
 
             <Box>
-              <Box height="300px" position="relative" mb={5}>
+              <Box height="300px" position="relative" mb={[1, 2, 5]}>
                 <Image src="/synced-up.svg" layout="fill" />
               </Box>
 
@@ -232,6 +234,7 @@ function LoggedOut({ session }) {
           height={[800, 900, 900, 900, 1000]}
           top="100px"
           width="100%"
+          left="0"
           zIndex="0"
           overflow="hidden"
         >
@@ -263,11 +266,11 @@ function LoggedOut({ session }) {
           zIndex="4"
           mb={20}
         >
-          <Heading mb={10}>I have work to be done</Heading>
+          <Heading mb={[5, 5, 10]}>I have work to be done</Heading>
 
           <SimpleGrid columns={[1, 1, 2]} spacing={[10, 10, 20]} textAlign={["center", "center", "left"]}>
             <Box>
-              <Box height="400px" position="relative" mb={5}>
+              <Box height={[250,  300, "400px"]} position="relative" mb={[0, 0, 5]}>
                 <Image src="/manage-and-recruit.svg" layout="fill" />
               </Box>
 
@@ -279,7 +282,7 @@ function LoggedOut({ session }) {
             </Box>
 
             <Box>
-              <Box height="400px" position="relative" mb={5}>
+              <Box height={[250,  300, "400px"]} position="relative" mb={[0, 0, 5]}>
                 <Image src="/hr-partnerships.svg" layout="fill" />
               </Box>
 
@@ -308,16 +311,16 @@ function LoggedOut({ session }) {
             textAlign="center"
             color={theme.white}
             mb={[10, 10, 20]}
-            
+
           >
             <PageHeader>Sign up for our upcoming launch!</PageHeader>
           </Box>
 
-          <Box maxWidth="500px" margin="0 auto">
+          <Box maxWidth={[300, 400, "500px"]} margin="0 auto">
             <Grid
               templateColumns={[
-                "calc(80% - 4px) 20%",
-                "calc(80% - 4px) 20%",
+                "repeat(100%)",
+                "calc(100% - 92px) 20%",
               ]}
               gap={"4px"}
             >
@@ -328,6 +331,7 @@ function LoggedOut({ session }) {
               <Box>
                 <Button
                   bg={theme.orange}
+                  width="100%"
                   rounded="sm"
                   color={theme.white}
                   _hover={{ bg: theme.orange + "cc" }}
