@@ -1,28 +1,29 @@
 import {
-    Box, 
+    Box,
+    Heading,  
 } from "@chakra-ui/react";
 
 import theme from "../public/theme";
 
 export const PageHeader = ( props ) => {
     return (
-        <Box fontSize="20px" fontFamily="Roboto Mono" fontWeight="700">
+        <Heading fontFamily="Roboto" as={"h1"}  fontSize={["46px", "46px", "80px"]}  fontWeight="600">
+            { props.children }
+        </Heading>
+    )
+}
+
+export const SectionTitle = ( props ) => {
+    return (
+        <Box fontFamily="Roboto" as={"h3"}  fontSize={["46px", "46px", "20px"]}  fontWeight="600">
             { props.children }
         </Box>
     )
 }
 
-export const TopicHeader = ( props ) => {
+export const BulletTitle = ( props ) => {
     return (
-        <Box fontSize="16px" fontFamily="Lato" fontWeight="300">
-            { props.children }
-        </Box>
-    )
-}
-
-export const SubHeader = ( props ) => {
-    return (
-        <Box fontSize="13px" fontFamily="Lato" fontWeight="200" fontStyle="italic">
+        <Box fontFamily="Roboto" as={"h2"}  fontSize={["24px", "24px", "56px"]}  fontWeight="400">
             { props.children }
         </Box>
     )
@@ -30,8 +31,9 @@ export const SubHeader = ( props ) => {
 
 export const BodyText = ( props ) => {
     return (
-        <Box fontSize="10px" fontFamily="Roboto Mono" fontWeight="100" >
+        <Box fontFamily="Roboto"  fontSize={["16px", "16px", "22px", "22px", "26px"]}  fontWeight="400">
             { props.children }
         </Box>
     )
 }
+
