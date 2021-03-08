@@ -21,6 +21,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Link as ChakraLink, 
 } from "@chakra-ui/react";
 
 import { BiMenuAltRight } from "react-icons/bi";
@@ -41,15 +42,15 @@ function Sidebar(props) {
       to: "/",
     },
 
-    {
-      text: "About",
-      to: "/about",
-    },
+    // {
+    //   text: "About",
+    //   to: "/about",
+    // },
 
-    {
-      text: "Contact",
-      to: "/contact",
-    },
+    // {
+    //   text: "Contact",
+    //   to: "/contact",
+    // },
   ];
 
   return (
@@ -96,7 +97,9 @@ function Sidebar(props) {
                 );
               })}
 
-            <AuthBox />
+            {/* <AuthBox /> */}
+
+           
             </DrawerBody>
 
             <DrawerFooter px={5} display="block"></DrawerFooter>
