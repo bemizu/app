@@ -1,13 +1,33 @@
 import { useState } from "react";
-
+import { createClient } from '@supabase/supabase-js'
 import {
   Box,
   Grid,
-  RadioGroup,
-  Radio,
+  Link as ChakraLink, 
   Stack,
   Input,
   Button,
+  useRadioGroup,
+  useRadio,
+  Radio,
+  RadioGroup,
+  HStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 
 import axios from "axios";
@@ -15,8 +35,12 @@ import axios from "axios";
 
 import theme from "../public/theme";
 import VerticalAlign from "./verticalAlign";
+import { useRef } from "react";
 
 function EmailCapture() {
+
+  let emplyeeRef = useRef(null);
+  let emplyerRef = useRef(null);
 
   function sendToSendgrid () {
     //   let baseUrl = "https://api.sendgrid.com/v3/resource/marketing/contacts"
@@ -59,31 +83,23 @@ function EmailCapture() {
     setComplete( true )
 
     if ( value == "employee" ) {
-        document.querySelectorAll(".employee-survey")[0].click();
-        setTimeout( () => {
-          document.querySelectorAll(".employee-hidden")[0].value = email ;
-        }, 200)
-        
+        emplyeeRef.current.click();
     } else if ( value == "employer" ) {
-        document.querySelectorAll(".employer-survey")[0].click();
-        setTimeout( () => {
-          document.querySelectorAll(".employer-hidden")[0].value = email ;
-        }, 200)
+        emplyerRef.current.click(); 
         
     }
   }
 
   let chooserBoxActive = email.length ? "active" : "";
 
-  if (complete) {
-    return <Box minHeight="40px" rounded="sm" bg={ theme.orange } color="white" px={3} py={2}>
+  let myView = complete ? (
+<Box minHeight="40px" rounded="sm" bg={ theme.orange } color="white" px={3} py={2}>
         <VerticalAlign>
         Thank you! Your submission has been receieved. 
         </VerticalAlign>
-    </Box>;
-  } else {
-    return (
-      <Box>
+    </Box>
+  ) : (
+    <Box>
           <form onSubmit={ handleSubmit }>
         <Grid
           templateColumns={["repeat(100%)", "calc(100% - 92px) 88px"]}
@@ -136,10 +152,359 @@ function EmailCapture() {
         </Grid>
         </form>
       </Box>
-    );
-  }
+  );
+
+
+
+  return (
+    <Box>
+        { myView }
+
+        <EmployeeSurvey emplyeeRef={ emplyeeRef } email={ email } />
+        <EmployerSurvey emplyerRef={ emplyerRef } email={ email } />
+    </Box>
+  )
 }
 
 export default EmailCapture;
 
 
+function EmployeeSurvey ( props ) {
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLIC_ANON)
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [ name, setName ] = useState("");
+  const [ email, setEmail ] = useState("")
+  const [ skills, setSkills ] = useState("")
+  const [ years, setYears ] = useState("")
+  const [ education, setEducation ] = useState("")
+
+
+  async function handleSubmit ( e ) {
+    e.preventDefault()
+    // database call here
+    const { data, error } = await supabase
+      .from('SurveyResponsesEmployees')
+      .insert([
+        {
+          name,
+          email: props.email,
+          skills,
+          years,
+          education
+        }
+      ])
+
+      //alert thank you
+      onClose();
+  }
+
+  return (
+    <>
+      <Box className="employee-survey" ref={ props.emplyeeRef } onClick={onOpen}>
+        
+      </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <ModalOverlay />
+        <ModalContent mx={5} rounded="sm" bg={theme.white}>
+          <ModalHeader>Do you have an extra minute for a survey?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <form onSubmit={ handleSubmit }>
+            <Input type="hidden" className="employee-hidden" onChange={ ( e ) => { setEmail( e.currentTarget.value ) }} />
+            <FormControl isRequired mb={3}>
+              <FormLabel>Name</FormLabel>
+
+              <Input bg="white" rounded="sm" onChange={ ( e ) => { setName( e.currentTarget.value ) }} />
+            </FormControl>
+
+            <FormControl isRequired mb={3}>
+              <FormLabel>What are your skills?</FormLabel>
+
+              <Input bg="white" rounded="sm" onChange={ ( e ) => { setSkills ( e.currentTarget.value ) }} />
+
+              <FormHelperText>Use commas to seperate skills</FormHelperText>
+            </FormControl>
+
+            <FormControl mb={3}>
+              <FormLabel>Years of experience?</FormLabel>
+
+              <NumberInput bg="white" min={0} onChange={ ( e ) => { setYears ( e ) }}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
+
+            <FormControl mb={5}>
+              <FormLabel>Highest level of education?</FormLabel>
+
+              <LevelOfEducation setEducation={ setEducation } />
+            </FormControl>
+
+            <Box textAlign="center" mb={4}>
+              <Box mb={3}>
+                <Button colorScheme="orange" rounded="sm" size="lg" type="submit">
+                  Submit
+                </Button>
+              </Box>
+
+              <Box>
+                <ChakraLink onClick={onClose}>
+                  No, thank you. I don’t want to take this survey.
+                </ChakraLink>
+              </Box>
+            </Box>
+            </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+function EmployerSurvey( props ) {
+  const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLIC_ANON)
+  
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ name, setName ] = useState("");
+  const [ positions, setPositions ] = useState("");
+  const [ capacity, setMaxCapacity ] = useState("");
+  const [ daysPerWeek, setDaysPerWeek ] = useState("");
+  const [ hoursPerDay, setHoursPerDay ] = useState("");
+  
+  async function handleSubmit ( e ) {
+    e.preventDefault()
+
+    const { data, error } = await supabase
+    .from('SurveyResponsesEmployers')
+    .insert([
+      {
+        name,
+        email: props.email,
+        positions,
+        maxiumum: capacity,
+        days: daysPerWeek, 
+        hours: hoursPerDay, 
+      }
+    ])
+
+    onClose();
+  }
+
+  return (
+    <>
+      <Box className="employer-survey" ref={ props.emplyerRef } onClick={onOpen}>
+      </Box>
+
+      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <ModalOverlay />
+        <ModalContent rounded="sm" bg={theme.white}  mx={5} >
+          <ModalHeader>Do you have an extra minute for a survey?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+
+            <form onSubmit={ handleSubmit }>
+
+          <Input type="hidden" name="email" className="employer-hidden" />
+
+          <FormControl isRequired mb={3}>
+              <FormLabel>Your business name</FormLabel>
+
+              <Input bg="white" rounded="sm" onChange={ ( e ) => { setName( e.currentTarget.value ) }} />
+            </FormControl>
+
+            <FormControl mb={3}>
+              <FormLabel>Number of positions for your business</FormLabel>
+
+              <NumberInput bg="white" min={0} onChange={ ( e ) => { setPositions ( e ) }}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
+
+            <FormControl mb={3}>
+              <FormLabel>Number of team members needed to operate at maximum capacity</FormLabel>
+
+              <NumberInput bg="white" min={0} onChange={ ( e ) => { setMaxCapacity ( e ) }}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
+
+
+            <FormControl mb={ 3 }>
+              <FormLabel>How many days per week does your business stay open?</FormLabel>
+              <DaysPerWeek setDaysPerWeek={ setDaysPerWeek } />
+            </FormControl>
+
+
+            <FormControl mb={ 3 }>
+              <FormLabel>How many hours a day is your business open?</FormLabel>
+              <HoursPerDay setHoursPerDay={ setHoursPerDay } />
+            </FormControl>
+
+
+
+          <Box textAlign="center" mb={4}>
+              <Box mb={3}>
+                <Button colorScheme="orange" rounded="sm" size="lg" type="submit">
+                  Submit
+                </Button>
+              </Box>
+
+              <Box>
+                <ChakraLink onClick={onClose}>
+                  No, thank you. I don’t want to take this survey.
+                </ChakraLink>
+              </Box>
+            </Box>
+            </form>
+          </ModalBody>
+
+          
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+function RadioCard(props) {
+  const { getInputProps, getCheckboxProps } = useRadio(props);
+
+  const input = getInputProps();
+  const checkbox = getCheckboxProps();
+
+  return (
+    <Box as="label">
+      <input {...input}  />
+      <Box
+        {...checkbox}
+        mb={4}
+        cursor="pointer"
+        borderWidth="1px"
+        borderRadius="sm"
+        boxShadow="md"
+        bg="white"
+        _checked={{
+          bg: theme.blue,
+          color: "white",
+          borderColor: "blue.500",
+        }}
+        _focus={{
+          boxShadow: "outline",
+        }}
+        px={3}
+        py={2}
+      >
+        {props.children}
+      </Box>
+    </Box>
+  );
+}
+
+function LevelOfEducation( props ) {
+  const options = [
+    "GED",
+    "Associate's",
+    "Bootcamp",
+    "Bachelor's",
+    "Master's",
+    "Other",
+  ];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: "react",
+    onChange: props.setEducation,
+  });
+
+  const group = getRootProps();
+
+  return (
+    <HStack {...group} spacing={4} wrap={"wrap"}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value });
+        return (
+          <RadioCard key={value} {...radio}>
+            {value}
+          </RadioCard>
+        );
+      })}
+    </HStack>
+  );
+}
+
+function DaysPerWeek ( props ) {
+  const options = [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "Other",
+  ];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: "react",
+    onChange: props.setDaysPerWeek,
+  });
+
+  const group = getRootProps();
+
+  return (
+    <HStack {...group} spacing={4} wrap={"wrap"}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value });
+        return (
+          <RadioCard key={value} {...radio}>
+            {value}
+          </RadioCard>
+        );
+      })}
+    </HStack>
+  );
+}
+
+
+function HoursPerDay ( props ) {
+  const options = [
+    "8",
+    "10",
+    "12",
+    "14",
+    "16",
+    "Other",
+  ];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: "react",
+    onChange: props.setHoursPerDay,
+  });
+
+  const group = getRootProps();
+
+  return (
+    <HStack {...group} spacing={4} wrap={"wrap"}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value });
+        return (
+          <RadioCard key={value} {...radio}>
+            {value}
+          </RadioCard>
+        );
+      })}
+    </HStack>
+  );
+}
