@@ -409,6 +409,19 @@ export default LoggedOut;
 
 function EmployeeSurvey() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [ name, setName ] = useState("");
+  const [ email, setEmail ] = useState("")
+  const [ skills, setSkills ] = useState("")
+  const [ years, setYears ] = useState("")
+  const [ education, setEducation ] = useState("")
+
+
+  function handleSubmit ( e ) {
+    e.preventDefault()
+    debugger
+    // database call here
+  }
   return (
     <>
       <Box className="employee-survey" onClick={onOpen}>
@@ -421,16 +434,18 @@ function EmployeeSurvey() {
           <ModalHeader>Do you have an extra minute for a survey?</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            <form onSubmit={ handleSubmit }>
+            <Input type="hidden" className="employee-hidden" onChange={ ( e ) => { setEmail( e.currentTarget.value ) }} />
             <FormControl isRequired mb={3}>
               <FormLabel>Name</FormLabel>
 
-              <Input bg="white" rounded="sm" />
+              <Input bg="white" rounded="sm" onChange={ ( e ) => { setName( e.currentTarget.value ) }} />
             </FormControl>
 
             <FormControl isRequired mb={3}>
               <FormLabel>What are your skills?</FormLabel>
 
-              <Input bg="white" rounded="sm" />
+              <Input bg="white" rounded="sm" onChange={ ( e ) => { setSkills ( e.currentTarget.value ) }} />
 
               <FormHelperText>Use commas to seperate skills</FormHelperText>
             </FormControl>
@@ -438,7 +453,7 @@ function EmployeeSurvey() {
             <FormControl mb={3}>
               <FormLabel>Years of experience?</FormLabel>
 
-              <NumberInput bg="white" min={0}>
+              <NumberInput bg="white" min={0} onChange={ ( e ) => { setYears ( e ) }}>
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -450,12 +465,12 @@ function EmployeeSurvey() {
             <FormControl mb={5}>
               <FormLabel>Highest level of education?</FormLabel>
 
-              <LevelOfEducation />
+              <LevelOfEducation setEducation={ setEducation } />
             </FormControl>
 
             <Box textAlign="center" mb={4}>
               <Box mb={3}>
-                <Button colorScheme="orange" rounded="sm" size="lg">
+                <Button colorScheme="orange" rounded="sm" size="lg" type="submit">
                   Submit
                 </Button>
               </Box>
@@ -466,6 +481,7 @@ function EmployeeSurvey() {
                 </ChakraLink>
               </Box>
             </Box>
+            </form>
           </ModalBody>
         </ModalContent>
       </Modal>
@@ -475,6 +491,18 @@ function EmployeeSurvey() {
 
 function EmployerSurvey() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [ name, setName ] = useState("");
+  const [ positions, setPositions ] = useState("");
+  const [ capacity, setMaxCapacity ] = useState("");
+  const [ daysPerWeek, setDaysPerWeek ] = useState("");
+  const [ hoursPerDay, setHoursPerDay ] = useState("");
+  
+  function handleSubmit ( e ) {
+    e.preventDefault()
+    debugger
+    // database call here
+  }
+
   return (
     <>
       <Box className="employer-survey" onClick={onOpen}>
@@ -482,15 +510,62 @@ function EmployerSurvey() {
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
-        <ModalContent rounded="sm" bg={theme.white}>
+        <ModalContent rounded="sm" bg={theme.white}  mx={5} >
           <ModalHeader>Do you have an extra minute for a survey?</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
 
+            <form onSubmit={ handleSubmit }>
+
+          <Input type="hidden" name="email" className="employer-hidden" />
+
+          <FormControl isRequired mb={3}>
+              <FormLabel>Your business name</FormLabel>
+
+              <Input bg="white" rounded="sm" onChange={ ( e ) => { setName( e.currentTarget.value ) }} />
+            </FormControl>
+
+            <FormControl mb={3}>
+              <FormLabel>Number of positions for your business</FormLabel>
+
+              <NumberInput bg="white" min={0} onChange={ ( e ) => { setPositions ( e ) }}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
+
+            <FormControl mb={3}>
+              <FormLabel>Number of team members needed to operate at maximum capacity</FormLabel>
+
+              <NumberInput bg="white" min={0} onChange={ ( e ) => { setMaxCapacity ( e ) }}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </FormControl>
+
+
+            <FormControl mb={ 3 }>
+              <FormLabel>How many days per week does your business stay open?</FormLabel>
+              <DaysPerWeek setDaysPerWeek={ setDaysPerWeek } />
+            </FormControl>
+
+
+            <FormControl mb={ 3 }>
+              <FormLabel>How many hours a day is your business open?</FormLabel>
+              <HoursPerDay setHoursPerDay={ setHoursPerDay } />
+            </FormControl>
+
+
 
           <Box textAlign="center" mb={4}>
               <Box mb={3}>
-                <Button colorScheme="orange" rounded="sm" size="lg">
+                <Button colorScheme="orange" rounded="sm" size="lg" type="submit">
                   Submit
                 </Button>
               </Box>
@@ -501,6 +576,7 @@ function EmployerSurvey() {
                 </ChakraLink>
               </Box>
             </Box>
+            </form>
           </ModalBody>
 
           
@@ -518,7 +594,7 @@ function RadioCard(props) {
 
   return (
     <Box as="label">
-      <input {...input} />
+      <input {...input}  />
       <Box
         {...checkbox}
         mb={4}
@@ -544,7 +620,7 @@ function RadioCard(props) {
   );
 }
 
-function LevelOfEducation() {
+function LevelOfEducation( props ) {
   const options = [
     "GED",
     "Associate's",
@@ -557,7 +633,72 @@ function LevelOfEducation() {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "framework",
     defaultValue: "react",
-    onChange: console.log,
+    onChange: props.setEducation,
+  });
+
+  const group = getRootProps();
+
+  return (
+    <HStack {...group} spacing={4} wrap={"wrap"}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value });
+        return (
+          <RadioCard key={value} {...radio}>
+            {value}
+          </RadioCard>
+        );
+      })}
+    </HStack>
+  );
+}
+
+function DaysPerWeek ( props ) {
+  const options = [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "Other",
+  ];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: "react",
+    onChange: props.setDaysPerWeek,
+  });
+
+  const group = getRootProps();
+
+  return (
+    <HStack {...group} spacing={4} wrap={"wrap"}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value });
+        return (
+          <RadioCard key={value} {...radio}>
+            {value}
+          </RadioCard>
+        );
+      })}
+    </HStack>
+  );
+}
+
+
+function HoursPerDay ( props ) {
+  const options = [
+    "8",
+    "10",
+    "12",
+    "14",
+    "16",
+    "Other",
+  ];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: "react",
+    onChange: props.setHoursPerDay,
   });
 
   const group = getRootProps();

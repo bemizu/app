@@ -56,13 +56,20 @@ function EmailCapture() {
   }
 
   function handleSuccess (resp) {
-    debugger
     setComplete( true )
 
     if ( value == "employee" ) {
         document.querySelectorAll(".employee-survey")[0].click();
+        setTimeout( () => {
+          document.querySelectorAll(".employee-hidden")[0].value = email ;
+        }, 200)
+        
     } else if ( value == "employer" ) {
         document.querySelectorAll(".employer-survey")[0].click();
+        setTimeout( () => {
+          document.querySelectorAll(".employer-hidden")[0].value = email ;
+        }, 200)
+        
     }
   }
 
