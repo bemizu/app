@@ -286,11 +286,12 @@ function EmployerSurvey( props ) {
         name,
         email: props.email,
         positions,
-        maxiumum: capacity,
+        maximum: capacity,
         days: daysPerWeek, 
         hours: hoursPerDay, 
       }
     ])
+
 
     onClose();
   }
