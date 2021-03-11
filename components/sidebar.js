@@ -97,6 +97,22 @@ function Sidebar(props) {
                 );
               })}
 
+<Box mb={4} >
+                    <Box
+                      letterSpacing="1"
+                      fontWeight="600"
+                      mb={1}
+                    >
+                      Contact us:
+                    </Box>
+
+                    <ChakraLink href="mailto:contact@bemizu.app">
+                      contact@bemizu.app
+                    </ChakraLink>
+
+
+                  </Box>
+
             {/* <AuthBox /> */}
 
            
