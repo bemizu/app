@@ -11,8 +11,6 @@ import theme from "../../public/theme";
 import { PageHeader, BodyText } from "../typography";
 import EmailCapture from "../emailCapture";
 
-
-
 import {
   Link as ChakraLink,
   Box,
@@ -24,7 +22,6 @@ import {
   Container,
   Grid,
   Input,
-  
 } from "@chakra-ui/react";
 
 const Styles = styled.div`
@@ -97,11 +94,17 @@ function LoggedOut({ session }) {
               position="relative"
               px={10}
               maxWidth={theme.width}
-              mb={["100px", "100px", "150px", "180px"]}
+              mb={["90px", "90px", "150px", "180px"]}
             >
               <Box position="relative" zIndex="2">
-                <Box color={theme.white} textAlign="center" mb={[5, 5, 10]}>
-                  <PageHeader textAlign="center">Bemizu. Be You.</PageHeader>
+
+              <Box color={theme.white} textAlign="center" mb={[5, 5, 10]} display={["none", "none", "block"]}>
+                  <PageHeader textAlign="center">Bemizu. Be You. </PageHeader>
+                </Box>
+
+                <Box color={theme.white} textAlign="center" mb={[5, 5, 10]} display={["block", "block", "none"]}>
+                  <PageHeader textAlign="center">Bemizu. </PageHeader>
+                  <PageHeader textAlign="center">Be You. </PageHeader>
                 </Box>
 
                 <Box
@@ -125,8 +128,7 @@ function LoggedOut({ session }) {
                   fontSize={[16, 18, 20]}
                 >
                   We are working diligently to cultivate an environment where
-                  you can Be You! (v. You Be You) Stay tuned for new
-                  developments.
+                  you can Be You! Stay tuned for new developments.
                 </Box>
 
                 <Box maxWidth={["100%", "370px", "370px"]} margin="0px auto">
@@ -205,45 +207,63 @@ function LoggedOut({ session }) {
             <SimpleGrid
               columns={[1, 1, 3]}
               spacing={[8, 10, "50px"]}
-              textAlign={["center", "center", "left"]}
+              textAlign={[ "left"]}
             >
               <Box>
-                <Box height="300px" position="relative" mb={[2, 2, 5]}>
+                <SimpleGrid columns={[2, 2, 1]} spacing={[4, 4, 0]}>
+                <Box height={["auto", "auto", "300px"]} position="relative" mb={[2, 2, 5]}>
                   <Image src="/be-your-best.svg" layout="fill" />
                 </Box>
 
-                <Heading mb={2}>Be your best</Heading>
+                <Box>
+                <Heading fontSize={[20, 20, 26]} mb={2}>Be your best</Heading>
 
                 <Box>
                   Offer your talents and look for opportunities set around your
                   schedule
                 </Box>
+                </Box>
+                </SimpleGrid>
               </Box>
 
               <Box>
-                <Box height="300px" position="relative" mb={[2, 2, 5]}>
-                  <Image src="/personal.svg" layout="fill" />
+              <SimpleGrid columns={[2, 2, 1]} spacing={[4, 4, 0]}>
+                <Box height={["auto", "auto", "300px"]} position="relative" mb={[2, 2, 5]}>
+                <Image src="/personal.svg" layout="fill" />
                 </Box>
 
-                <Heading mb={2}>Personal</Heading>
+                <Box>
+                <Heading mb={2} fontSize={[20, 20, 26]}>Personal</Heading>
 
                 <Box>
                   Keep track of all of your jobs and personal events in one
                   versatile calendar
                 </Box>
+                </Box>
+                </SimpleGrid>
+
+              
+               
               </Box>
 
               <Box>
-                <Box height="300px" position="relative" mb={[2, 2, 5]}>
-                  <Image src="/synced-up.svg" layout="fill" />
+
+              <SimpleGrid columns={[2, 2, 1]} spacing={[4, 4, 0]}>
+                <Box height={["auto", "auto", "300px"]} position="relative" mb={[2, 2, 5]}>
+                <Image src="/synced-up.svg" layout="fill" />
                 </Box>
 
-                <Heading mb={2}>Synced up</Heading>
+                <Box>
+                <Heading mb={2} fontSize={[20, 20, 26]}>Synced up</Heading>
 
                 <Box>
                   Get synced up with your team to provide the best value (inside
                   or outside of work)
                 </Box>
+                </Box>
+                </SimpleGrid>
+
+               
               </Box>
             </SimpleGrid>
           </Container>
@@ -304,7 +324,7 @@ function LoggedOut({ session }) {
                   <Image src="/manage-and-recruit.svg" layout="fill" />
                 </Box>
 
-                <Heading mb={2}>Manage and recruit</Heading>
+                <Heading mb={2} fontSize={[20, 20, 26]}>Manage and recruit</Heading>
 
                 <Box>
                   Gain full HR support and solutions from hiring to payroll
@@ -320,7 +340,7 @@ function LoggedOut({ session }) {
                   <Image src="/hr-partnerships.svg" layout="fill" />
                 </Box>
 
-                <Heading mb={2}>Gain HR partnerships</Heading>
+                <Heading mb={2} fontSize={[20, 20, 26]}>Gain HR partnerships</Heading>
 
                 <Box>
                   Reach out to your potential team members through our partner
@@ -337,7 +357,7 @@ function LoggedOut({ session }) {
             py={[10, 10, 20]}
             position="relative"
             zIndex="5"
-            mb={5}
+            mb={[20, 20, 20]}
           >
             <Box
               maxWidth="800px"
@@ -379,8 +399,6 @@ function LoggedOut({ session }) {
             ></Box>
           </Container>
         </Box>
-
-        
       </Styles>
     </Layout>
   );

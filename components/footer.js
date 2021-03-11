@@ -15,7 +15,7 @@ import theme from "../public/theme";
 
 function Footer() {
   return (
-    <Section bg={ theme.white } color="white">
+    <Section bg={ "white" } color="white">
       <Container maxWidth="1200px" textAlign={["center", "center"]}>
           <Box mb={[10, 10, 0]}>
             <Link href="/">

@@ -93,7 +93,7 @@ function EmailCapture() {
   let chooserBoxActive = email.length ? "active" : "";
 
   let myView = complete ? (
-<Box minHeight="40px" rounded="sm" bg={ theme.orange } color="white" px={3} py={2}>
+<Box minHeight="40px" rounded="sm" bg={ theme.orange } color="white" px={3} py={2} fontSize={["sm", "md"]}>
         <VerticalAlign>
         Thank you! Your submission has been receieved. 
         </VerticalAlign>
@@ -112,6 +112,7 @@ function EmailCapture() {
               rounded="sm"
               onChange={updateEmail}
               type="email"
+              placeholder="Enter your email"
               required={ true }
             />
 
