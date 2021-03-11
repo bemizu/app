@@ -133,7 +133,7 @@ function LoggedOut({ session }) {
 
                 <Box maxWidth={["100%", "370px", "370px"]} margin="0px auto">
                   <Box color={theme.white} mb={1} fontSize={[16]}>
-                    Sign up for upcoming launch
+                    Sign up for our upcoming launch!
                   </Box>
 
                   <EmailCapture />
