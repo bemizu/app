@@ -8,13 +8,16 @@ function Home() {
   const { isLoading, isAuthenticated } = useAuth0();
   const [ session, loading ] = useSession();
 
-  if ( isLoading ) {
-    return <Loading />;
-  } else if ( isAuthenticated ) {
-    return <Logged />;
-  } else {
-    return <LoggedOut />;
-  }
+  // if ( isLoading ) {
+  //   return <Loading />;
+  // } else if ( isAuthenticated ) {
+  //   return <Logged />;
+  // } else {
+  //   return <LoggedOut />;
+  // }
+
+  // landing page only 
+  return <LoggedOut />
 }
 
 export default Home;
