@@ -30,13 +30,13 @@ export default class MyDocument extends Document {
 
           <meta property="og:title" content="Bemizu" />
           <meta property="og:description" content="Talent sourcing for all your hiring needs." />
-          <meta property="og:image" content="https://bemizu.app/social.jpg" />
+          <meta property="og:image" content="https://bemizu.app/social-long.jpg" />
           <meta property="og:url" content="https://bemizu.app/" />
 
 
           <meta name="twitter:title" content="Bemizu" />
           <meta name="twitter:description" content="Talent sourcing for all your hiring needs." />
-          <meta name="twitter:image" content="http://bemizu.app/social.jpg" />
+          <meta name="twitter:image" content="http://bemizu.app/social-long.jpg" />
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
         <body>
