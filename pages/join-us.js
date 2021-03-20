@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import { Box, Heading, Button,  Container } from "@chakra-ui/react";
 import Layout from "../components/layout";
@@ -6,6 +7,8 @@ import styled from "@emotion/styled";
 import theme from "../public/theme";
 import Flickity from "react-flickity-component";
 import VerticalAlign from "../components/verticalAlign";
+import { providers, signIn } from 'next-auth/client'
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Styles = styled.div`
     .flickity-viewport {
@@ -47,7 +50,10 @@ const Styles = styled.div`
     
 `;
 
-function Page() {
+function Page( { providers }) {
+  let { loginWithRedirect } = useAuth0()
+
+
   let sliders = [
     {
       text: "Offer your talents and look for opportunities set around your schedule",
@@ -112,7 +118,7 @@ function Page() {
               disableImagesLoaded={false} // default false
             >
               {sliders.map((el) => {
-                return <Box width="100%" p={[0, 6]} mx={5}>
+                return <Box width="100%" p={[0, 6]} mx={5} key={"flickity-" + el.image}>
 
                     <Box height={[280, 300, ]} position="relative" mb={4}>
                         <Image src={ el.image } layout="fill" objectFit="contain" />
@@ -126,10 +132,14 @@ function Page() {
             </Flickity>
             </Box>
 
+            
+
             <Box textAlign="center" px={[0, 6]} width={["100%", 400]} m="15px auto">
-                <Button colorScheme="orange" width="100%" rounded="sm">
+              
+                <Button colorScheme="orange" width="100%" rounded="sm" onClick={ loginWithRedirect }>
                     Log in
                 </Button>
+                
 
             </Box>
           </Container>
@@ -138,6 +148,13 @@ function Page() {
       </Box>
     </Layout>
   );
+}
+
+
+Page.getInitialProps = async () => {
+  return {
+    providers: await providers()
+  }
 }
 
 export default Page;
