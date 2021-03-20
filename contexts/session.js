@@ -1,8 +1,12 @@
 import create from 'zustand'
 
 const Session = create(set => ({
-  faunaClient: undefined,
-  setFaunaClient: ( faunaClient ) => set(state => ({ faunaClient })),
+  loading: true,
+  user: undefined,
+  profile: undefined,
+  setUser: ( user ) => set(state => ({ user })),
+  setProfile: ( profile ) => set(state => ({ profile })),
+  setLoadingFalse: (  ) => set(state => ({ loading: false })), 
 }))
 
 
