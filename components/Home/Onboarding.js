@@ -7,6 +7,12 @@ import theme from "../../public/theme";
 const Styles = styled.div``;
 
 function Onboarding () {
+
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_PUBLIC_ANON
+  );
+  
   return (
     <Layout title="Onboarding">
       <Styles>
