@@ -4,14 +4,16 @@ import Section from "../section";
 import styled from "@emotion/styled";
 import theme from "../../public/theme";
 
+import { useEffect } from "react/cjs/react.development";
+
+
 const Styles = styled.div``;
 
 function Onboarding () {
 
-  const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_PUBLIC_ANON
-  );
+  
+
+ 
   
   return (
     <Layout title="Onboarding">
