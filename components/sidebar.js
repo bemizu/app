@@ -41,10 +41,6 @@ function Sidebar(props) {
       to: "/",
     },
 
-    {
-      text: "Join us",
-      to: "/join-us",
-    },
 
     // {
     //   text: "About",
