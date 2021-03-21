@@ -9,6 +9,7 @@ import Session from "../contexts/session";
 
 import {
   Box,
+  Heading, 
   Button,
   Grid,
   Menu,
@@ -26,7 +27,7 @@ import { useState } from "react";
 const Header = () => {
   return (
     <Grid
-      gridTemplateColumns={["40px calc(100% - 80px) 40px", "40px calc(100% - 80px) 40px", "100px calc(100% - 100px)"]}
+      gridTemplateColumns={["40px calc(100% - 80px) 40px", "40px calc(100% - 80px) 40px", "calc(100% - 100px) 100px"]}
       bg={ theme.white }
       height={"70px"}
       position="fixed"
@@ -41,8 +42,15 @@ const Header = () => {
       <Box textAlign={["center", "center", "left"]}>
         <VerticalAlign>
           <Link href="/">
-            <Box display="inline-block" cursor="pointer" width={145} height={43} position="relative" top={0} left={0}>
+            <Box display={"inline-block"} cursor="pointer">
+            <Box display={["block", "block", "inline-block"]} cursor="pointer" width={145} height={43} position="relative" top={0} left={0} mt={[1, 1, 0]} mb={[1, 1, 0]} mr={[0, 0, 4]}>
             <Image src="/logo-long.png" layout="fill" objectFit="cover" alt="Logo Square"  />
+            </Box>
+
+            <Heading size="sm" mb={"3px"} display={["block", "block", "inline-block"]} color={ theme.blue }>
+
+              Business
+            </Heading>
             </Box>
           </Link>
         </VerticalAlign>
