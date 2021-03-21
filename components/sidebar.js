@@ -27,14 +27,13 @@ import {
 import { BiMenuAltRight } from "react-icons/bi";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 
-
 import theme from "../public/theme.js";
 
 
 function Sidebar(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
-  
+  const { isAuthenticated, logout, loginWithRedirect } = useAuth0()
 
   const menuItems = [
     {
@@ -57,6 +56,22 @@ function Sidebar(props) {
     //   to: "/contact",
     // },
   ];
+
+  let authButton = isAuthenticated ? (
+    <Box>
+      <Button rounded="full" size="sm" colorScheme="red" onClick={ logout }>
+        Logout
+
+      </Button>
+    </Box>
+  ) : (
+    <Box>
+      <Button rounded="full" size="sm" colorScheme="green" onClick={ loginWithRedirect }>
+        Login
+
+      </Button>
+    </Box>
+  );
 
   return (
     <>
@@ -117,13 +132,17 @@ function Sidebar(props) {
 
 
                   </Box>
-
+             
             {/* <AuthBox /> */}
 
            
             </DrawerBody>
 
-            <DrawerFooter px={5} display="block"></DrawerFooter>
+            <DrawerFooter px={6} pb={6} display="block">
+            {
+                authButton
+              }
+            </DrawerFooter>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>

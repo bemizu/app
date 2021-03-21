@@ -13,8 +13,6 @@ const Styles = styled.div``;
 function Onboarding () {
   const session = Session( state => state);
   const { user } = useAuth0();
-  
- 
 
   async function onboard () {
     const { data, error } = await session.supabase
@@ -24,7 +22,6 @@ function Onboarding () {
     
     window.location.reload();
   }
- 
   
   return (
     <Layout title="Onboarding">
