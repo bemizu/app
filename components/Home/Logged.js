@@ -8,18 +8,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 function Logged() {
   const [ loading, setLoading ] = useState( true );
-  const session = Session((state) => state);
+  const session = Session(state => state);
   const { user } = useAuth0();
 
-  // get user from Supabase
-
   useEffect(async () => {
-    const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_PUBLIC_ANON
-    );
-
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
       .from("users")
       .select(
         `
@@ -33,7 +26,7 @@ function Logged() {
     if (!error && data.length) {
         session.setUser( data[0] );
     } else if (!error) {
-      const { data, error } = await supabase
+      const { data, error } = await session.supabase
         .from("users")
         .insert([{ email: user.email, auth0: user.sub }]);
     }
@@ -41,18 +34,6 @@ function Logged() {
     console.log(data);
     console.log(user);
     setLoading( false );
-
-    // const { data, error } = await supabase
-    //   .from("SurveyResponsesEmployees")
-    //   .insert([
-    //     {
-    //       name,
-    //       email: props.email,
-    //       skills,
-    //       years,
-    //       education,
-    //     },
-    //   ]);
   }, []);
 
   if ( loading ) {
