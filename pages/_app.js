@@ -6,14 +6,17 @@ import { Provider as AuthProvider } from 'next-auth/client'
 import theme from "../public/theme";
 import Session from "../contexts/session";
 import { createClient } from "@supabase/supabase-js";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App({ Component, pageProps }) {
   const [ first, setFirst ] = useState( true )
   const session = Session( state => state );
-  
+  const { user, isLoading } = useAuth0();
+
   useEffect( () => {
     if ( first ) {
       setFirst( false )
+      session.setLoadingFalse();
 
       const supabase = createClient(
         process.env.SUPABASE_URL,
@@ -21,7 +24,6 @@ function App({ Component, pageProps }) {
       );
 
       session.setSupabase( supabase )
-      session.setLoadingFalse();
     }
   }, [])
 
@@ -29,8 +31,7 @@ function App({ Component, pageProps }) {
     <Auth0Provider
       domain={`${process.env.AUTH0_DOMAIN}`}
       clientId={`${process.env.AUTH0_CLIENT_ID}`}
-      // redirectUri={ "https://bemizu.app/" }
-      redirectUri={ "http://localhost:3000/" }
+      redirectUri={ `${process.env.AUTH0_REDIRECT}` }
     >
     <AuthProvider session={pageProps.session}>
       <ChakraProvider theme={ theme }>

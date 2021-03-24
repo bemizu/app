@@ -13,7 +13,7 @@ function Logged() {
 
   useEffect(async () => {
     const { data, error } = await session.supabase
-      .from("users")
+      .from("business_users")
       .select(
         `
       id,
@@ -27,12 +27,10 @@ function Logged() {
         session.setUser( data[0] );
     } else if (!error) {
       const { data, error } = await session.supabase
-        .from("users")
+        .from("business_users")
         .insert([{ email: user.email, auth0: user.sub }]);
     }
 
-    console.log(data);
-    console.log(user);
     setLoading( false );
   }, []);
 
