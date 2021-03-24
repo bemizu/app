@@ -27,7 +27,7 @@ function App({ Component, pageProps, subdomain }) {
     }
   }, [])
 
-  const returnUrl = pageProps.subdomain ? "https://business.bemizu.app/" : `${process.env.AUTH0_REDIRECT}`
+  const returnUrl = true ? "https://business.bemizu.app/" : `${process.env.AUTH0_REDIRECT}`
 
   return (
     <Auth0Provider

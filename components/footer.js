@@ -19,12 +19,18 @@ function Footer() {
       <Container maxWidth="1200px" textAlign={["center", "center"]}>
           <Box mb={[10, 10, 0]}>
             <Link href="/">
+              <Box>
               <Box
                 margin={["0 auto", "0 auto"]}
                 cursor="pointer"
               >
                 <Image src="/logo-long.png" width={145} height={43} alt="sam" />
               </Box>
+
+              <Heading size="sm" mt={"3px"} display={["block", "block",]} color={ theme.blue }>
+              Business
+            </Heading>
+            </Box>
             </Link>
 
             <Box mt={5} textAlign="center">
