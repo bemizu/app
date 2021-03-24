@@ -15,7 +15,9 @@ const Layout = ( props ) => (
 
     <main>
       <Box pt={["60px", "60px", "70px"]} bg={ theme.darkBlue } >
+
         { props.children }
+
         </Box>
     </main>
 

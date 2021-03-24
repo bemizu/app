@@ -72,7 +72,7 @@ function Page() {
                     <Navigator />
                 </Box>
 
-                <Box bg={ theme.white } py={[5, 10, 10]} px={[0, 5, 10]} >
+                <Box bg={ theme.white } py={[5, 10, 10]} px={[0, 5, 10]} minHeight="500px" >
                     
                 </Box>
 
