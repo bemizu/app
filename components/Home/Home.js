@@ -67,12 +67,12 @@ function Page() {
     <Layout title={"Home"}>
       <Box  >
         <Container maxWidth="1200px">
-            <Grid gridTemplateColumns={["100%", "100%", "100px calc(100% - 120px)"]} gap="20px" >
+            <Grid gridTemplateColumns={["100%", "100%", "100px calc(100% - 120px)"]} gap={[0, 0, "20px"]} >
                 <Box my={[0, 0, 10]} >
                     <Navigator />
                 </Box>
 
-                <Box bg={ theme.white } py={[5, 10, 10]} px={[0, 5, 10]} minHeight="500px" >
+                <Box bg={ theme.white } py={[0, 0, 10]} px={[0, 5, 10]} minHeight={[400, 500, "500px"]} >
                     
                 </Box>
 

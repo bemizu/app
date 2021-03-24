@@ -54,8 +54,11 @@ function Navigator() {
         bg={[theme.white, theme.white, "none"]}
         zIndex={1000}
         left={0}
+        borderTopWidth={[2, 2, 0]}
+        borderColor={ "gray.300" }
         position={["fixed", "fixed", "relative"]}
         bottom={0}
+        shadow={["lg", "lg", "none"]}
         gridTemplateColumns={[
           "repeat( auto-fit, minmax(50px, 1fr) )",
           "repeat( auto-fit, minmax(50px, 1fr) )",
@@ -69,15 +72,16 @@ function Navigator() {
               <Link href={el.link}>
                 <Box
                   rounded="lg"
-                  _hover={{ color: theme.lightBlue }}
+                  _hover={[ { color: theme.blue }, { color: theme.blue }, { color: theme.lightBlue }]}
+                  
                   transition="all 0.1s ease"
                   maxWidth="80px"
                   margin="0 auto"
                   pb={2}
-                  color={theme.white}
+                  color={[theme.darkBlue, theme.darkBlue, theme.white]}
                   cursor="pointer"
                 >
-                  <Box fontSize="30px" mb="1px">
+                  <Box fontSize={[24, 24, "30px"]} mb="1px">
                     {el.icon}
                   </Box>
 

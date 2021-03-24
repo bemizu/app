@@ -48,7 +48,6 @@ const Header = () => {
             </Box>
 
             <Heading size="sm" mb={"3px"} display={["block", "block", "inline-block"]} color={ theme.blue }>
-
               Business
             </Heading>
             </Box>
