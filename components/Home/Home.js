@@ -21,6 +21,8 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Session from "../../contexts/session";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Navigator from "../navigator";
+
 const Styles = styled.div``;
 
 function Page() {
@@ -63,11 +65,22 @@ function Page() {
 
   return (
     <Layout title={"Home"}>
-      <Section>
+      <Box  >
         <Container maxWidth="1200px">
-          <Box>{profileOrganization.name}</Box>
+            <Grid gridTemplateColumns={["100%", "100%", "100px calc(100% - 120px)"]} gap="20px" >
+                <Box my={[0, 0, 10]} >
+                    <Navigator />
+                </Box>
+
+                <Box bg={ theme.white } py={[5, 10, 10]} px={[0, 5, 10]} >
+                    
+                </Box>
+
+
+            </Grid>
+          
         </Container>
-      </Section>
+        </Box>
     </Layout>
   );
 }
