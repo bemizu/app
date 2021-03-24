@@ -8,7 +8,7 @@ import Session from "../contexts/session";
 import { createClient } from "@supabase/supabase-js";
 import { useAuth0 } from "@auth0/auth0-react";
 
-function App({ Component, pageProps }) {
+function App({ Component, pageProps, subdomain }) {
   const [ first, setFirst ] = useState( true )
   const session = Session( state => state );
   const { user, isLoading } = useAuth0();
@@ -27,11 +27,13 @@ function App({ Component, pageProps }) {
     }
   }, [])
 
+  const returnUrl = pageProps.subdomain ? "https://business.bemizu.app/" : `${process.env.AUTH0_REDIRECT}`
+
   return (
     <Auth0Provider
       domain={`${process.env.AUTH0_DOMAIN}`}
       clientId={`${process.env.AUTH0_CLIENT_ID}`}
-      redirectUri={ `${process.env.AUTH0_REDIRECT}` }
+      redirectUri={ returnUrl }
     >
     <AuthProvider session={pageProps.session}>
       <ChakraProvider theme={ theme }>
@@ -43,3 +45,9 @@ function App({ Component, pageProps }) {
 }
 
 export default App;
+
+
+App.getServerSideProps = async ({ req }) => {
+  const subdomain = req.headers.host.split('.')[0];
+  return { subdomain };
+};
