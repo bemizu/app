@@ -60,7 +60,7 @@ function Navigator({ path }) {
       <Grid
         width="100%"
         bg={[theme.white, theme.white, "none"]}
-        zIndex={1000}
+        zIndex={800}
         left={0}
         borderTopWidth={[2, 2, 0]}
         borderColor={"gray.300"}

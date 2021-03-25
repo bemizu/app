@@ -32,7 +32,7 @@ const Header = () => {
       height={"70px"}
       position="fixed"
       width="100vw"
-      zIndex="1600"
+      zIndex="999"
       shadow="lg"
       top={"0"}
       pl={[0, 0, 5]}

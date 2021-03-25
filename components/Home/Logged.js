@@ -5,6 +5,7 @@ import Session from "../../contexts/session";
 import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import {GetUser} from "../../utils/getUser";
 
 function Logged() {
   const [ loading, setLoading ] = useState( true );

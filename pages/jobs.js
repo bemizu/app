@@ -29,41 +29,23 @@ import {
     const [profileUser, setProfileUser] = useState({});
     const [profileOrganization, setProfileOrganization] = useState({});
   
-    useEffect(async () => {
-      const { data, error } = await session.supabase
-        .from("business_users")
-        .select(
-          `
-            id,
-            email, 
-            onboarded
-          `
-        )
-        .eq("email", user.email);
-  
-      if (!error && data.length) {
-        const orgReq = await session.supabase
-          .from("organizations")
-          .select(
-            `
-            name
-          `
-          )
-          .eq("uuid", data[0].id);
-  
-        session.setUser(data[0]);
-        session.setOrganization(orgReq.data[0]);
-        setProfileUser(data[0]);
-        setProfileOrganization(orgReq.data[0]);
+    useEffect( () => {
+      if ( !session.user ) {
+        GetUser( user, session, setProfileUser, setProfileOrganization )
       } else {
-        router.push("/");
+        setProfileUser( session.user )
+        setProfileOrganization( session.organization )
       }
-    }, []);
+    } , []);
   
     return (
       <Layout title="Jobs">
          <PageContainer path={ router.pathname }>
+         <Heading>
+          Jobs
+        </Heading>
 
+        { profileUser.email }
 </PageContainer>
       </Layout>
     );

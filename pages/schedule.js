@@ -18,6 +18,8 @@ import Session from "../contexts/session";
 import { useRouter, withRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Navigator from "../components/navigator";
+import {GetUser} from "../utils/getUser";
+
 
 const Styles = styled.div``;
 
@@ -28,40 +30,25 @@ function Page() {
   const [profileUser, setProfileUser] = useState({});
   const [profileOrganization, setProfileOrganization] = useState({});
 
-  useEffect(async () => {
-    const { data, error } = await session.supabase
-      .from("business_users")
-      .select(
-        `
-            id,
-            email, 
-            onboarded
-          `
-      )
-      .eq("email", user.email);
-
-    if (!error && data.length) {
-      const orgReq = await session.supabase
-        .from("organizations")
-        .select(
-          `
-            name
-          `
-        )
-        .eq("uuid", data[0].id);
-
-      session.setUser(data[0]);
-      session.setOrganization(orgReq.data[0]);
-      setProfileUser(data[0]);
-      setProfileOrganization(orgReq.data[0]);
+  useEffect( () => {
+    if ( !session.user ) {
+      GetUser( user, session, setProfileUser, setProfileOrganization )
     } else {
-      router.push("/");
+      setProfileUser( session.user )
+      setProfileOrganization( session.organization )
     }
-  }, []);
+  } , [  ]);
 
   return (
     <Layout title="Schedule">
-      <PageContainer path={router.pathname}></PageContainer>
+      <PageContainer path={router.pathname}>
+      <Heading>
+          Schedule
+        </Heading>
+
+
+        { profileUser.email }
+      </PageContainer>
     </Layout>
   );
 }

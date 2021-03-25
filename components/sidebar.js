@@ -90,9 +90,10 @@ function Sidebar(props) {
         placement="right"
         onClose={onClose}
         finalFocusRef={btnRef}
+        
       >
         <DrawerOverlay>
-          <DrawerContent bg={ theme.white }>
+          <DrawerContent bg={ theme.white } >
             <DrawerCloseButton color={ theme.black } rounded="sm" />
             <DrawerHeader></DrawerHeader>
 
