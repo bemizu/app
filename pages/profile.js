@@ -7,6 +7,10 @@ import {
   Grid,
   Divider,
   Container,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea, 
 } from "@chakra-ui/react";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
@@ -38,14 +42,67 @@ function Page() {
     }
   } , [  ]);
 
+  function update ( e ) {
+    switch ( e.currentTarget.dataset.path ) {
+      case "name":
+        let org = profileOrganization;
+        org.name = e.currentTarget.value;
+        setProfileOrganization( org )
+        break;
+    
+      default:
+        break;
+    }
+  }  
+
   return (
     <Layout title="Profile">
       <PageContainer path={router.pathname}>
-        <Heading>
+        <Heading mb={4}>
           Profile
         </Heading>
 
-        { profileUser.email }
+        <FormControl isRequired mb={4}>
+          <FormLabel>
+            Business Name
+          </FormLabel>
+
+          <Input bg="white" rounded="sm" defaultValue={ profileOrganization.name } data-path="name" onChange={ update } />
+        </FormControl>
+
+        <FormControl isRequired mb={4}>
+          <FormLabel>
+            Logo
+          </FormLabel>
+
+          <Input bg="white" rounded="sm" defaultValue={ profileOrganization.logo } data-path="logo" onChange={ update } />
+        </FormControl>
+
+        <FormControl isRequired mb={4}>
+          <FormLabel>
+            Overview
+          </FormLabel>
+
+          <Textarea bg="white" rounded="sm" placeholder="Add your mission statement" defaultValue={ profileOrganization.overview } data-path="overview" onChange={ update } />
+        </FormControl>
+
+        <FormControl isRequired mb={4}>
+          <FormLabel>
+            Website
+          </FormLabel>
+
+          <Input bg="white" rounded="sm" placeholder="https://example.com" defaultValue={ profileOrganization.website } data-path="website" onChange={ update } />
+        </FormControl>
+
+        <FormControl isRequired mb={4}>
+          <FormLabel>
+            Address
+          </FormLabel>
+
+          <Input rounded="sm" bg="white" defaultValue={ profileOrganization.address } data-path="website" onChange={ update } />
+        </FormControl>
+
+        
       </PageContainer>
     </Layout>
   );

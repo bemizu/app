@@ -99,7 +99,7 @@ function Navigator({ path }) {
                   color={color}
                   cursor="pointer"
                 >
-                  <Box fontSize={[24, 24, "30px"]} mb="1px">
+                  <Box fontSize={[24, 24, 29]} mb="1px">
                     {el.icon}
                   </Box>
 
