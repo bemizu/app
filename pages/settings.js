@@ -59,9 +59,9 @@ import {
     }, []);
   
     return (
-      <Layout title="Messages">
+      <Layout title="Settings">
         <Box  >
-          <Container maxWidth="1200px">
+          <Container maxWidth="1200px" margin="0" pl={[0, 0, 4]} pr={[0, 0, 4]}>
               <Grid gridTemplateColumns={["100%", "100%", "100px calc(100% - 120px)"]} gap={[0, 0, "20px"]} >
                   <Box my={[0, 0, 10]} >
                       <Navigator path={ router.pathname } />

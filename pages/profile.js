@@ -59,7 +59,7 @@ import {
     }, []);
   
     return (
-      <Layout title="Messages">
+      <Layout title="Profile">
         <Box  >
           <Container maxWidth="1200px">
               <Grid gridTemplateColumns={["100%", "100%", "100px calc(100% - 120px)"]} gap={[0, 0, "20px"]} >
