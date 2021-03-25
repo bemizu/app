@@ -10,6 +10,8 @@ import {
   } from "@chakra-ui/react";
   import Loading from "../components/Home/Loading";
   import Layout from "../components/layout";
+  import PageContainer from "../components/pageContainer";
+  
   import styled from "@emotion/styled";
   import theme from "../public/theme";
   import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
@@ -60,22 +62,9 @@ import {
   
     return (
       <Layout title="Jobs">
-        <Box  >
-          <Container maxWidth="1200px">
-              <Grid gridTemplateColumns={["100%", "100%", "100px calc(100% - 120px)"]} gap={[0, 0, "20px"]} >
-                  <Box my={[0, 0, 10]} >
-                      <Navigator path={ router.pathname } />
-                  </Box>
-  
-                  <Box bg={ theme.white } py={[0, 0, 10]} px={[0, 5, 10]} minHeight={[400, 500, "500px"]} >
-                      
-                  </Box>
-  
-  
-              </Grid>
-            
-          </Container>
-          </Box>
+         <PageContainer path={ router.pathname }>
+
+</PageContainer>
       </Layout>
     );
   }

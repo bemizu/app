@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import EditProfile from "../Profile/edit";
 import VerticalAlign from "../verticalAlign";
+import PageContainer from "../pageContainer";
 import Loading from "./Loading";
 import Link from "next/link";
 import Layout from "../layout";
@@ -65,22 +66,7 @@ function Page() {
 
   return (
     <Layout title={"Home"}>
-      <Box  >
-        <Container maxWidth="1200px">
-            <Grid gridTemplateColumns={["100%", "100%", "100px calc(100% - 120px)"]} gap={[0, 0, "20px"]} >
-                <Box my={[0, 0, 10]} >
-                    <Navigator />
-                </Box>
-
-                <Box bg={ theme.white } py={[0, 0, 10]} px={[0, 5, 10]} minHeight={[400, 500, "500px"]} >
-                    
-                </Box>
-
-
-            </Grid>
-          
-        </Container>
-        </Box>
+      <PageContainer path={router.pathname}></PageContainer>
     </Layout>
   );
 }

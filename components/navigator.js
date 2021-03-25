@@ -7,9 +7,11 @@ import {
   BiBriefcase,
 } from "react-icons/bi";
 
+import { BsGear } from "react-icons/bs";
+
+
 import Link from "next/link";
 
-import { BsGear } from "react-icons/bs";
 
 import theme from "../public/theme";
 
@@ -74,7 +76,7 @@ function Navigator({ path }) {
       >
         {items.map((el) => {
           let color = el.active
-            ? [theme.orange, theme.orange, theme.orange ]
+            ? [theme.orange, theme.orange, theme.orange]
             : [theme.darkBlue, theme.darkBlue, theme.white];
           let hoverColor = el.active
             ? theme.orange + "cc"
