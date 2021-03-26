@@ -11,6 +11,7 @@ const Session = create(set => ({
   setOrganization: ( organization ) => set(state => ({ organization })),
   setSupabase: ( supabase ) => set(state => ({ supabase })),
   setLoadingFalse: (  ) => set(state => ({ loading: false })), 
+  
 }))
 
 

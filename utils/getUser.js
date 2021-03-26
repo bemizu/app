@@ -20,12 +20,21 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
     const orgReq = await session.supabase
       .from("organizations")
       .select(
-        `
+        ` 
+              id,      
               name,
               website,
               overview,
               culture,
-              logo
+              logo,
+              locations (
+                title,
+                line1,
+                line2,
+                city,
+                state,
+                zip
+              )
             `
       )
       .eq("uuid", data[0].id);

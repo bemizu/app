@@ -11,9 +11,11 @@ import {
   FormLabel,
   Input,
   Textarea, 
+  Checkbox,
 } from "@chakra-ui/react";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
+import VerticalAlign from "../components/verticalAlign";
 import styled from "@emotion/styled";
 import theme from "../public/theme";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
@@ -23,6 +25,12 @@ import { useEffect, useState } from "react";
 import Navigator from "../components/navigator";
 import PageContainer from "../components/pageContainer";
 import {GetUser} from "../utils/getUser";
+import {
+  BiEdit,
+  BiTrash,
+} from "react-icons/bi";
+
+import AddLocation from "../components/add-location";
 
 const Styles = styled.div``;
 
@@ -31,8 +39,9 @@ function Page() {
   const session = Session((state) => state);
   const { user } = useAuth0();
   const [profileUser, setProfileUser] = useState({});
-  const [profileOrganization, setProfileOrganization] = useState({});
+  const [profileOrganization, setProfileOrganization] = useState({ locations: []});
 
+  console.log( profileOrganization );
   useEffect( () => {
     if ( !session.user ) {
       GetUser( user, session, setProfileUser, setProfileOrganization )
@@ -132,21 +141,67 @@ function Page() {
 
         </form>
 
-        <Divider my={10} />
+        <Divider my={[6, 6, 10]} />
       
         <Box rounded="lg" bg="white" p={[4, 6]}>
 
-        <Heading size="lg" mb={4}>
+        <Heading size="lg" mb={2}>
           Locations
 
         </Heading>
 
-        <Button size="sm" rounded="sm" colorScheme="green">
-          Add
+
+        <Divider my={2} />
+        {
+          profileOrganization.locations.map( (el, idx) => {
+
+            return (
+              <Box>
+              <Box my={1}>
+                <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
+                  <Box>
+                    <VerticalAlign>
+                <Heading size="sm" fontWeight="500">
+                { el.title }
+                </Heading>
+                </VerticalAlign>
+                </Box>
+
+                <Box>
+                  <SimpleGrid columns={2} fontSize="20px" textAlign="center" gap="2px">
+                    <Box >
+                      <Box display="inline-block" color="blue.500" cursor="pointer" _hover={{opacity: 0.7}} transition="0.2s ease">
+                      <BiEdit style={{display: "inline-block"}} />
+                      </Box>
+
+                    </Box>
+
+                    <Box >
+                      <Box display="inline-block" color="red.500" cursor="pointer" _hover={{opacity: 0.7}} transition="0.2s ease">
+                      <BiTrash style={{display: "inline-block"}} />
+                      </Box>
+                    </Box>
+                  </SimpleGrid>
+                </Box>
+                </Grid>
+                </Box>
+
+                <Divider my={2} />
 
 
-        </Button>
+                </Box>
+            )
+          })
+        }
 
+
+        <Box mb={4} mt={4}>
+        <Checkbox>
+          Remote available?
+        </Checkbox>
+        </Box>
+
+        <AddLocation setProfileOrganization={ setProfileOrganization } session={ session } />
 
 
         </Box>
