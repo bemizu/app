@@ -42,17 +42,37 @@ function Page() {
     }
   } , [  ]);
 
-  function update ( e ) {
-    switch ( e.currentTarget.dataset.path ) {
-      case "name":
-        let org = profileOrganization;
-        org.name = e.currentTarget.value;
-        setProfileOrganization( org )
-        break;
-    
-      default:
-        break;
+  async function saveOrg ( e ) {
+    e.preventDefault();
+
+    const { data, error } = await session.supabase
+    .from('organizations')
+    .update( profileOrganization )
+    .match({ uuid: session.user.id })
+
+    if ( !error ) {
+      session.setOrganization( data[0] );
+    } else {
+      console.log( error );
     }
+
+  }
+
+  function update ( e ) {
+    let org = profileOrganization;
+    org[ e.currentTarget.dataset.path ] = e.currentTarget.value;
+    setProfileOrganization( org );
+
+    // switch ( e.currentTarget.dataset.path ) {
+    //   case "name":
+       
+    //     break;
+
+
+    
+    //   default:
+    //     break;
+    // }
   }  
 
   return (
@@ -62,6 +82,8 @@ function Page() {
           Profile
         </Heading>
 
+        <form onSubmit={ saveOrg }>
+
         <FormControl isRequired mb={4}>
           <FormLabel>
             Business Name
@@ -70,7 +92,7 @@ function Page() {
           <Input bg="white" rounded="sm" defaultValue={ profileOrganization.name } data-path="name" onChange={ update } />
         </FormControl>
 
-        <FormControl isRequired mb={4}>
+        <FormControl  mb={4}>
           <FormLabel>
             Logo
           </FormLabel>
@@ -78,7 +100,7 @@ function Page() {
           <Input bg="white" rounded="sm" defaultValue={ profileOrganization.logo } data-path="logo" onChange={ update } />
         </FormControl>
 
-        <FormControl isRequired mb={4}>
+        <FormControl  mb={4}>
           <FormLabel>
             Overview
           </FormLabel>
@@ -86,21 +108,48 @@ function Page() {
           <Textarea bg="white" rounded="sm" placeholder="Add your mission statement" defaultValue={ profileOrganization.overview } data-path="overview" onChange={ update } />
         </FormControl>
 
-        <FormControl isRequired mb={4}>
+        <FormControl  mb={4}>
+          <FormLabel>
+            Culture
+          </FormLabel>
+
+          <Textarea bg="white" rounded="sm" placeholder="What makes you great" defaultValue={ profileOrganization.culture } data-path="culture" onChange={ update } />
+        </FormControl>
+
+        <FormControl  mb={4}>
           <FormLabel>
             Website
           </FormLabel>
 
-          <Input bg="white" rounded="sm" placeholder="https://example.com" defaultValue={ profileOrganization.website } data-path="website" onChange={ update } />
+          <Input type="url" bg="white" rounded="sm" placeholder="https://example.com" defaultValue={ profileOrganization.website } data-path="website" onChange={ update } />
         </FormControl>
 
-        <FormControl isRequired mb={4}>
-          <FormLabel>
-            Address
-          </FormLabel>
+       
 
-          <Input rounded="sm" bg="white" defaultValue={ profileOrganization.address } data-path="website" onChange={ update } />
-        </FormControl>
+        <Button rounded="sm" colorScheme="orange" type="submit">
+          Save
+        </Button>
+
+        </form>
+
+        <Divider my={10} />
+      
+        <Box rounded="lg" bg="white" p={[4, 6]}>
+
+        <Heading size="lg" mb={4}>
+          Locations
+
+        </Heading>
+
+        <Button size="sm" rounded="sm" colorScheme="green">
+          Add
+
+
+        </Button>
+
+
+
+        </Box>
 
         
       </PageContainer>

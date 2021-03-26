@@ -21,7 +21,11 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
       .from("organizations")
       .select(
         `
-              name
+              name,
+              website,
+              overview,
+              culture,
+              logo
             `
       )
       .eq("uuid", data[0].id);
