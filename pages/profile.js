@@ -26,11 +26,12 @@ import Navigator from "../components/navigator";
 import PageContainer from "../components/pageContainer";
 import {GetUser} from "../utils/getUser";
 import {
-  BiEdit,
+  
   BiTrash,
 } from "react-icons/bi";
 
 import AddLocation from "../components/add-location";
+import EditLocation from "../components/edit-location";
 
 const Styles = styled.div``;
 
@@ -156,7 +157,7 @@ function Page() {
           profileOrganization.locations.map( (el, idx) => {
 
             return (
-              <Box>
+              <Box key={"loc" + el.id}>
               <Box my={1}>
                 <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
                   <Box>
@@ -170,9 +171,7 @@ function Page() {
                 <Box>
                   <SimpleGrid columns={2} fontSize="20px" textAlign="center" gap="2px">
                     <Box >
-                      <Box display="inline-block" color="blue.500" cursor="pointer" _hover={{opacity: 0.7}} transition="0.2s ease">
-                      <BiEdit style={{display: "inline-block"}} />
-                      </Box>
+                      <EditLocation el={ el } setProfileOrganization={ setProfileOrganization } />
 
                     </Box>
 
@@ -201,7 +200,7 @@ function Page() {
         </Checkbox>
         </Box>
 
-        <AddLocation setProfileOrganization={ setProfileOrganization } session={ session } />
+        <AddLocation setProfileOrganization={ setProfileOrganization } />
 
 
         </Box>
