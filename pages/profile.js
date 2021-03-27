@@ -68,6 +68,49 @@ function Page() {
 
   }
 
+  async function removeLocation ( e ) {
+    const { data, error } = await session.supabase
+    .from('locations')
+    .delete()
+    .match({ id: e.currentTarget.dataset.id })
+
+    if (!error) {
+
+      const org = await session.supabase
+        .from("organizations")
+        .select(
+          ` 
+              id,      
+              name,
+              website,
+              overview,
+              culture,
+              logo,
+              locations (
+                id,
+                title,
+                line1,
+                line2,
+                city,
+                state,
+                zip
+              )
+            `
+        )
+        .eq("id", session.organization.id);
+
+        session.setOrganization(org.data[0]);
+        setProfileOrganization(org.data[0]);
+
+    } else {
+      console.log( error )
+    }
+
+    
+
+
+  }
+
   function update ( e ) {
     let org = profileOrganization;
     org[ e.currentTarget.dataset.path ] = e.currentTarget.value;
@@ -176,8 +219,8 @@ function Page() {
                     </Box>
 
                     <Box >
-                      <Box display="inline-block" color="red.500" cursor="pointer" _hover={{opacity: 0.7}} transition="0.2s ease">
-                      <BiTrash style={{display: "inline-block"}} />
+                      <Box data-id={ el.id } display="inline-block" color="red.500" cursor="pointer" _hover={{opacity: 0.7}} transition="0.2s ease" onClick={ removeLocation } >
+                      <BiTrash style={{display: "inline-block"}}  />
                       </Box>
                     </Box>
                   </SimpleGrid>
