@@ -34,14 +34,15 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
                 line2,
                 city,
                 state,
-                zip
+                zip,
+                oid
               )
             `
       )
       .eq("uuid", data[0].id);
 
       if (!orgReq.error && orgReq.data.length) {
-        session.setOrganization(orgReq.data[0]);
+        session.setOrganization( orgReq.data[0] );
         setProfileOrganization( orgReq.data[0] );
       } else {
         console.log( orgReq.error );

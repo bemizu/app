@@ -6,6 +6,23 @@ const Session = create(set => ({
   profile: undefined,
   supabase: undefined,
   organization: undefined,
+  orgString: `
+              id,      
+              name,
+              website,
+              overview,
+              culture,
+              logo,
+              locations (
+                id,
+                title,
+                line1,
+                line2,
+                city,
+                state,
+                zip
+              )
+  `,
   setUser: ( user ) => set(state => ({ user })),
   setProfile: ( profile ) => set(state => ({ profile })),
   setOrganization: ( organization ) => set(state => ({ organization })),
