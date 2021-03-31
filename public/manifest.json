@@ -1,0 +1,9 @@
+{
+    "name": "Bemizu",
+    "short_name": "bemizu",
+    "theme_color": "#146eb5",
+    "background_color": "#2d3958",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/"
+  }
