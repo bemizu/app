@@ -36,7 +36,18 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
                 state,
                 zip,
                 oid
+              ),
+              jobs (
+                id, 
+                title, 
+                oid,
+                lid,
+                description, 
+                salaryMin, 
+                salaryMax, 
+                salaryType
               )
+              
             `
       )
       .eq("uuid", data[0].id);

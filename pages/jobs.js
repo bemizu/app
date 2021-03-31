@@ -8,6 +8,7 @@ import {
   Divider,
   Container,
 } from "@chakra-ui/react";
+import Link from "next/link"
 import VerticalAlign from "../components/verticalAlign";
 import { BiTrash } from "react-icons/bi";
 import Loading from "../components/Home/Loading";
@@ -31,7 +32,10 @@ function Page() {
   const session = Session((state) => state);
   const { user } = useAuth0();
   const [profileUser, setProfileUser] = useState({});
-  const [profileOrganization, setProfileOrganization] = useState({ locations: []});
+
+
+  const [profileOrganization, setProfileOrganization] = useState( session.organization || { locations: [], jobs: []});
+
 
   useEffect(() => {
     if (!session.user) {
@@ -44,7 +48,7 @@ function Page() {
 
   async function removeJob(e) {
     const { data, error } = await session.supabase
-      .from("locations")
+      .from("jobs")
       .delete()
       .match({ id: e.currentTarget.dataset.id });
 
@@ -61,12 +65,22 @@ function Page() {
               logo,
               locations (
                 id,
+                oid,
                 title,
                 line1,
                 line2,
                 city,
                 state,
                 zip
+              ), 
+              jobs (
+                id, 
+                title, 
+                oid,
+                description, 
+                salaryMin, 
+                salaryMax, 
+                salaryType
               )
             `
         )
@@ -85,7 +99,7 @@ function Page() {
         <Heading>Jobs</Heading>
 
         <Divider my={2} />
-        {profileOrganization.locations.map((el, idx) => {
+        {profileOrganization.jobs.map((el, idx) => {
           return (
             <Box key={"loc" + el.id}>
               <Box my={1}>
@@ -135,7 +149,13 @@ function Page() {
           );
         })}
 
-        <AddJob />
+        <Box>
+          <Link href="/add-job">
+        <Button rounded="sm" colorScheme="green">
+          Add Job
+        </Button>
+        </Link>
+        </Box>
       </PageContainer>
     </Layout>
   );

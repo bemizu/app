@@ -26,9 +26,10 @@ import { useState } from "react";
 
 function AddJob(props) {
   const session = Session((state) => state);
-  const [job, setJob] = useState({});
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [job, setJob] = useState({});
+  
   function update(e) {
     let newJob = job;
     newJob[e.currentTarget.dataset.path] = e.currentTarget.value;
@@ -106,6 +107,7 @@ function AddJob(props) {
       console.log(error);
     }
   }
+  
 
   return (
     <Box>
