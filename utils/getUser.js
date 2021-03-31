@@ -1,5 +1,5 @@
 
-export async function GetUser( user, session, setProfileUser, setProfileOrganization ) {
+export async function GetUser( user, session, setProfileUser, setProfileOrganization,  ) {
 
   const { data, error } = await session.supabase
     .from("business_users")
@@ -7,7 +7,9 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
       `
               id,
               email, 
-              onboarded
+              onboarded, 
+              comet,
+              fullName
             `
     )
     .eq("email", user.email);
@@ -55,6 +57,8 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
       if (!orgReq.error && orgReq.data.length) {
         session.setOrganization( orgReq.data[0] );
         setProfileOrganization( orgReq.data[0] );
+
+        
       } else {
         console.log( orgReq.error );
       }

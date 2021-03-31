@@ -18,7 +18,9 @@ import Session from "../contexts/session";
 import { useRouter, withRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Navigator from "../components/navigator";
-import {GetUser} from "../utils/getUser";
+import { GetUser } from "../utils/getUser";
+
+// import { CometChatUI } from "../utils/CometChatWorkspace/src";
 
 const Styles = styled.div``;
 
@@ -29,23 +31,71 @@ function Page() {
   const [profileUser, setProfileUser] = useState({});
   const [profileOrganization, setProfileOrganization] = useState({});
 
-  useEffect( () => {
-    if ( !session.user ) {
-      GetUser( user, session, setProfileUser, setProfileOrganization )
+  useEffect(() => {
+    if (!session.user) {
+      GetUser(user, session, setProfileUser, setProfileOrganization);
     } else {
-      setProfileUser( session.user )
-      setProfileOrganization( session.organization )
+      setProfileUser(session.user);
+      setProfileOrganization(session.organization);
+
+      // loginCometUser();
     }
-  } , []);
+  }, []);
+
+  function loginCometUser() {
+    const { CometChat } = require("@cometchat-pro/chat");
+
+    const appID = "3153787f279591c";
+    const region = "us";
+    const appSetting = new CometChat.AppSettingsBuilder()
+      .subscribePresenceForAllUsers()
+      .setRegion(region)
+      .build();
+    CometChat.init(appID, appSetting).then(
+      () => {
+        console.log("Initialization completed successfully");
+        // You can now call login function.
+      },
+      (error) => {
+        console.log("Initialization failed with error:", error);
+        // Check the reason for error and take appropriate action.
+      }
+    );
+
+    const authKey = "6b6bb3fcbecab56d80f96189ff2a77c8d20b6dcc";
+    const uid = session.user.id;
+
+    if (session.user.comet) {
+      CometChat.login(uid, authKey).then(
+        (user) => {
+          console.log("Login Successful:", { user });
+        },
+        (error) => {
+          console.log("Login failed with exception:", { error });
+        }
+      );
+    } else {
+      var user = new CometChat.User(session.user.id);
+      user.setName(session.user.fullName);
+
+      CometChat.createUser(user, authKey).then(
+        (user) => {
+          console.log("user created", user);
+        },
+        (error) => {
+          console.log("error", error);
+        }
+      );
+    }
+  }
 
   return (
     <Layout title="Messages">
       <PageContainer path={router.pathname}>
-      <Heading>
-          Messages
-        </Heading>
+        <Heading>Messages</Heading>
 
-        { profileUser.email }
+        {/* <CometChatUI /> */}
+
       </PageContainer>
     </Layout>
   );
