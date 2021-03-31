@@ -90,12 +90,12 @@ function AddJob (props) {
   async function formSubmit(e) {
     e.preventDefault();
 
-    let newJob = job;
-    newJob.oid = session.organization.id;
+    let editJob = job;
 
     const { data, error } = await session.supabase
       .from("jobs")
-      .insert([newJob]);
+      .update([editJob])
+      .match({ id: parseInt(job.id) });
 
     if (!error) {
       const org = await session.supabase
@@ -167,7 +167,7 @@ function AddJob (props) {
             <ModalHeader>Edit Job</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-            <form onSubmit={formSubmit}>
+            
               <FormControl isRequired mb={3}>
                 <FormLabel>Title</FormLabel>
 
@@ -259,12 +259,6 @@ function AddJob (props) {
                 
               </FormControl>
             
-            <ButtonGroup>
-              <Button type="submit" colorScheme="blue" rounded="sm">
-                Save
-              </Button>
-              </ButtonGroup>
-          </form>
 
 
 
