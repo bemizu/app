@@ -43,20 +43,32 @@ function AddLocation(props) {
         .from("organizations")
         .select(
           ` 
-              id,      
-              name,
-              website,
-              overview,
-              culture,
-              logo,
-              locations (
-                title,
-                line1,
-                line2,
-                city,
-                state,
-                zip
-              )
+          id,      
+          name,
+          website,
+          overview,
+          culture,
+          logo,
+          locations (
+            id,
+            title,
+            line1,
+            line2,
+            city,
+            state,
+            zip,
+            oid
+          ),
+          jobs (
+            id, 
+            title, 
+            oid,
+            lid,
+            description, 
+            salaryMin, 
+            salaryMax, 
+            salaryType
+          )
             `
         )
         .eq("id", session.organization.id);
