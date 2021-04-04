@@ -46,11 +46,76 @@ function Page() {
   return (
     <Layout title={"Home"}>
       <PageContainer path={router.pathname}>
-        <Heading>
-          Home
-        </Heading>
+        <Box rounded="lg" p={[4, 6]} bg="white" shadow="md" mb={5}>
+          <Heading>
+          Dashboard
+          </Heading>
 
-        { profileUser.email }
+          <Divider />
+
+          <SimpleGrid columns={[1, 1, 2]} pt={5} spacing={ 5}>
+            <Box>
+            <Box height={["200px", "300px", "200px"]} position="relative" mb={5} >
+              <Image src="/home-dashboard.svg"  layout="fill" objectFit="contain" />
+            </Box>
+
+            <Box px={5}>
+            Once you post a job, you can manage and see averything from here.
+            </Box>
+
+            </Box>
+
+            <Box>
+              <Box>
+              Add To Do
+              </Box>
+
+              <Button rounded="sm" colorScheme="orange" width="full">
+                Add To Do
+              </Button>
+            </Box>
+
+          </SimpleGrid>
+        </Box>
+
+        <SimpleGrid columns={[1, 1, 2]} spacing={ 5 }>
+        <Box bg="white" rounded="lg" shadow="md" p={[4, 6]}>
+          <Heading size="lg" mb={4}>
+            Post a job
+          </Heading>
+
+          <Box height={["200px", "300px", "200px"]} position="relative" mb={5} px={ 5 } >
+              <Image src="/post-job-dashboard.svg"  layout="fill" objectFit="contain" />
+            </Box>
+
+          
+          <Link href="/add-job">
+          <Button rounded="sm" colorScheme="orange" width="full">
+                Post Job
+              </Button>
+              </Link>
+          
+        </Box>
+
+        <Box bg="white" rounded="lg" shadow="md" p={[4, 6]}>
+
+        <Heading size="lg" mb={4}>
+            Find qualified candidates
+          </Heading>
+
+          <Box height={["200px", "300px", "200px"]} position="relative" mb={5} px={ 5 } >
+              <Image src="/qualified-candidates.svg"  layout="fill" objectFit="contain" />
+            </Box>
+
+          
+          <Link href="/add-job">
+          <Button rounded="sm" colorScheme="orange" width="full">
+                Find Candidates
+              </Button>
+              </Link>
+          
+        </Box>
+        </SimpleGrid>
       </PageContainer>
     </Layout>
   );
