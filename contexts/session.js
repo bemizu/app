@@ -28,6 +28,51 @@ const Session = create(set => ({
   setOrganization: ( organization ) => set(state => ({ organization })),
   setSupabase: ( supabase ) => set(state => ({ supabase })),
   setLoadingFalse: (  ) => set(state => ({ loading: false })), 
+  refreshOrg: async ( session ) => {
+    const { data, error } = await session.supabase
+        .from("organizations")
+        .select(
+          ` 
+          id,      
+          name,
+          website,
+          overview,
+          culture,
+          logo,
+          locations (
+            id,
+            title,
+            line1,
+            line2,
+            city,
+            state,
+            zip,
+            oid
+          ),
+          jobs (
+            id, 
+            title, 
+            oid,
+            lid,
+            description, 
+            salaryMin, 
+            salaryMax, 
+            salaryType
+          ) 
+            `
+        )
+        .eq("id", session.organization.id);
+
+        if ( !error ) {
+          set(state => ({ organization: data[0] }))
+          return data[0]
+        } else {
+          console.log( error )
+          return null;
+        }
+
+    
+  }
   
 }))
 

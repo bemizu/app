@@ -1,5 +1,5 @@
 import { Widget } from "@uploadcare/react-widget";
-
+import toast from 'react-hot-toast';
 import {
   Box,
   ButtonGroup,
@@ -17,7 +17,7 @@ import {
   Select,
   Checkbox,
 } from "@chakra-ui/react";
-import { FiCamera } from "react-icons/fi";
+import { BiPlus } from "react-icons/bi";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
@@ -61,13 +61,18 @@ function Page() {
   async function saveOrg(e) {
     e.preventDefault();
 
+    let orgToUpdate = JSON.parse(JSON.stringify( profileOrganization ));;
+    delete orgToUpdate.jobs;
+    delete orgToUpdate.locations;
+    
     const { data, error } = await session.supabase
       .from("organizations")
-      .update(profileOrganization)
+      .update( orgToUpdate )
       .match({ uuid: session.user.id });
 
     if (!error) {
-      session.setOrganization(data[0]);
+      session.refreshOrg( session );
+      toast.success('Update successful.');
     } else {
       console.log(error);
     }
@@ -168,8 +173,8 @@ function Page() {
         <form onSubmit={saveOrg}>
           <Grid
             templateColumns={[
-              "100% 100%",
-              "100% 100%",
+              "repeat(100%)",
+              "repeat(100%)",
               "150px calc(100% - 170px)",
             ]}
             gap={"20px"}
@@ -193,7 +198,7 @@ function Page() {
               >
                 {profileImage()}
                 <VerticalAlign>
-                  <FiCamera
+                  <BiPlus
                     style={{
                       display: "inline-block",
                       position: "relative",
@@ -282,9 +287,16 @@ function Page() {
             />
           </FormControl>
 
-          <FormControl mb={ 4 }>
+          <FormControl mb={4}>
             <FormLabel>Industry</FormLabel>
-            <Select placeholder="Select option" rounded="sm" data-path="industry" onChange={ update }>
+            <Select
+              placeholder="Select option"
+              rounded="sm"
+              data-path="industry"
+              bg="white"
+              defaultValue={ profileOrganization.industry }
+              onChange={update}
+            >
               <option value="internet">Internet Services</option>
               <option value="dining">Restaurant/Dining</option>
               <option value="hospitality">Hospitality</option>
@@ -361,6 +373,22 @@ function Page() {
           </Box>
 
           <AddLocation setProfileOrganization={setProfileOrganization} />
+        </Box>
+
+        <Divider my={[6, 6, 10]} />
+
+        <Box rounded="lg" bg="white" p={[4, 6]}>
+          <Heading size="lg" mb={2}>
+            Team Members
+          </Heading>
+        </Box>
+
+        <Divider my={[6, 6, 10]} />
+
+        <Box rounded="lg" bg="white" p={[4, 6]}>
+          <Heading size="lg" mb={2}>
+            Gallery
+          </Heading>
         </Box>
       </PageContainer>
     </Layout>
