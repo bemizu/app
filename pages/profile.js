@@ -16,6 +16,10 @@ import {
   Textarea,
   Select,
   Checkbox,
+  useRadioGroup, 
+  useRadio,
+  HStack,
+  
 } from "@chakra-ui/react";
 import { BiPlus } from "react-icons/bi";
 import Loading from "../components/Home/Loading";
@@ -150,6 +154,12 @@ function Page() {
 
   function deleteImage() {}
 
+  function setBusinessSize ( val ) {
+    let org = profileOrganization;
+    org.businessSize = val;
+    setProfileOrganization(org); 
+  }
+
   function update(e) {
     let org = profileOrganization;
     org[e.currentTarget.dataset.path] = e.currentTarget.value;
@@ -163,6 +173,10 @@ function Page() {
     //   default:
     //     break;
     // }
+  }
+
+  if ( !profileOrganization.id ) {
+    return <Loading />
   }
 
   return (
@@ -305,6 +319,12 @@ function Page() {
             </Select>
           </FormControl>
 
+          <FormControl>
+            <FormLabel>Business Size</FormLabel>
+            <BusinessSize org={ profileOrganization } setBusinessSize={ setBusinessSize } />
+          </FormControl>
+
+
           <Button rounded="sm" colorScheme="orange" type="submit">
             Save
           </Button>
@@ -398,3 +418,70 @@ function Page() {
 export default withAuthenticationRequired(withRouter(Page), {
   onRedirecting: () => <Loading />,
 });
+
+
+function RadioCard(props) {
+  const { getInputProps, getCheckboxProps } = useRadio(props);
+
+  const input = getInputProps();
+  const checkbox = getCheckboxProps();
+
+  return (
+    <Box as="label">
+      <input {...input}  />
+      <Box
+        {...checkbox}
+        mb={4}
+        cursor="pointer"
+        borderWidth="1px"
+        borderRadius="sm"
+        boxShadow="md"
+        bg="white"
+        _checked={{
+          bg: theme.blue,
+          color: "white",
+          borderColor: "blue.500",
+        }}
+        _focus={{
+          boxShadow: "outline",
+        }}
+        px={3}
+        py={2}
+      >
+        {props.children}
+      </Box>
+    </Box>
+  );
+}
+
+function BusinessSize ( props ) {
+  const options = [
+    "1-10",
+    "11-20",
+    "21-50",
+    "51-100",
+    "100+",
+  ];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: props.org.businessSize,
+    onChange: props.setBusinessSize,
+  });
+
+  console.log( props.org.businessSize );
+  const group = getRootProps();
+
+  return (
+    <HStack {...group} spacing={2} wrap={"wrap"}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value });
+        return (
+          <RadioCard key={value} {...radio}>
+            {value}
+          </RadioCard>
+        );
+      })}
+    </HStack>
+  );
+}

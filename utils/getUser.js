@@ -29,6 +29,8 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
               overview,
               culture,
               logo,
+              businessSize, 
+              industry,
               locations (
                 id,
                 title,
