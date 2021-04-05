@@ -182,7 +182,7 @@ function Page() {
   return (
     <Layout title="Profile">
       <PageContainer path={router.pathname}>
-        <Heading mb={4}>Profile</Heading>
+        <Heading mb={4}>Business Profile</Heading>
 
         <form onSubmit={saveOrg}>
           <Grid
@@ -325,7 +325,7 @@ function Page() {
           </FormControl>
 
 
-          <Button rounded="sm" colorScheme="orange" type="submit">
+          <Button rounded="sm" colorScheme="orange" type="submit" size="lg">
             Save
           </Button>
         </form>
