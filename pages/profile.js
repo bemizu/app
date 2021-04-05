@@ -3,6 +3,7 @@ import { Widget } from "@uploadcare/react-widget";
 import {
   Box,
   ButtonGroup,
+  Link as ChakraLink,
   Heading,
   SimpleGrid,
   Button,
@@ -13,9 +14,10 @@ import {
   FormLabel,
   Input,
   Textarea,
+  Select,
   Checkbox,
 } from "@chakra-ui/react";
-import {FiCamera} from "react-icons/fi"
+import { FiCamera } from "react-icons/fi";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
@@ -24,12 +26,12 @@ import theme from "../public/theme";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Session from "../contexts/session";
 import { useRouter, withRouter } from "next/router";
-import { useEffect, useState, useRef, } from "react";
+import { useEffect, useState, useRef } from "react";
 import Navigator from "../components/navigator";
 import PageContainer from "../components/pageContainer";
 import { GetUser } from "../utils/getUser";
 import { BiTrash } from "react-icons/bi";
-import Image from "next/image"
+import Image from "next/image";
 import AddLocation from "../components/add-location";
 import EditLocation from "../components/edit-location";
 
@@ -42,7 +44,8 @@ function Page() {
   const { user } = useAuth0();
   const [profileUser, setProfileUser] = useState({});
   const [profileOrganization, setProfileOrganization] = useState({
-    locations: [], jobs: []
+    locations: [],
+    jobs: [],
   });
 
   console.log(profileOrganization);
@@ -107,18 +110,40 @@ function Page() {
     }
   }
 
-  function setImage ({ cdnUrl }) {
+  function setImage({ cdnUrl }) {
     let org = profileOrganization;
     org.logo = cdnUrl;
     setProfileOrganization(org);
-    
+    // save org
   }
 
-  function profileImage () {
-    if ( profileOrganization.logo ) {
-      return <Image src={ profileOrganization.logo } width="120" height="120" />
+  function deleteImage() {
+    // delete image uploadcare
+    let org = profileOrganization;
+    org.logo = "";
+    setProfileOrganization(org);
+    // save org
+  }
+
+  function profileImage() {
+    if (profileOrganization.logo) {
+      return <Image src={profileOrganization.logo} width="140" height="140" />;
     }
   }
+
+  function removeImage() {
+    if (profileOrganization.logo) {
+      return (
+        <Box>
+          <ChakraLink fontSize="sm" color={theme.blue} onClick={deleteImage}>
+            Remove
+          </ChakraLink>
+        </Box>
+      );
+    }
+  }
+
+  function deleteImage() {}
 
   function update(e) {
     let org = profileOrganization;
@@ -141,50 +166,81 @@ function Page() {
         <Heading mb={4}>Profile</Heading>
 
         <form onSubmit={saveOrg}>
-          <Grid templateColumns={["100% 100%", "100% 100%", "150px calc(100% - 170px)"]} gap={"20px"} mb={3}>
+          <Grid
+            templateColumns={[
+              "100% 100%",
+              "100% 100%",
+              "150px calc(100% - 170px)",
+            ]}
+            gap={"20px"}
+            mb={3}
+          >
             <Box>
-            
-              <Box position="relative" overflow="hidden" rounded="full" bg="gray.400" color="gray.600" fontSize="22px" height="120px" width="120px" _hover={{bg: "gray.300", color: "gray.400"}} transition="0.2s ease" cursor="pointer" textAlign="center" onClick={() => widgetApi.current.openDialog()}>
-                { profileImage() }
+              <Box
+                position="relative"
+                overflow="hidden"
+                rounded="full"
+                bg="gray.400"
+                color="gray.600"
+                fontSize="22px"
+                height="140px"
+                width="140px"
+                _hover={{ bg: "gray.300", color: "gray.400" }}
+                transition="0.2s ease"
+                cursor="pointer"
+                textAlign="center"
+                onClick={() => widgetApi.current.openDialog()}
+              >
+                {profileImage()}
                 <VerticalAlign>
-                  <FiCamera style={{ display: "inline-block", position: "relative", bottom: 3, left: 2}} />
+                  <FiCamera
+                    style={{
+                      display: "inline-block",
+                      position: "relative",
+                      bottom: 3,
+                      left: 2,
+                    }}
+                  />
                 </VerticalAlign>
               </Box>
 
+              <Box>{removeImage()}</Box>
+
               <Box position="relative">
-              <Box opacity="0" position="absolute" zIndex={-1}>
-              <Widget ref={widgetApi} publicKey="8514f02a633e4dc5af92" onChange={ setImage } />
-              </Box>
+                <Box opacity="0" position="absolute" zIndex={-1}>
+                  <Widget
+                    imagesOnly={true}
+                    ref={widgetApi}
+                    publicKey="8514f02a633e4dc5af92"
+                    onChange={setImage}
+                  />
+                </Box>
               </Box>
 
               <Input
-              bg="white"
-              rounded="sm"
-              type="hidden"
-              defaultValue={profileOrganization.logo}
-              onChange={update}
-            />
-
+                bg="white"
+                rounded="sm"
+                type="hidden"
+                defaultValue={profileOrganization.logo}
+                onChange={update}
+              />
             </Box>
             <Box>
-          <FormControl isRequired mb={4}>
-            <FormLabel>Name</FormLabel>
+              <FormControl isRequired mb={4}>
+                <FormLabel>Business Name</FormLabel>
 
-            <Input
-              bg="white"
-              rounded="sm"
-              defaultValue={profileOrganization.name}
-              data-path="name"
-              onChange={update}
-            />
-          </FormControl>
-          </Box>
+                <Input
+                  bg="white"
+                  rounded="sm"
+                  defaultValue={profileOrganization.name}
+                  data-path="name"
+                  onChange={update}
+                />
+              </FormControl>
+            </Box>
           </Grid>
 
-          <FormControl mb={4}>
-
-          
-          </FormControl>
+          <Divider mb={4} />
 
           <FormControl mb={4}>
             <FormLabel>Overview</FormLabel>
@@ -224,6 +280,17 @@ function Page() {
               data-path="website"
               onChange={update}
             />
+          </FormControl>
+
+          <FormControl mb={ 4 }>
+            <FormLabel>Industry</FormLabel>
+            <Select placeholder="Select option" rounded="sm" data-path="industry" onChange={ update }>
+              <option value="internet">Internet Services</option>
+              <option value="dining">Restaurant/Dining</option>
+              <option value="hospitality">Hospitality</option>
+              <option value="fitness">Fitness</option>
+              <option value="real-estate">Real Estate</option>
+            </Select>
           </FormControl>
 
           <Button rounded="sm" colorScheme="orange" type="submit">
