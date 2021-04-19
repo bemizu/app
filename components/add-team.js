@@ -1,5 +1,9 @@
-import Session from "../contexts/session";
 
+import { Widget } from "@uploadcare/react-widget";
+import Session from "../contexts/session";
+import VerticalAlign from "../components/verticalAlign"
+import { BiPlus } from "react-icons/bi";
+import Image from "next/image"
 import {
   Box,
   Button,
@@ -15,18 +19,41 @@ import {
   FormLabel,
   Input,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-function AddTeam(props) {
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => value + 1); // update the state to force render
+}
+
+
+
+function AddLocation(props) {
   const session = Session((state) => state);
-  const [location, setLocation] = useState({});
+  const [member, setMember] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const widgetApi = useRef();
+  const forceUpdate = useForceUpdate();
+
+
+
+
   function update(e) {
-    let loc = location;
-    loc[e.currentTarget.dataset.path] = e.currentTarget.value;
-    setLocation(loc);
+    let mem = member;
+    mem[e.currentTarget.dataset.path] = e.currentTarget.value;
+    setMember(mem);
   }
+
+
+
+  function profileImage() {
+    if (member.image) {
+      debugger
+      return <Image src={member.image} objectFit="cover" layout="fill" />;
+    }
+  }
+
 
   async function formSubmit(e) {
     e.preventDefault();
@@ -87,9 +114,19 @@ function AddTeam(props) {
     }
   }
 
+  function setImage({ cdnUrl }) {
+    let mem = member;
+    mem.image = cdnUrl;
+    setMember(mem);
+
+    forceUpdate()
+    // save org
+  }
+
+
   return (
     <Box>
-      <Button size="sm" rounded="sm" colorScheme="green" onClick={onOpen}>
+      <Button size="sm" rounded="sm" colorScheme="yellow" onClick={onOpen}>
         Add
       </Button>
 
@@ -97,80 +134,92 @@ function AddTeam(props) {
         <ModalOverlay />
         <ModalContent rounded="sm" mx={4}>
           <form onSubmit={formSubmit}>
-            <ModalHeader>Add Location</ModalHeader>
+            <ModalHeader>Add Team Member</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
+
+
+            <Box
+                position="relative"
+                overflow="hidden"
+                rounded="sm"
+                bg="gray.400"
+                color="gray.600"
+                fontSize="22px"
+                height="140px"
+                width="115px"
+                _hover={{ bg: "gray.300", color: "gray.400" }}
+                transition="0.2s ease"
+                cursor="pointer"
+                textAlign="center"
+                onClick={() => widgetApi.current.openDialog()}
+                mb={5}
+              >
+                {profileImage()}
+                <VerticalAlign>
+                  <BiPlus
+                    style={{
+                      display: "inline-block",
+                      position: "relative",
+                      bottom: 3,
+                      left: 2,
+                      zIndex: 0
+                    }}
+                  />
+                </VerticalAlign>
+              </Box>
+
+
+              <Box position="relative">
+                <Box opacity="0" position="absolute" zIndex={-1}>
+                  <Widget
+                    imagesOnly={true}
+                    ref={widgetApi}
+                    publicKey="8514f02a633e4dc5af92"
+                    onChange={setImage}
+                  />
+                </Box>
+              </Box>
+
+          
+
+
+              <FormControl isRequired mb={3}>
+                <FormLabel>Name</FormLabel>
+
+                <Input
+                  bg="white"
+                  rounded="sm"
+                  data-path="name"
+                  value={ member.name }
+                  onChange={update}
+                />
+              </FormControl>
+
               <FormControl isRequired mb={3}>
                 <FormLabel>Title</FormLabel>
 
                 <Input
                   bg="white"
                   rounded="sm"
-                  defaultValue={location.title}
                   data-path="title"
                   onChange={update}
                 />
               </FormControl>
 
-              <FormControl isRequired mb={3}>
-                <FormLabel>Address Line 1</FormLabel>
-
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.line1}
-                  data-path="line1"
-                  onChange={update}
-                />
-              </FormControl>
 
               <FormControl isRequired mb={3}>
-                <FormLabel>Address Line 2</FormLabel>
+                <FormLabel>Email</FormLabel>
 
                 <Input
                   bg="white"
                   rounded="sm"
-                  defaultValue={location.line2}
-                  data-path="line2"
+                  type="email"
+                  data-path="email"
                   onChange={update}
                 />
               </FormControl>
 
-              <FormControl isRequired mb={3}>
-                <FormLabel>City</FormLabel>
-
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.city}
-                  data-path="city"
-                  onChange={update}
-                />
-              </FormControl>
-
-              <FormControl isRequired mb={3}>
-                <FormLabel>State</FormLabel>
-
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.state}
-                  data-path="state"
-                  onChange={update}
-                />
-              </FormControl>
-
-              <FormControl mb={3} isRequired>
-                <FormLabel>Zip</FormLabel>
-
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.zip}
-                  data-path="zip"
-                  onChange={update}
-                />
-              </FormControl>
             </ModalBody>
 
             <ModalFooter>
@@ -188,4 +237,4 @@ function AddTeam(props) {
   );
 }
 
-export default AddTeam;
+export default AddLocation;

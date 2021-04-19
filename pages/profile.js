@@ -37,6 +37,7 @@ import { GetUser } from "../utils/getUser";
 import { BiTrash } from "react-icons/bi";
 import Image from "next/image";
 import AddLocation from "../components/add-location";
+import AddTeamMember from "../components/add-team";
 import EditLocation from "../components/edit-location";
 
 const Styles = styled.div``;
@@ -401,6 +402,8 @@ function Page() {
           <Heading size="lg" mb={2}>
             Team Members
           </Heading>
+
+          <AddTeamMember  setProfileOrganization={setProfileOrganization} /> 
         </Box>
 
         <Divider my={[6, 6, 10]} />
