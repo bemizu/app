@@ -78,7 +78,7 @@ function Page() {
           </SimpleGrid>
         </Box>
 
-        <SimpleGrid columns={[1, 1, 2]} spacing={ 5 }>
+        <SimpleGrid columns={[1, 1, 2]} spacing={ 5 } mb={10}>
         <Box bg="white" rounded="lg" shadow="md" p={[4, 6]}>
           <Heading size="lg" mb={4}>
             Post a job
@@ -116,6 +116,14 @@ function Page() {
           
         </Box>
         </SimpleGrid>
+
+
+        <Box height="500px" bg="green.300" p={6 }>
+          <Heading>
+            Map
+          </Heading>
+
+        </Box>
       </PageContainer>
     </Layout>
   );

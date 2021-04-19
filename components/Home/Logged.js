@@ -30,6 +30,8 @@ function Logged() {
       const { data, error } = await session.supabase
         .from("business_users")
         .insert([{ email: user.email, auth0: user.sub }]);
+
+        session.setUser( data[0] );
     }
 
     setLoading( false );

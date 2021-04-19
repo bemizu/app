@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+
 import { GA_TRACKING_ID } from '../utils/analytics'
 import { GoogleFonts } from "next-google-fonts";
 
@@ -37,7 +38,9 @@ export default class MyDocument extends Document {
         </Head>
         <body>
 
+
           <Main />
+
           <NextScript />
         </body>
       </Html>

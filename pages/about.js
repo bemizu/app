@@ -9,6 +9,8 @@ import theme from "../public/theme";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function About() {
+
+
   let members = [
     {
       name: "Bastian Le",
@@ -43,6 +45,8 @@ function About() {
 
   return (
     <Layout title="About | Bemizu">
+      
+
       <Section>
         <Container
           maxWidth={theme.width}
