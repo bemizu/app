@@ -25,13 +25,24 @@ function Logged() {
       .eq("email", user.email);
 
     if (!error && data.length) {
-        session.setUser( data[0] );
-    } else if (!error) {
-      const { data, error } = await session.supabase
-        .from("business_users")
-        .insert([{ email: user.email, auth0: user.sub }]);
 
         session.setUser( data[0] );
+
+
+
+    } else if (!error) {
+
+
+      const newUserReq = await session.supabase
+        .from("business_users")
+        .insert([{ email: user.email, auth0: user.sub }]);
+        
+        if ( !newUserReq.error ) {
+          session.setUser( newUserReq.data[0] );
+        }
+
+        console.log( newUserReq );
+
     }
 
     setLoading( false );

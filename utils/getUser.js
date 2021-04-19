@@ -16,7 +16,7 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
 
   if (!error && data.length) {
 
-    session.setUser(data[0]);
+    session.setUser( data[0] );
     setProfileUser( data[0] );
 
     const orgReq = await session.supabase

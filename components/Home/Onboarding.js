@@ -16,18 +16,26 @@ import styled from "@emotion/styled";
 import theme from "../../public/theme";
 import Session from "../../contexts/session";
 import { createClient } from "@supabase/supabase-js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import {GetUser} from "../../utils/getUser";
 
 const Styles = styled.div``;
 
 function Onboarding() {
   const router = useRouter()
 
+
+  const [profileUser, setProfileUser] = useState({});
+  const [profileOrganization, setProfileOrganization] = useState({});
+
+
   const [ businessName, setBusinessName ] = useState("");
 
   const session = Session((state) => state);
   const { user } = useAuth0();
+
+
 
   function update (e) {
     switch (e.currentTarget.dataset.path) {
