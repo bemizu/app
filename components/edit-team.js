@@ -1,11 +1,13 @@
 
 import { Widget } from "@uploadcare/react-widget";
 import Session from "../contexts/session";
-import VerticalAlign from "../components/verticalAlign"
+import VerticalAlign from "./verticalAlign"
 import { BiPlus } from "react-icons/bi";
 import Image from "next/image"
 import toast from 'react-hot-toast';
-
+import {
+  BiEdit,
+} from "react-icons/bi"
 import {
   Box,
   Button,
@@ -32,7 +34,7 @@ function useForceUpdate(){
 
 function AddLocation(props) {
   const session = Session((state) => state);
-  const [member, setMember] = useState({});
+  const [member, setMember] = useState( props.el );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const widgetApi = useRef();
@@ -61,11 +63,12 @@ function AddLocation(props) {
     e.preventDefault();
 
     let mem = member;
-    mem.oid = session.organization.id;
+    
 
     const { data, error } = await session.supabase
       .from("team_members")
-      .insert([mem]);
+      .update([mem])
+      .match({ id: parseInt(mem.id) });
 
     if (!error) {
       let val = session.refreshOrg( session );
@@ -93,15 +96,22 @@ function AddLocation(props) {
 
   return (
     <Box>
-      <Button size="sm" rounded="sm" colorScheme="yellow" onClick={onOpen}>
-        Add
-      </Button>
+      <Box
+        display="inline-block"
+        color="blue.500"
+        cursor="pointer"
+        _hover={{ opacity: 0.7 }}
+        transition="0.2s ease"
+        onClick={onOpen}
+      >
+        <BiEdit style={{ display: "inline-block" }} />
+      </Box>
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent rounded="sm" mx={4}>
           <form onSubmit={formSubmit}>
-            <ModalHeader>Add Team Member</ModalHeader>
+            <ModalHeader>Edit Team Member</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
 
@@ -157,6 +167,7 @@ function AddLocation(props) {
                 <Input
                   bg="white"
                   rounded="sm"
+                  defaultValue={  member.name }
                   data-path="name"
                   onChange={update}
                 />
@@ -169,6 +180,7 @@ function AddLocation(props) {
                   bg="white"
                   rounded="sm"
                   data-path="title"
+                  defaultValue={  member.title }
                   onChange={update}
                 />
               </FormControl>
@@ -182,6 +194,7 @@ function AddLocation(props) {
                   rounded="sm"
                   type="email"
                   data-path="email"
+                  defaultValue={  member.email }
                   onChange={update}
                 />
               </FormControl>
@@ -194,6 +207,7 @@ function AddLocation(props) {
                   rounded="sm"
                   type="phone"
                   data-path="phone"
+                  defaultValue={  member.phone }
                   onChange={update}
                 />
               </FormControl>

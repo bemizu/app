@@ -43,7 +43,16 @@ const Session = create(set => ({
             salaryMin, 
             salaryMax, 
             salaryType
-          ) 
+          ),
+          team_members (
+            id, 
+            title, 
+            name, 
+            email, 
+            image, 
+            phone
+          )
+
             `
         )
         .eq("id", session.organization.id);

@@ -38,6 +38,7 @@ import { BiTrash } from "react-icons/bi";
 import Image from "next/image";
 import AddLocation from "../components/add-location";
 import AddTeamMember from "../components/add-team";
+import EditTeam from "../components/edit-team";
 import EditLocation from "../components/edit-location";
 
 const Styles = styled.div``;
@@ -51,6 +52,7 @@ function Page() {
   const [profileOrganization, setProfileOrganization] = useState({
     locations: [],
     jobs: [],
+    team_members: [],
   });
 
   console.log(profileOrganization);
@@ -90,31 +92,20 @@ function Page() {
       .match({ id: e.currentTarget.dataset.id });
 
     if (!error) {
-      const org = await session.supabase
-        .from("organizations")
-        .select(
-          ` 
-              id,      
-              name,
-              website,
-              overview,
-              culture,
-              logo,
-              locations (
-                id,
-                title,
-                line1,
-                line2,
-                city,
-                state,
-                zip
-              )
-            `
-        )
-        .eq("id", session.organization.id);
+      session.refreshOrg( session )
+    } else {
+      console.log(error);
+    }
+  }
 
-      session.setOrganization(org.data[0]);
-      setProfileOrganization(org.data[0]);
+  async function removeTeam(e) {
+    const { data, error } = await session.supabase
+      .from("team_members")
+      .delete()
+      .match({ id: e.currentTarget.dataset.id });
+
+    if (!error) {
+      session.refreshOrg( session )
     } else {
       console.log(error);
     }
@@ -402,6 +393,64 @@ function Page() {
           <Heading size="lg" mb={2}>
             Team Members
           </Heading>
+
+
+          <SimpleGrid columns={[3, 4, 5, 6]} spacing={ [5, 6, 8] } my={2}>
+          {profileOrganization.team_members.map((el, idx) => {
+            let image = el.image ? <Image src={ el.image } layout="fill" objectFit="cover" /> : "";
+            return (
+              <Box key={"mem" + el.id}>
+                <Box height="140px" width="115px" position="relative" bg={ "gray.200" } rounded="sm" overflow="hidden">
+                    { image }
+
+                </Box>
+
+                <Box my={2}>
+                    <Box>
+                      <VerticalAlign>
+                        <Heading size="sm" fontWeight="500">
+                          {el.title}
+                        </Heading>
+                      </VerticalAlign>
+                    </Box>
+
+                    <Box>
+                      <SimpleGrid
+                        columns={2}
+                        fontSize="20px"
+                        textAlign="center"
+                        gap="2px"
+                        maxWidth="100px"
+                      >
+                        <Box>
+                          <EditTeam
+                            el={el}
+                            setProfileOrganization={setProfileOrganization}
+                          />
+                        </Box>
+
+                        <Box>
+                          <Box
+                            data-id={el.id}
+                            display="inline-block"
+                            color="red.500"
+                            cursor="pointer"
+                            _hover={{ opacity: 0.7 }}
+                            transition="0.2s ease"
+                            onClick={removeTeam}
+                          >
+                            <BiTrash style={{ display: "inline-block" }} />
+                          </Box>
+                        </Box>
+                      </SimpleGrid>
+                    </Box>
+                </Box>
+
+              </Box>
+            );
+          })}
+
+          </SimpleGrid>
 
           <AddTeamMember  setProfileOrganization={setProfileOrganization} /> 
         </Box>

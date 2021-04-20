@@ -50,6 +50,14 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
                 salaryMin, 
                 salaryMax, 
                 salaryType
+              ),
+              team_members (
+                id, 
+                title, 
+                name, 
+                email, 
+                image, 
+                phone
               )
               
             `
