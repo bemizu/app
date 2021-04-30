@@ -59,7 +59,6 @@ function EmailCapture() {
       })
       .then(handleSuccess)
       .catch((resp) => {
-        debugger;
         // alert
       });
   }

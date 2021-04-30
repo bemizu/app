@@ -61,8 +61,6 @@ function Onboarding() {
       .insert([{ name: businessName, uuid: session.user.id }]);
 
     
-      debugger
-
     router.push("/")
   }
 

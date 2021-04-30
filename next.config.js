@@ -23,7 +23,9 @@ module.exports = {
         SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
         SUPABASE_URL: process.env.SUPABASE_URL,
         SUPABASE_PUBLIC_ANON: process.env.SUPABASE_PUBLIC_ANON,
-        AUTH0_REDIRECT: process.env.AUTH0_REDIRECT
+        AUTH0_REDIRECT: process.env.AUTH0_REDIRECT,
+        UPLOADCARE_PUBLIC: process.env.UPLOADCARE_PUBLIC,
+        UPLOADCARE_PRIVATE: process.env.UPLOADCARE_PRIVATE
     }, 
     images: {
         domains: ['ucarecdn.com'],

@@ -1,5 +1,7 @@
 import Session from "../contexts/session";
-
+import GooglePlacesAutocomplete, { geocodeByPlaceId } from "react-google-places-autocomplete";
+import GoogleMapReact from 'google-map-react';
+import { RiMapPinFill } from "react-icons/ri"
 import {
   Box,
   Button,
@@ -14,13 +16,76 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Divider,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
-import { useState } from "react";
+
+import { Search2Icon } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
+import styled from "@emotion/styled";
+import VerticalAlign from "./verticalAlign";
+
+const Styles = styled.div`
+  .foobar {
+    border-radius: 0px !important;
+  }
+
+`
 
 function AddTeam(props) {
   const session = Session((state) => state);
+  const [locationValue, setLocationValue ] = useState(null);
+  const [myLatLng, setMyLatLng ] = useState(null);
+
   const [location, setLocation] = useState({});
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  function marker () {
+    if ( myLatLng ) {
+      return <Box style={{transform: 'translate(-50%, -100%)'}} height="40px" width="40px" rounded="full" color="blue.500" fontSize="40px" lat={ myLatLng.lat }
+      lng={ myLatLng.lng }
+      textAlign="center"
+  >
+    <VerticalAlign>
+      <RiMapPinFill />
+      </VerticalAlign>
+      </Box>
+    }
+    
+  }
+  useEffect(() => {
+
+    
+  }, [ locationValue ]);
+
+  function myLocationValue ( meta, action ) {
+    let obj = {
+      label: meta.label,
+      format: {
+        main: meta.value.structured_formatting.main_text,
+        secondary: meta.value.structured_formatting.secondary,
+      },
+      place_id: meta.value.place_id,
+      terms: meta.terms
+    }
+
+      
+    setLocationValue( obj );
+
+    geocodeByPlaceId( meta.value.place_id )
+    .then(results => {
+      let latLng = {
+        lat: results[0].geometry.location.lat(),
+        lng: results[0].geometry.location.lng()
+      }
+
+      setMyLatLng( latLng )
+    })
+    .catch(error => {
+      debugger
+    });
+  }
 
   function update(e) {
     let loc = location;
@@ -74,9 +139,8 @@ function AddTeam(props) {
         .eq("id", session.organization.id);
 
       if (!org.error) {
-        
         session.setOrganization(org.data[0]);
-        props.setProfileOrganization( org.data[0] )
+        props.setProfileOrganization(org.data[0]);
         onClose();
       } else {
         console.log(error);
@@ -87,8 +151,10 @@ function AddTeam(props) {
     }
   }
 
+  
+
   return (
-    <Box>
+    <Box >
       <Button size="sm" rounded="sm" colorScheme="green" onClick={onOpen}>
         Add
       </Button>
@@ -100,7 +166,8 @@ function AddTeam(props) {
             <ModalHeader>Add Location</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <FormControl isRequired mb={3}>
+
+            <FormControl isRequired mb={3}>
                 <FormLabel>Title</FormLabel>
 
                 <Input
@@ -112,65 +179,53 @@ function AddTeam(props) {
                 />
               </FormControl>
 
-              <FormControl isRequired mb={3}>
-                <FormLabel>Address Line 1</FormLabel>
-
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.line1}
-                  data-path="line1"
-                  onChange={update}
+              <Styles>
+              <FormControl mb={4} isRequired>
+                <FormLabel>Search</FormLabel>
+                <GooglePlacesAutocomplete
+                
+                  selectProps={{
+                    className: "foobar",
+                    styles: {
+                      borderRadius: 0
+                    },
+                    placeholder: "Search here...",
+                    onChange:  myLocationValue ,
+                    
+                  }}
+                  apiKey="AIzaSyDixXZq9Kdeq-3cpsb1p0XgMQmVjkEvkRU"
                 />
               </FormControl>
+              </Styles>
 
-              <FormControl isRequired mb={3}>
-                <FormLabel>Address Line 2</FormLabel>
+              
 
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.line2}
-                  data-path="line2"
-                  onChange={update}
-                />
-              </FormControl>
+              
+              <Box>
+              <FormLabel>Map</FormLabel>
+              <Box height="300px" width="100%" rounded="sm" overflow="hidden">
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: "AIzaSyDixXZq9Kdeq-3cpsb1p0XgMQmVjkEvkRU" }}
+          defaultCenter={{
+            lat: 59.95,
+            lng: 30.33
+          }}
+          defaultZoom={14}
+        >
 
-              <FormControl isRequired mb={3}>
-                <FormLabel>City</FormLabel>
+          {
+            marker()
+          }
+          
+        </GoogleMapReact>
+        </Box>
+        </Box>
 
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.city}
-                  data-path="city"
-                  onChange={update}
-                />
-              </FormControl>
+              
 
-              <FormControl isRequired mb={3}>
-                <FormLabel>State</FormLabel>
+              
 
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.state}
-                  data-path="state"
-                  onChange={update}
-                />
-              </FormControl>
-
-              <FormControl mb={3} isRequired>
-                <FormLabel>Zip</FormLabel>
-
-                <Input
-                  bg="white"
-                  rounded="sm"
-                  defaultValue={location.zip}
-                  data-path="zip"
-                  onChange={update}
-                />
-              </FormControl>
+              
             </ModalBody>
 
             <ModalFooter>
@@ -189,3 +244,8 @@ function AddTeam(props) {
 }
 
 export default AddTeam;
+
+
+
+
+

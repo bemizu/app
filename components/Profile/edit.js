@@ -32,7 +32,6 @@ function EditProfile() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   function setImage(e) {
-    debugger;
     let updatedProfile = profile;
     updatedProfile.profileImg = e.originalUrl;
     setProfile(updatedProfile);

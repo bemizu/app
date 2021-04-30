@@ -34,14 +34,14 @@ function Page() {
   const [profileUser, setProfileUser] = useState({});
   const [profileOrganization, setProfileOrganization] = useState({});
 
-  useEffect( () => {
-    if ( !session.user ) {
-      GetUser( user )
+  useEffect(() => {
+    if (!session.user) {
+      GetUser(user, session, setProfileUser, setProfileOrganization);
     } else {
-      setProfileUser( session.user )
-      setProfileOrganization( session.organization )
+      setProfileUser(session.user);
+      setProfileOrganization(session.organization);
     }
-  } , [ session.user ]);
+  }, []);
 
   return (
     <Layout title={"Home"}>

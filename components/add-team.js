@@ -51,8 +51,10 @@ function AddLocation(props) {
 
   function profileImage() {
     if (member.image) {
-      debugger
-      return <Image src={member.image} objectFit="cover" layout="fill" />;
+      
+      return <Box position="relative" height="100%" zIndex="2">
+       <Image src={member.image} objectFit="cover" layout="fill" />
+       </Box>;
     }
   }
 

@@ -9,10 +9,12 @@ import theme from "../public/theme";
 function Contact() {
   return (
     <Layout title="Contact">
+      
       <Section>
         <Container maxWidth={theme.width} bg={ theme.white } py={5} px={6} rounded="lg">
           <Heading mb={10}>Contact</Heading>
 
+          
           <Box mb={4}>
             <Lorem />
           </Box>

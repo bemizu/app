@@ -6,6 +6,7 @@ import { GoogleFonts } from "next-google-fonts";
 export default class MyDocument extends Document {
   render() {
     return (
+
       <Html>
         <Head>
 
@@ -35,6 +36,12 @@ export default class MyDocument extends Document {
       <link href='icons/favicon-16x16.png' rel='icon' type='image/png' sizes='16x16' />
       <link href='icons/favicon-32x32.png' rel='icon' type='image/png' sizes='32x32' />
       <link rel='apple-touch-icon' href='icons/apple-icon.png'></link>
+
+      <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDixXZq9Kdeq-3cpsb1p0XgMQmVjkEvkRU&libraries=places">
+</script>
+
+
         </Head>
         <body>
 

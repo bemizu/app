@@ -12,15 +12,23 @@ import {
   Container,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   Textarea,
   Select,
   Checkbox,
   useRadioGroup, 
   useRadio,
-  HStack,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+
   
 } from "@chakra-ui/react";
+import { AiOutlineEye } from "react-icons/ai";
 import { BiPlus } from "react-icons/bi";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
@@ -40,10 +48,23 @@ import AddLocation from "../components/add-location";
 import AddTeamMember from "../components/add-team";
 import EditTeam from "../components/edit-team";
 import EditLocation from "../components/edit-location";
+import UploadClient from '@uploadcare/upload-client'
+
+
+
 
 const Styles = styled.div``;
+const client = new UploadClient({ publicKey: '8514f02a633e4dc5af92' })
+
+
+
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => value + 1); // update the state to force render
+}
 
 function Page() {
+  
   const widgetApi = useRef();
   const router = useRouter();
   const session = Session((state) => state);
@@ -55,7 +76,6 @@ function Page() {
     team_members: [],
   });
 
-  console.log(profileOrganization);
   useEffect(() => {
     if (!session.user) {
       GetUser(user, session, setProfileUser, setProfileOrganization);
@@ -71,6 +91,7 @@ function Page() {
     let orgToUpdate = JSON.parse(JSON.stringify( profileOrganization ));;
     delete orgToUpdate.jobs;
     delete orgToUpdate.locations;
+    delete orgToUpdate.team_members;
     
     const { data, error } = await session.supabase
       .from("organizations")
@@ -98,14 +119,19 @@ function Page() {
     }
   }
 
-  async function removeTeam(e) {
+  async function removeTeam( id ) {
+
+
+
     const { data, error } = await session.supabase
       .from("team_members")
       .delete()
-      .match({ id: e.currentTarget.dataset.id });
+      .match({ id });
 
     if (!error) {
+      toast.success("Team member removed.");
       session.refreshOrg( session )
+      // useForceUpdate()
     } else {
       console.log(error);
     }
@@ -115,6 +141,7 @@ function Page() {
     let org = profileOrganization;
     org.logo = cdnUrl;
     setProfileOrganization(org);
+    
     // save org
   }
 
@@ -144,7 +171,23 @@ function Page() {
     }
   }
 
-  function deleteImage() {}
+  function deleteImage() {
+    
+    // https://ucarecdn.com/cf0aca01-6686-42b9-a8a7-86bb10ded568/
+
+
+    fetch("/api/delete_image", {
+      data: {
+        storageId: profileOrganization.logo.split(".com/")[1].split("/")[0]
+      }
+      
+    }).then( (resp, b, c, d ) => {
+      debugger
+    }).catch(( resp, b, c, d ) => {
+      debugger
+    })
+
+  }
 
   function setBusinessSize ( val ) {
     let org = profileOrganization;
@@ -171,26 +214,42 @@ function Page() {
     return <Loading />
   }
 
+
+  
   return (
     <Layout title="Profile">
       <PageContainer path={router.pathname}>
-        <Heading mb={4}>Business Profile</Heading>
+        <Heading mb={4}>
+          
+          Profile
+
+          <Box display="inline-block" ml={4} height="100%" cursor="pointer" color={ theme.darkBlue } _hover={{color: theme.blue }} transition="0.2s ease" position="relative" top={2}>
+            <VerticalAlign>
+              <a href="/profile" target="_blank">
+            <AiOutlineEye />
+            </a>
+            </VerticalAlign>
+
+          </Box>
+        
+        </Heading>
+
+        <Divider my={[2, 2, 5]} />
+
+       
 
         <form onSubmit={saveOrg}>
-          <Grid
-            templateColumns={[
-              "repeat(100%)",
-              "repeat(100%)",
-              "150px calc(100% - 170px)",
-            ]}
-            gap={"20px"}
-            mb={3}
-          >
-            <Box>
+
+        <Heading size="md" mb={4}>General</Heading>
+
+          
+            <Box mb={4}>
+
+              <FormLabel>Logo</FormLabel>
               <Box
                 position="relative"
                 overflow="hidden"
-                rounded="full"
+                rounded="sm"
                 bg="gray.400"
                 color="gray.600"
                 fontSize="22px"
@@ -200,6 +259,7 @@ function Page() {
                 transition="0.2s ease"
                 cursor="pointer"
                 textAlign="center"
+                mb={2}
                 onClick={() => widgetApi.current.openDialog()}
               >
                 {profileImage()}
@@ -236,9 +296,15 @@ function Page() {
                 onChange={update}
               />
             </Box>
-            <Box>
+
+
+          
+
+
+
+          <Box>
               <FormControl isRequired mb={4}>
-                <FormLabel>Business Name</FormLabel>
+                <FormLabel>Name</FormLabel>
 
                 <Input
                   bg="white"
@@ -249,19 +315,35 @@ function Page() {
                 />
               </FormControl>
             </Box>
-          </Grid>
 
-          <Divider mb={4} />
+
 
           <FormControl mb={4}>
-            <FormLabel>Overview</FormLabel>
+            <FormLabel>Description</FormLabel>
 
             <Textarea
+              rows={10}
               bg="white"
               rounded="sm"
               placeholder="Add your mission statement"
               defaultValue={profileOrganization.overview}
               data-path="overview"
+              onChange={update}
+            />
+          </FormControl>
+
+          
+
+          <FormControl mb={4}>
+            <FormLabel>Website</FormLabel>
+
+            <Input
+              type="url"
+              bg="white"
+              rounded="sm"
+              placeholder="https://example.com"
+              defaultValue={profileOrganization.website}
+              data-path="website"
               onChange={update}
             />
           </FormControl>
@@ -275,20 +357,6 @@ function Page() {
               placeholder="What makes you great"
               defaultValue={profileOrganization.culture}
               data-path="culture"
-              onChange={update}
-            />
-          </FormControl>
-
-          <FormControl mb={4}>
-            <FormLabel>Website</FormLabel>
-
-            <Input
-              type="url"
-              bg="white"
-              rounded="sm"
-              placeholder="https://example.com"
-              defaultValue={profileOrganization.website}
-              data-path="website"
               onChange={update}
             />
           </FormControl>
@@ -322,12 +390,65 @@ function Page() {
           </Button>
         </form>
 
+
         <Divider my={[6, 6, 10]} />
 
-        <Box rounded="lg" bg="white" p={[4, 6]}>
-          <Heading size="lg" mb={2}>
+        <Heading size="md" mb={4}>
+            Team Members
+          </Heading>
+
+        <Box >
+          
+
+          <SimpleGrid columns={[3, 4, 5, 6]} spacing={ [5, 6, 8] } my={2}>
+          {profileOrganization.team_members.map((el, idx) => {
+            let image = el.image ? <Image src={ el.image } layout="fill" objectFit="cover" /> : "";
+            return (
+              <Box key={"mem" + el.id} >
+
+                        <Box fontWeight="700" mb={2}>
+                          {el.name}
+                        </Box>
+
+                <Box height="140px" width="115px" position="relative" bg={ "gray.200" } rounded="sm" overflow="hidden" mb={1} >
+                    { image }
+                </Box>
+
+                    
+                <HStack spacing="8px" mb={4}>
+  <Box w="20px" h="20px" >
+  <EditTeam
+                            el={el}
+                            setProfileOrganization={setProfileOrganization}
+                          />
+  </Box>
+  <Box w="20px" h="20px" >
+  <AlertDialogExample id={ el.id } callback={ removeTeam } />
+
+  </Box>
+</HStack>
+
+                
+              </Box>
+            );
+          })}
+
+          </SimpleGrid>
+
+          <AddTeamMember  setProfileOrganization={setProfileOrganization} /> 
+        </Box>
+
+
+
+        <Divider my={[6, 6, 10]} />
+
+
+        <Heading size="lg" mb={2}>
             Locations
           </Heading>
+
+        <Box rounded="lg" bg="white" p={[4, 6]}>
+          
 
           <Divider my={2} />
           {profileOrganization.locations.map((el, idx) => {
@@ -389,74 +510,7 @@ function Page() {
 
         <Divider my={[6, 6, 10]} />
 
-        <Box rounded="lg" bg="white" p={[4, 6]}>
-          <Heading size="lg" mb={2}>
-            Team Members
-          </Heading>
-
-
-          <SimpleGrid columns={[3, 4, 5, 6]} spacing={ [5, 6, 8] } my={2}>
-          {profileOrganization.team_members.map((el, idx) => {
-            let image = el.image ? <Image src={ el.image } layout="fill" objectFit="cover" /> : "";
-            return (
-              <Box key={"mem" + el.id}>
-                <Box height="140px" width="115px" position="relative" bg={ "gray.200" } rounded="sm" overflow="hidden">
-                    { image }
-
-                </Box>
-
-                <Box my={2}>
-                    <Box>
-                      <VerticalAlign>
-                        <Heading size="sm" fontWeight="500">
-                          {el.title}
-                        </Heading>
-                      </VerticalAlign>
-                    </Box>
-
-                    <Box>
-                      <SimpleGrid
-                        columns={2}
-                        fontSize="20px"
-                        textAlign="center"
-                        gap="2px"
-                        maxWidth="100px"
-                      >
-                        <Box>
-                          <EditTeam
-                            el={el}
-                            setProfileOrganization={setProfileOrganization}
-                          />
-                        </Box>
-
-                        <Box>
-                          <Box
-                            data-id={el.id}
-                            display="inline-block"
-                            color="red.500"
-                            cursor="pointer"
-                            _hover={{ opacity: 0.7 }}
-                            transition="0.2s ease"
-                            onClick={removeTeam}
-                          >
-                            <BiTrash style={{ display: "inline-block" }} />
-                          </Box>
-                        </Box>
-                      </SimpleGrid>
-                    </Box>
-                </Box>
-
-              </Box>
-            );
-          })}
-
-          </SimpleGrid>
-
-          <AddTeamMember  setProfileOrganization={setProfileOrganization} /> 
-        </Box>
-
-        <Divider my={[6, 6, 10]} />
-
+       
         <Box rounded="lg" bg="white" p={[4, 6]}>
           <Heading size="lg" mb={2}>
             Gallery
@@ -536,4 +590,63 @@ function BusinessSize ( props ) {
       })}
     </HStack>
   );
+}
+
+
+
+function AlertDialogExample ( props ) {
+  const [isOpen, setIsOpen] = useState(false)
+  const onClose = () => setIsOpen(false)
+  const cancelRef = useRef()
+
+  function actuallyRemove () {
+    // remove 
+
+    props.callback( props.id );
+    
+    onClose();
+  }
+
+  return (
+    <>
+
+<Box
+                            display="inline-block"
+                            color="red.500"
+                            cursor="pointer"
+                            _hover={{ opacity: 0.7 }}
+                            transition="0.2s ease"
+                            onClick={() => setIsOpen(true)}
+                          >
+                            <BiTrash style={{ display: "inline-block" }} />
+                          </Box>
+
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Remove Team Member
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure?
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} colorScheme="blue" variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="green"  onClick={ actuallyRemove } ml={3}>
+                Yes
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
+  )
 }

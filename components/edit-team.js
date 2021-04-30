@@ -53,7 +53,6 @@ function AddLocation(props) {
 
   function profileImage() {
     if (member.image) {
-      debugger
       return <Image src={member.image} objectFit="cover" layout="fill" />;
     }
   }

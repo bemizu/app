@@ -125,7 +125,6 @@ function Page() {
         .eq("id", session.organization.id);
 
 
-        debugger
 
         
       if (!org.error) {
