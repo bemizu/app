@@ -6,6 +6,8 @@ import axios from "axios";
 export default (req, res) => {
   const { data } = req.body
 
+
+  console.log( req.body );
   axios
     .delete("https://api.uploadcare.com/files/" + data.storageId + "/storage", {
         headers: {
