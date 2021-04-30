@@ -1,5 +1,6 @@
 import { Widget } from "@uploadcare/react-widget";
 import toast from 'react-hot-toast';
+
 import {
   Box,
   ButtonGroup,

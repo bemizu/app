@@ -4,11 +4,10 @@ import axios from "axios";
 
 
 export default (req, res) => {
-
-    console.log( req.body );    
+  const { data } = req.body
 
   axios
-    .delete("https://api.uploadcare.com/files/" + req.body.storageId + "/storage", {
+    .delete("https://api.uploadcare.com/files/" + data.storageId + "/storage", {
         headers: {
             "Authorization": `Uploadcare.Simple ${ process.env.UPLOADCARE_PUBLIC }:${ process.env.UPLOADCARE_PRIVATE }`
         }
