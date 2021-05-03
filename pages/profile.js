@@ -78,7 +78,7 @@ function Page() {
       setProfileUser(session.user);
       setProfileOrganization(session.organization);
     }
-  }, []);
+  }, [ session.organization ]);
 
   async function saveOrg(e) {
     e.preventDefault();
@@ -101,13 +101,14 @@ function Page() {
     }
   }
 
-  async function removeLocation(e) {
+  async function removeLocation( id ) {
     const { data, error } = await session.supabase
       .from("locations")
       .delete()
-      .match({ id: e.currentTarget.dataset.id });
+      .match({ id });
 
     if (!error) {
+      toast.success("Location removed.");
       session.refreshOrg(session);
     } else {
       console.log(error);
@@ -351,18 +352,7 @@ function Page() {
               />
             </FormControl>
 
-            <FormControl mb={3} display="none">
-              <FormLabel>Culture</FormLabel>
-
-              <Textarea
-                bg="white"
-                rounded="sm"
-                placeholder="What makes you great"
-                defaultValue={profileOrganization.culture}
-                data-path="culture"
-                onChange={update}
-              />
-            </FormControl>
+            
 
             <FormControl mb={3}>
               <FormLabel>Industry</FormLabel>
@@ -434,7 +424,7 @@ function Page() {
                     <Box pl={3} color={ theme.darkBlue }>
 
                     <Box>
-                    <Box fontWeight="600" >
+                    <Box fontWeight="500" >
                       {el.name}
                     </Box>
 
@@ -498,45 +488,34 @@ function Page() {
           {profileOrganization.locations.map((el, idx) => {
             return (
               <Box key={"loc" + el.id}>
-                <Box my={1}>
+                <Box >
                   <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
                     <Box>
-                      <VerticalAlign>
-                        <Heading size="sm" fontWeight="500">
+                      
+                        <Heading size="md" mb={1} >
                           {el.title}
                         </Heading>
-                      </VerticalAlign>
-                    </Box>
 
-                    <Box>
-                      <SimpleGrid
-                        columns={2}
-                        fontSize="20px"
-                        textAlign="center"
-                        gap="2px"
-                      >
-                        <Box>
-                          <EditLocation
+                        <Box fontWeight="300" fontSize="lg" lineHeight="18px" mb={2}>
+                      Lorem ipsum ...
+                    </Box>
+                    
+
+                        <ButtonGroup isAttached variant="solid" rounded="sm" >
+                      <IconButton variant="solid"   icon={ <EditLocation
                             el={el}
                             setProfileOrganization={setProfileOrganization}
-                          />
-                        </Box>
+                          />} />
+                      
+                       <AlertDialogExampleLocation id={el.id} callback={removeLocation} />
+                        
 
-                        <Box>
-                          <Box
-                            data-id={el.id}
-                            display="inline-block"
-                            color="red.500"
-                            cursor="pointer"
-                            _hover={{ opacity: 0.7 }}
-                            transition="0.2s ease"
-                            onClick={removeLocation}
-                          >
-                            <BiTrash style={{ display: "inline-block" }} />
-                          </Box>
-                        </Box>
-                      </SimpleGrid>
+
+
+                    </ButtonGroup>
                     </Box>
+
+                   
                   </Grid>
                 </Box>
 
@@ -562,6 +541,27 @@ function Page() {
             Gallery
           </Heading>
           <Divider mb={2} />
+
+        </Box>
+
+        <Box rounded="lg" bg="white" p={[4, 6]} mb={ 5 } shadow="lg">
+          <Heading >
+            Additional Information
+          </Heading>
+          <Divider mb={5} />
+
+          <FormControl mb={3} >
+              <FormLabel>Culture</FormLabel>
+
+              <Textarea
+                bg="white"
+                rounded="sm"
+                placeholder="What makes you great"
+                defaultValue={profileOrganization.culture}
+                data-path="culture"
+                onChange={update}
+              />
+            </FormControl>
 
         </Box>
 
@@ -662,6 +662,57 @@ function AlertDialogExample(props) {
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Remove Team Member
+            </AlertDialogHeader>
+
+            <AlertDialogBody>Are you sure?</AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                ref={cancelRef}
+                colorScheme="blue"
+                variant="outline"
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+              <Button colorScheme="green" onClick={actuallyRemove} ml={3}>
+                Yes
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
+  );
+}
+
+
+function AlertDialogExampleLocation (props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
+  const cancelRef = useRef();
+
+  function actuallyRemove() {
+    // remove
+
+    props.callback(props.id);
+
+    onClose();
+  }
+
+  return (
+    <>
+      <IconButton   variant="solid"   icon={ <BiTrash style={{ display: "inline-block" }}  /> } onClick={() => setIsOpen(true)} />
+
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Remove Location
             </AlertDialogHeader>
 
             <AlertDialogBody>Are you sure?</AlertDialogBody>

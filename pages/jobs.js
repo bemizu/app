@@ -44,7 +44,7 @@ function Page() {
       setProfileUser(session.user);
       setProfileOrganization(session.organization);
     }
-  }, []);
+  }, [ session.organization ]);
 
   async function removeJob(e) {
     const { data, error } = await session.supabase

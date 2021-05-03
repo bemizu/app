@@ -1,3 +1,6 @@
+
+import toast from "react-hot-toast";
+
 import {
   Box,
   ButtonGroup,
@@ -18,6 +21,12 @@ import {
   Textarea,
   Select,
 } from "@chakra-ui/react";
+
+
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css'; // Add css for snow theme
+
+
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
 import PageContainer from "../components/pageContainer";
@@ -30,16 +39,28 @@ import { useEffect, useState } from "react";
 import Navigator from "../components/navigator";
 import { GetUser } from "../utils/getUser";
 
-const Styles = styled.div``;
+const Styles = styled.div`
+  .ql-toolbar {
+    border-top-right-radius: 0.125rem;
+    border-top-left-radius: 0.125rem;
+  }
+`;
 
 function Page() {
   const router = useRouter();
   const session = Session((state) => state);
+
+  const [description, setDescription] = useState('');
+  const { quill, quillRef } = useQuill();
+
+
   const { user } = useAuth0();
   const [profileUser, setProfileUser] = useState({});
   const [profileOrganization, setProfileOrganization] = useState({});
 
   useEffect(() => {
+
+      
     if (!session.user) {
       GetUser(user, session, setProfileUser, setProfileOrganization);
     } else {
@@ -83,69 +104,60 @@ function Page() {
 
     let newJob = job;
     newJob.oid = session.organization.id;
+    newJob.description = JSON.stringify(quill.getContents() );
 
     const { data, error } = await session.supabase
       .from("jobs")
       .insert([newJob]);
 
     if (!error) {
-      const org = await session.supabase
-        .from("organizations")
-        .select(
-          ` 
-          id,      
-          name,
-          website,
-          overview,
-          culture,
-          logo,
-          locations (
-            id,
-            title,
-            line1,
-            line2,
-            city,
-            state,
-            zip,
-            oid
-          ),
-          jobs (
-            id, 
-            title, 
-            oid,
-            lid,
-            description, 
-            salaryMin, 
-            salaryMax, 
-            salaryType
-          )
-              
-            `
-        )
-        .eq("id", session.organization.id);
-
-
-
-        
-      if (!org.error) {
-        
-        session.setOrganization(org.data[0]);
-        // setProfileOrganization(org.data[0]);
-        router.push("/jobs");
-      } else {
-        console.log(error);
-      }
+      session.refreshOrg(session);
+      toast.success("Job added successfully.");
+      router.push("/jobs");
+      
     } else {
       console.log(error);
     }
   }
 
+  
+
   return (
     <Layout title="Add Job">
       <PageContainer path={router.pathname}>
+        <Styles>
+        <Box p={[4, 4, 6]} shadow="lg" rounded="lg" bg="white">
         <Heading>Add Job</Heading>
+        <Divider mb={4}/>
+
+
+
+
+      
+       
 
         <form onSubmit={formSubmit}>
+
+        <FormControl isRequired mb={3}>
+            <FormLabel>Description</FormLabel>
+
+            <Box
+              bg="white"
+              rounded="sm"
+              defaultValue={job.description}
+              // data-path="description"
+              // onChange={update}
+              ref={quillRef}
+            />
+
+
+
+
+          </FormControl>
+
+
+
+
           <FormControl isRequired mb={3}>
             <FormLabel>Title</FormLabel>
 
@@ -158,19 +170,9 @@ function Page() {
             />
           </FormControl>
 
-          <FormControl isRequired mb={3}>
-            <FormLabel>Description</FormLabel>
-
-            <Textarea
-              bg="white"
-              rounded="sm"
-              defaultValue={job.description}
-              data-path="description"
-              onChange={update}
-            />
-          </FormControl>
-
-          <FormControl isRequired mb={3}>
+          
+          <SimpleGrid columns={[1, 1, 2]} spacing={ 3 } mb={ 3 }>
+          <FormControl  >
             <FormLabel>Salary Min</FormLabel>
 
             <NumberInput
@@ -181,7 +183,7 @@ function Page() {
               min={1}
               onChange={updateMin}
             >
-              <NumberInputField />
+              <NumberInputField rounded="sm" />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -189,7 +191,7 @@ function Page() {
             </NumberInput>
           </FormControl>
 
-          <FormControl isRequired mb={3}>
+          <FormControl  >
             <FormLabel>Salary Max</FormLabel>
 
             <NumberInput
@@ -200,7 +202,7 @@ function Page() {
               min={1.01}
               onChange={updateMax}
             >
-              <NumberInputField />
+              <NumberInputField rounded="sm" />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -208,7 +210,9 @@ function Page() {
             </NumberInput>
           </FormControl>
 
-          <FormControl isRequired mb={3}>
+
+
+          <FormControl >
             <FormLabel>Salary Type</FormLabel>
 
             <Select
@@ -218,11 +222,13 @@ function Page() {
               onChange={update}
               data-path="salaryType"
             >
-              <option value="hourly">Per hour</option>
-              <option value="monthly">Per month</option>
-              <option value="yearly">Per year</option>
+              <option value="hourly">Hourly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
             </Select>
           </FormControl>
+
+          </SimpleGrid>
 
           <FormControl isRequired mb={3}>
             <FormLabel>Location</FormLabel>
@@ -235,16 +241,17 @@ function Page() {
               data-path="lid"
             >
               {locations()}
-              <option value="remote">Remote</option>
             </Select>
           </FormControl>
 
-          <ButtonGroup>
+          <ButtonGroup mt={4}>
             <Button type="submit" colorScheme="blue" rounded="sm">
               Save
             </Button>
           </ButtonGroup>
         </form>
+        </Box>
+        </Styles>
       </PageContainer>
     </Layout>
   );

@@ -91,16 +91,8 @@ function AddLocation(props) {
 
   return (
     <Box>
-      <Box
-        display="inline-block"
-        color="blue.500"
-        cursor="pointer"
-        _hover={{ opacity: 0.7 }}
-        transition="0.2s ease"
-        onClick={onOpen}
-      >
-        <BiEdit style={{ display: "inline-block" }} />
-      </Box>
+     
+        <BiEdit style={{ display: "inline-block" }} onClick={onOpen} />
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
@@ -182,7 +174,6 @@ function AddLocation(props) {
               </FormControl>
 
 
-            
             </ModalBody>
 
             <ModalFooter>
