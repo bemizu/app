@@ -237,9 +237,15 @@ function Page() {
 
           <Divider mb={[5]} />
 
+
+          <Box fontSize="sm" mb={4}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+          </Box>
+
           <form onSubmit={saveOrg}>
             <Box mb={3}>
-              <FormLabel>Logo</FormLabel>
+              <FormLabel mb={0}>Logo</FormLabel>
               <Box
                 position="relative"
                 overflow="hidden"
@@ -294,7 +300,7 @@ function Page() {
 
             <Box>
               <FormControl isRequired mb={3}>
-                <FormLabel>Username</FormLabel>
+                <FormLabel mb={0}>Username</FormLabel>
 
                 <Input
                   bg="white"
@@ -312,7 +318,7 @@ function Page() {
 
             <Box>
               <FormControl isRequired mb={3}>
-                <FormLabel>Name</FormLabel>
+                <FormLabel mb={0}>Name</FormLabel>
 
                 <Input
                   bg="white"
@@ -325,7 +331,7 @@ function Page() {
             </Box>
 
             <FormControl mb={3}>
-              <FormLabel>Description</FormLabel>
+              <FormLabel mb={0}>Description</FormLabel>
 
               <Textarea
                 rows={10}
@@ -339,7 +345,7 @@ function Page() {
             </FormControl>
 
             <FormControl mb={3}>
-              <FormLabel>Website</FormLabel>
+              <FormLabel mb={0}>Website</FormLabel>
 
               <Input
                 type="url"
@@ -355,7 +361,7 @@ function Page() {
             
 
             <FormControl mb={3}>
-              <FormLabel>Industry</FormLabel>
+              <FormLabel mb={0}>Industry</FormLabel>
               <Select
                 placeholder="Select option"
                 rounded="sm"
@@ -376,7 +382,7 @@ function Page() {
             </FormControl>
 
             <FormControl mb={3}>
-              <FormLabel>Business Size</FormLabel>
+              <FormLabel mb={0}>Business Size</FormLabel>
               <BusinessSize
                 org={profileOrganization}
                 setBusinessSize={setBusinessSize}
@@ -392,7 +398,7 @@ function Page() {
         <Box rounded="lg" shadow="lg" p={[4, 4, 6]} bg="white" mb={5}>
           <Heading>Team Members</Heading>
 
-          <Divider mb={[4]} />
+          <Divider mb={[2]} />
 
           <Box>
             <SimpleGrid columns={[1]}  >
@@ -484,24 +490,24 @@ function Page() {
         <Divider mb={2} />
 
 
-        <Box>
+        <Box mb={3}>
           {profileOrganization.locations.map((el, idx) => {
             return (
-              <Box key={"loc" + el.id}>
+              <Box key={"loc" + el.id} >
                 <Box >
                   <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
                     <Box>
                       
-                        <Heading size="md" mb={1} >
+                        <Box fontWeight="500">
                           {el.title}
-                        </Heading>
+                        </Box>
 
                         <Box fontWeight="300" fontSize="lg" lineHeight="18px" mb={2}>
                       Lorem ipsum ...
                     </Box>
                     
 
-                        <ButtonGroup isAttached variant="solid" rounded="sm" >
+                        <ButtonGroup isAttached variant="solid" rounded="sm" mb={1}>
                       <IconButton variant="solid"   icon={ <EditLocation
                             el={el}
                             setProfileOrganization={setProfileOrganization}
@@ -528,8 +534,10 @@ function Page() {
             <Checkbox>Remote available?</Checkbox>
           </Box>
 
-          <AddLocation setProfileOrganization={setProfileOrganization} />
         </Box>
+
+        <AddLocation setProfileOrganization={setProfileOrganization} />
+
 
         </Box>
         
@@ -548,10 +556,14 @@ function Page() {
           <Heading >
             Additional Information
           </Heading>
-          <Divider mb={5} />
+          <Divider mb={4} />
+
+          <Box fontSize="sm" mb={4}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </Box>
 
           <FormControl mb={3} >
-              <FormLabel>Culture</FormLabel>
+              <FormLabel mb={0}>Culture</FormLabel>
 
               <Textarea
                 bg="white"

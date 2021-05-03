@@ -11,6 +11,7 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Button,
+  IconButton, 
   Modal,
   ModalOverlay,
   ModalContent,
@@ -149,16 +150,11 @@ function AddJob (props) {
 
   return (
     <Box>
-      <Box
-        display="inline-block"
-        color="blue.500"
-        cursor="pointer"
-        _hover={{ opacity: 0.7 }}
-        transition="0.2s ease"
-        onClick={onOpen}
-      >
-        <BiEdit style={{ display: "inline-block" }} />
-      </Box>
+     
+        
+      <IconButton  onClick={onOpen} icon={ <BiEdit /> } />
+        
+        
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />

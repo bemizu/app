@@ -92,7 +92,10 @@ function Page() {
   return (
     <Layout title="Messages">
       <PageContainer path={router.pathname}>
+        <Box rounded="lg" bg="white" shadow="lg" p={[4, 4, 6]}>
         <Heading>Messages</Heading>
+        <Divider mb={3} />
+        </Box>
 
         {/* <CometChatUI /> */}
 

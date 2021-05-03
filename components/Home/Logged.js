@@ -29,7 +29,7 @@ function Logged() {
         session.setUser( data[0] );
 
 
-
+        
     } else if (!error) {
 
 

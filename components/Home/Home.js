@@ -101,13 +101,15 @@ function Page() {
     });
 
     }
+
+
     if (!session.user) {
       GetUser(user, session, setProfileUser, setProfileOrganization);
     } else {
       setProfileUser(session.user);
       setProfileOrganization(session.organization);
     }
-  }, []);
+  }, [ session.organization ]);
 
   return (
     <Layout title={"Home"}>

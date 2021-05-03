@@ -42,12 +42,15 @@ function Page() {
   return (
     <Layout title="Schedule">
       <PageContainer path={router.pathname}>
+      <Box rounded="lg" bg="white" shadow="lg" p={[4, 4, 6]}>
       <Heading>
           Schedule
         </Heading>
 
+        <Divider mb={3} />
+        </Box>
 
-        { profileUser.email }
+
       </PageContainer>
     </Layout>
   );

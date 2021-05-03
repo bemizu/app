@@ -7,6 +7,8 @@ import {
   Grid,
   Divider,
   Container,
+  IconButton,
+  FormLabel,
 } from "@chakra-ui/react";
 import Link from "next/link"
 import VerticalAlign from "../components/verticalAlign";
@@ -53,41 +55,7 @@ function Page() {
       .match({ id: e.currentTarget.dataset.id });
 
     if (!error) {
-      const org = await session.supabase
-        .from("organizations")
-        .select(
-          ` 
-              id,      
-              name,
-              website,
-              overview,
-              culture,
-              logo,
-              locations (
-                id,
-                oid,
-                title,
-                line1,
-                line2,
-                city,
-                state,
-                zip
-              ), 
-              jobs (
-                id, 
-                title, 
-                oid,
-                description, 
-                salaryMin, 
-                salaryMax, 
-                salaryType
-              )
-            `
-        )
-        .eq("id", session.organization.id);
-
-      session.setOrganization(org.data[0]);
-      setProfileOrganization(org.data[0]);
+      session.refreshOrg( session );
     } else {
       console.log(error);
     }
@@ -96,50 +64,42 @@ function Page() {
   return (
     <Layout title="Jobs">
       <PageContainer path={router.pathname}>
+        <Box p={[4, 4, 6]} rounded="lg" shadow="lg" bg="white">
         <Heading>Jobs</Heading>
 
-        <Divider my={2} />
+        <Divider mb={2} />
         {profileOrganization.jobs.map((el, idx) => {
           return (
             <Box key={"loc" + el.id}>
-              <Box my={1}>
+              <Box mb={2}>
                 <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
                   <Box>
-                    <VerticalAlign>
-                      <Heading size="sm" fontWeight="500">
+                      <Box fontWeight="500">
                         {el.title}
-                      </Heading>
-                    </VerticalAlign>
-                  </Box>
+                      </Box>
 
-                  <Box>
-                    <SimpleGrid
-                      columns={2}
-                      fontSize="20px"
-                      textAlign="center"
-                      gap="2px"
+
+<Box fontSize="lg" fontWeight="300" lineHeight="18px" mb={2}>
+  Lorem ipsum ...
+
+</Box>
+
+                      <ButtonGroup variant="solid" isAttached mb={1}
                     >
-                      <Box>
+                      <IconButton>
                         <EditJob
                           el={el}
                           setProfileOrganization={setProfileOrganization}
                         />
-                      </Box>
+                      </IconButton>
 
-                      <Box>
-                        <Box
-                          data-id={el.id}
-                          display="inline-block"
-                          color="red.500"
-                          cursor="pointer"
-                          _hover={{ opacity: 0.7 }}
-                          transition="0.2s ease"
-                          onClick={removeJob}
-                        >
-                          <BiTrash style={{ display: "inline-block" }} />
-                        </Box>
-                      </Box>
-                    </SimpleGrid>
+                      <IconButton  onClick={removeJob} data-id={el.id} icon={<BiTrash style={{ display: "inline-block" }} />} />
+                       
+                    </ButtonGroup>
+                  </Box>
+
+                  <Box>
+                    
                   </Box>
                 </Grid>
               </Box>
@@ -149,12 +109,13 @@ function Page() {
           );
         })}
 
-        <Box>
+        <Box mt={4}>
           <Link href="/add-job">
         <Button rounded="sm" colorScheme="green">
           Add Job
         </Button>
         </Link>
+        </Box>
         </Box>
       </PageContainer>
     </Layout>
