@@ -1,13 +1,13 @@
 import { Box, Grid, Heading } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import {
+  BiHome,
   BiBuilding,
   BiEnvelope,
   BiCalendar,
   BiBriefcase,
 } from "react-icons/bi";
 
-import { BsGear } from "react-icons/bs";
 
 
 import Link from "next/link";
@@ -19,6 +19,13 @@ const Styles = styled.div``;
 
 function Navigator({ path }) {
   let items = [
+    {
+      title: "Home",
+      link: "/",
+      icon: <BiHome style={{ display: "inline-block" }} />,
+      active: path == "/",
+    },
+
     {
       title: "Profile",
       link: "/profile",
@@ -47,12 +54,7 @@ function Navigator({ path }) {
       active: path == "/jobs",
     },
 
-    {
-      title: "Settings",
-      link: "/settings",
-      icon: <BsGear style={{ display: "inline-block" }} />,
-      active: path == "/settings",
-    },
+    
   ];
 
   return (

@@ -7,9 +7,8 @@ export default (req, res) => {
   const { data } = req.body
 
 
-  console.log( req.body );
   axios
-    .delete("https://api.uploadcare.com/files/" + data.storageId + "/storage", {
+    .delete("https://api.uploadcare.com/files/" + data.storageId + "/storage/", {
         headers: {
             "Authorization": `Uploadcare.Simple ${ process.env.UPLOADCARE_PUBLIC }:${ process.env.UPLOADCARE_PRIVATE }`
         }

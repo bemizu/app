@@ -155,7 +155,7 @@ function AddTeam(props) {
 
   return (
     <Box >
-      <Button size="sm" rounded="sm" colorScheme="green" onClick={onOpen}>
+      <Button rounded="sm" colorScheme="green" onClick={onOpen}>
         Add
       </Button>
 

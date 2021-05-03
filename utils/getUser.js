@@ -24,6 +24,7 @@ export async function GetUser( user, session, setProfileUser, setProfileOrganiza
       .select(
         ` 
               id,      
+              username, 
               name,
               website,
               overview,

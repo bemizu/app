@@ -95,7 +95,7 @@ function AddLocation(props) {
 
   return (
     <Box>
-      <Button size="sm" rounded="sm" colorScheme="yellow" onClick={onOpen}>
+      <Button rounded="sm" colorScheme="yellow" onClick={onOpen}>
         Add
       </Button>
 

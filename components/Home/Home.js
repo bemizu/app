@@ -8,6 +8,11 @@ import {
   Divider,
   Container,
 } from "@chakra-ui/react";
+
+
+
+
+
 import Image from "next/image";
 import EditProfile from "../Profile/edit";
 import VerticalAlign from "../verticalAlign";
@@ -25,16 +30,77 @@ import { useEffect, useState } from "react";
 import Navigator from "../navigator";
 import {GetUser} from "../../utils/getUser";
 
-const Styles = styled.div``;
+
+import {
+  Chart,
+  LineElement,
+  LinearScale, 
+  LineController,
+  CategoryScale,
+  PointElement
+} from "chart.js";
+
+Chart.register( PointElement, LineElement, LinearScale, LineController, CategoryScale );
+
+const Styles = styled.div`
+  #myChart {
+    height: 350px;
+  }
+`;
 
 function Page() {
   const router = useRouter();
   const session = Session(state => state);
   const { user } = useAuth0();
+  const [ first, setFirst ] = useState(true )
   const [profileUser, setProfileUser] = useState({});
   const [profileOrganization, setProfileOrganization] = useState({});
 
   useEffect(() => {
+    setFirst( false );
+
+    if (first ) {
+      return;
+      var ctx = document.getElementById('myChart');
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+          height: 350,
+            responsive: true,
+
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    }
     if (!session.user) {
       GetUser(user, session, setProfileUser, setProfileOrganization);
     } else {
@@ -45,6 +111,7 @@ function Page() {
 
   return (
     <Layout title={"Home"}>
+      <Styles>
       <PageContainer path={router.pathname}>
         <Box rounded="lg" p={[4, 6]} bg="white" shadow="md" mb={5}>
           <Heading>
@@ -53,29 +120,54 @@ function Page() {
 
           <Divider />
 
-          <SimpleGrid columns={[1, 1, 2]} pt={5} spacing={ 5}>
+          <SimpleGrid columns={[1, 3]} spacing={ 5 } py={ 4 }>
             <Box>
-            <Box height={["200px", "300px", "200px"]} position="relative" mb={5} >
-              <Image src="/home-dashboard.svg"  layout="fill" objectFit="contain" />
-            </Box>
-
-            <Box px={5}>
-            Once you post a job, you can manage and see averything from here.
-            </Box>
+              <Heading fontSize="80px" textAlign="center">
+                0
+              </Heading>
+              <Heading textAlign="center" size="md">Profile Views</Heading>
 
             </Box>
+
 
             <Box>
-              <Box>
-              Add To Do
-              </Box>
+              <Heading fontSize="80px" textAlign="center">
+                0
+              </Heading>
+              <Heading textAlign="center" size="md">Job Post Views</Heading>
 
-              <Button rounded="sm" colorScheme="orange" width="full">
-                Add To Do
-              </Button>
+            </Box>
+
+            <Box>
+              <Heading fontSize="80px" textAlign="center">
+                0
+              </Heading>
+              <Heading textAlign="center" size="md">Bemizu Score</Heading>
+
+            </Box>
+
+            <Box>
+              
+            </Box>
+
+            <Box>
+              
             </Box>
 
           </SimpleGrid>
+
+
+          <Divider mb={5} />
+
+          <Box  bg="gray.100" py={5} rounded="lg" position="relative">
+
+            <Box height="350px" position="relative">
+          <canvas id="myChart" width="100%" height="350px"></canvas>
+          </Box>
+
+
+          </Box>
+
         </Box>
 
         <SimpleGrid columns={[1, 1, 2]} spacing={ 5 } mb={10}>
@@ -88,12 +180,16 @@ function Page() {
               <Image src="/post-job-dashboard.svg"  layout="fill" objectFit="contain" />
             </Box>
 
+
+
+          <ButtonGroup >
           
           <Link href="/add-job">
-          <Button rounded="sm" colorScheme="orange" width="full">
+          <Button rounded="sm" colorScheme="orange">
                 Post Job
               </Button>
               </Link>
+              </ButtonGroup>
           
         </Box>
 
@@ -109,7 +205,7 @@ function Page() {
 
           
           <Link href="/add-job">
-          <Button rounded="sm" colorScheme="orange" width="full">
+          <Button rounded="sm" colorScheme="teal" >
                 Find Candidates
               </Button>
               </Link>
@@ -118,13 +214,15 @@ function Page() {
         </SimpleGrid>
 
 
-        <Box height="500px" bg="green.300" p={6 }>
+        <Box bg="white" rounded="lg" shadow="md" p={[4, 6]}>
           <Heading>
             Map
           </Heading>
 
         </Box>
       </PageContainer>
+
+      </Styles>
     </Layout>
   );
 }

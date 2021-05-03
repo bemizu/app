@@ -18,6 +18,7 @@ const Session = create(set => ({
           ` 
           id,      
           name,
+          username, 
           website,
           overview,
           culture,

@@ -1,6 +1,6 @@
 import { Widget } from "@uploadcare/react-widget";
-import toast from 'react-hot-toast';
-
+import toast from "react-hot-toast";
+import axios from "axios";
 import {
   Box,
   ButtonGroup,
@@ -14,11 +14,12 @@ import {
   FormControl,
   FormLabel,
   HStack,
+  FormHelperText,
   Input,
   Textarea,
   Select,
   Checkbox,
-  useRadioGroup, 
+  useRadioGroup,
   useRadio,
   AlertDialog,
   AlertDialogBody,
@@ -26,8 +27,6 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-
-  
 } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
 import { BiPlus } from "react-icons/bi";
@@ -49,23 +48,17 @@ import AddLocation from "../components/add-location";
 import AddTeamMember from "../components/add-team";
 import EditTeam from "../components/edit-team";
 import EditLocation from "../components/edit-location";
-import UploadClient from '@uploadcare/upload-client'
-
-
-
+import UploadClient from "@uploadcare/upload-client";
 
 const Styles = styled.div``;
-const client = new UploadClient({ publicKey: '8514f02a633e4dc5af92' })
+const client = new UploadClient({ publicKey: "8514f02a633e4dc5af92" });
 
-
-
-function useForceUpdate(){
+function useForceUpdate() {
   const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => value + 1); // update the state to force render
+  return () => setValue((value) => value + 1); // update the state to force render
 }
 
 function Page() {
-  
   const widgetApi = useRef();
   const router = useRouter();
   const session = Session((state) => state);
@@ -89,19 +82,19 @@ function Page() {
   async function saveOrg(e) {
     e.preventDefault();
 
-    let orgToUpdate = JSON.parse(JSON.stringify( profileOrganization ));;
+    let orgToUpdate = JSON.parse(JSON.stringify(profileOrganization));
     delete orgToUpdate.jobs;
     delete orgToUpdate.locations;
     delete orgToUpdate.team_members;
-    
+
     const { data, error } = await session.supabase
       .from("organizations")
-      .update( orgToUpdate )
+      .update(orgToUpdate)
       .match({ uuid: session.user.id });
 
     if (!error) {
-      session.refreshOrg( session );
-      toast.success('Update successful.');
+      session.refreshOrg(session);
+      toast.success("Update successful.");
     } else {
       console.log(error);
     }
@@ -114,16 +107,13 @@ function Page() {
       .match({ id: e.currentTarget.dataset.id });
 
     if (!error) {
-      session.refreshOrg( session )
+      session.refreshOrg(session);
     } else {
       console.log(error);
     }
   }
 
-  async function removeTeam( id ) {
-
-
-
+  async function removeTeam(id) {
     const { data, error } = await session.supabase
       .from("team_members")
       .delete()
@@ -131,7 +121,7 @@ function Page() {
 
     if (!error) {
       toast.success("Team member removed.");
-      session.refreshOrg( session )
+      session.refreshOrg(session);
       // useForceUpdate()
     } else {
       console.log(error);
@@ -142,11 +132,11 @@ function Page() {
     let org = profileOrganization;
     org.logo = cdnUrl;
     setProfileOrganization(org);
-    
+
     // save org
   }
 
-  function deleteImage() {
+  function removeProfileImage() {
     // delete image uploadcare
     let org = profileOrganization;
     org.logo = "";
@@ -173,27 +163,29 @@ function Page() {
   }
 
   function deleteImage() {
-    
     // https://ucarecdn.com/cf0aca01-6686-42b9-a8a7-86bb10ded568/
 
+    let data = {
+      storageId: profileOrganization.logo.split(".com/")[1].split("/")[0],
+    };
 
-    fetch("/api/delete_image", {
-      data: {
-        storageId: profileOrganization.logo.split(".com/")[1].split("/")[0]
-      }
-      
-    }).then( (resp, b, c, d ) => {
-      debugger
-    }).catch(( resp, b, c, d ) => {
-      debugger
-    })
-
+    axios
+      .put("/api/delete_image", {
+        data,
+      })
+      .then((resp, b, c, d) => {
+        debugger;
+        removeProfileImage();
+      })
+      .catch((resp, b, c, d) => {
+        debugger;
+      });
   }
 
-  function setBusinessSize ( val ) {
+  function setBusinessSize(val) {
     let org = profileOrganization;
     org.businessSize = val;
-    setProfileOrganization(org); 
+    setProfileOrganization(org);
   }
 
   function update(e) {
@@ -211,41 +203,39 @@ function Page() {
     // }
   }
 
-  if ( !profileOrganization.id ) {
-    return <Loading />
+  if (!profileOrganization.id) {
+    return <Loading />;
   }
 
-
-  
   return (
     <Layout title="Profile">
       <PageContainer path={router.pathname}>
-        <Heading mb={4}>
-          
-          Profile
+        <Box rounded="lg" shadow="lg" p={[4, 4, 6]} bg="white" mb={5}>
+          <Heading>
+            Profile
+            <Box
+              display="inline-block"
+              ml={3}
+              height="100%"
+              cursor="pointer"
+              color={theme.darkBlue}
+              _hover={{ color: theme.blue }}
+              transition="0.2s ease"
+              position="relative"
+              top={2}
+            >
+              <VerticalAlign>
+                <a href="/profile" target="_blank">
+                  <AiOutlineEye />
+                </a>
+              </VerticalAlign>
+            </Box>
+          </Heading>
 
-          <Box display="inline-block" ml={4} height="100%" cursor="pointer" color={ theme.darkBlue } _hover={{color: theme.blue }} transition="0.2s ease" position="relative" top={2}>
-            <VerticalAlign>
-              <a href="/profile" target="_blank">
-            <AiOutlineEye />
-            </a>
-            </VerticalAlign>
+          <Divider mb={[5]} />
 
-          </Box>
-        
-        </Heading>
-
-        <Divider my={[2, 2, 5]} />
-
-       
-
-        <form onSubmit={saveOrg}>
-
-        <Heading size="md" mb={4}>General</Heading>
-
-          
+          <form onSubmit={saveOrg}>
             <Box mb={4}>
-
               <FormLabel>Logo</FormLabel>
               <Box
                 position="relative"
@@ -299,11 +289,25 @@ function Page() {
             </Box>
 
 
-          
+            <Box>
+              <FormControl isRequired mb={4}>
+                <FormLabel>Username</FormLabel>
 
+                <Input
+                  bg="white"
+                  rounded="sm"
+                  defaultValue={profileOrganization.username}
+                  data-path="username"
+                  onChange={update}
+                />
+                
+                <FormHelperText>
+                  Lowercase letters and "-" only.
+                </FormHelperText>
+              </FormControl>
+            </Box>
 
-
-          <Box>
+            <Box>
               <FormControl isRequired mb={4}>
                 <FormLabel>Name</FormLabel>
 
@@ -317,141 +321,144 @@ function Page() {
               </FormControl>
             </Box>
 
+            <FormControl mb={4}>
+              <FormLabel>Description</FormLabel>
 
+              <Textarea
+                rows={10}
+                bg="white"
+                rounded="sm"
+                placeholder="Add your mission statement"
+                defaultValue={profileOrganization.overview}
+                data-path="overview"
+                onChange={update}
+              />
+            </FormControl>
 
-          <FormControl mb={4}>
-            <FormLabel>Description</FormLabel>
+            <FormControl mb={4}>
+              <FormLabel>Website</FormLabel>
 
-            <Textarea
-              rows={10}
-              bg="white"
-              rounded="sm"
-              placeholder="Add your mission statement"
-              defaultValue={profileOrganization.overview}
-              data-path="overview"
-              onChange={update}
-            />
-          </FormControl>
+              <Input
+                type="url"
+                bg="white"
+                rounded="sm"
+                placeholder="https://example.com"
+                defaultValue={profileOrganization.website}
+                data-path="website"
+                onChange={update}
+              />
+            </FormControl>
 
-          
+            <FormControl mb={4}>
+              <FormLabel>Culture</FormLabel>
 
-          <FormControl mb={4}>
-            <FormLabel>Website</FormLabel>
+              <Textarea
+                bg="white"
+                rounded="sm"
+                placeholder="What makes you great"
+                defaultValue={profileOrganization.culture}
+                data-path="culture"
+                onChange={update}
+              />
+            </FormControl>
 
-            <Input
-              type="url"
-              bg="white"
-              rounded="sm"
-              placeholder="https://example.com"
-              defaultValue={profileOrganization.website}
-              data-path="website"
-              onChange={update}
-            />
-          </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Industry</FormLabel>
+              <Select
+                placeholder="Select option"
+                rounded="sm"
+                data-path="industry"
+                bg="white"
+                defaultValue={profileOrganization.industry}
+                onChange={update}
+              >
+                <option value="creative">Creative</option>
+                <option value="events">Events</option>
+                <option value="fitness">Fitness</option>
+                <option value="hospitality">Hospitality</option>
+                {/* <option value="real-estate">Real Estate</option> */}
+                <option value="dining">Restaurant/Dining</option>
+                <option value="transportation">Transportation</option>
+                <option value="warehousing">Warehousing</option>
+              </Select>
+            </FormControl>
 
-          <FormControl mb={4}>
-            <FormLabel>Culture</FormLabel>
+            <FormControl>
+              <FormLabel>Business Size</FormLabel>
+              <BusinessSize
+                org={profileOrganization}
+                setBusinessSize={setBusinessSize}
+              />
+            </FormControl>
 
-            <Textarea
-              bg="white"
-              rounded="sm"
-              placeholder="What makes you great"
-              defaultValue={profileOrganization.culture}
-              data-path="culture"
-              onChange={update}
-            />
-          </FormControl>
-
-          <FormControl mb={4}>
-            <FormLabel>Industry</FormLabel>
-            <Select
-              placeholder="Select option"
-              rounded="sm"
-              data-path="industry"
-              bg="white"
-              defaultValue={ profileOrganization.industry }
-              onChange={update}
-            >
-              <option value="internet">Internet Services</option>
-              <option value="dining">Restaurant/Dining</option>
-              <option value="hospitality">Hospitality</option>
-              <option value="fitness">Fitness</option>
-              <option value="real-estate">Real Estate</option>
-            </Select>
-          </FormControl>
-
-          <FormControl>
-            <FormLabel>Business Size</FormLabel>
-            <BusinessSize org={ profileOrganization } setBusinessSize={ setBusinessSize } />
-          </FormControl>
-
-
-          <Button rounded="sm" colorScheme="orange" type="submit" size="lg">
-            Save
-          </Button>
-        </form>
-
-
-        <Divider my={[6, 6, 10]} />
-
-        <Heading size="md" mb={4}>
-            Team Members
-          </Heading>
-
-        <Box >
-          
-
-          <SimpleGrid columns={[3, 4, 5, 6]} spacing={ [5, 6, 8] } my={2}>
-          {profileOrganization.team_members.map((el, idx) => {
-            let image = el.image ? <Image src={ el.image } layout="fill" objectFit="cover" /> : "";
-            return (
-              <Box key={"mem" + el.id} >
-
-                        <Box fontWeight="700" mb={2}>
-                          {el.name}
-                        </Box>
-
-                <Box height="140px" width="115px" position="relative" bg={ "gray.200" } rounded="sm" overflow="hidden" mb={1} >
-                    { image }
-                </Box>
-
-                    
-                <HStack spacing="8px" mb={4}>
-  <Box w="20px" h="20px" >
-  <EditTeam
-                            el={el}
-                            setProfileOrganization={setProfileOrganization}
-                          />
-  </Box>
-  <Box w="20px" h="20px" >
-  <AlertDialogExample id={ el.id } callback={ removeTeam } />
-
-  </Box>
-</HStack>
-
-                
-              </Box>
-            );
-          })}
-
-          </SimpleGrid>
-
-          <AddTeamMember  setProfileOrganization={setProfileOrganization} /> 
+            <Button rounded="sm" colorScheme="orange" type="submit">
+              Save
+            </Button>
+          </form>
         </Box>
 
+        <Box rounded="lg" shadow="lg" p={[4, 4, 6]} bg="white" mb={5}>
+          <Heading>Team Members</Heading>
+
+          <Divider mb={[5]} />
+
+          <Box>
+            <SimpleGrid columns={[3, 4, 5, 6]} spacing={[5, 6, 8]} my={2}>
+              {profileOrganization.team_members.map((el, idx) => {
+                let image = el.image ? (
+                  <Image src={el.image} layout="fill" objectFit="cover" />
+                ) : (
+                  ""
+                );
+                return (
+                  <Box key={"mem" + el.id}>
+                    <Box fontWeight="600" mb={1}>
+                      {el.name}
+                    </Box>
+
+                    <Box
+                      height="140px"
+                      width="115px"
+                      position="relative"
+                      bg={"gray.200"}
+                      rounded="sm"
+                      overflow="hidden"
+                      mb={1}
+                    >
+                      {image}
+                    </Box>
+
+                    <HStack spacing="8px" mb={4}>
+                      <Box w="20px" h="20px">
+                        <EditTeam
+                          el={el}
+                          setProfileOrganization={setProfileOrganization}
+                        />
+                      </Box>
+                      <Box w="20px" h="20px">
+                        <AlertDialogExample id={el.id} callback={removeTeam} />
+                      </Box>
+                    </HStack>
+                  </Box>
+                );
+              })}
+            </SimpleGrid>
+
+            <AddTeamMember setProfileOrganization={setProfileOrganization} />
+          </Box>
+        </Box>
+
+        
+        <Box rounded="lg" shadow="lg" p={[4, 4, 6]} bg="white" mb={5}>
+
+        <Heading>
+          Locations
+        </Heading>
+
+        <Divider mb={2} />
 
 
-        <Divider my={[6, 6, 10]} />
-
-
-        <Heading size="lg" mb={2}>
-            Locations
-          </Heading>
-
-        <Box rounded="lg" bg="white" p={[4, 6]}>
-          
-
-          <Divider my={2} />
+        <Box>
           {profileOrganization.locations.map((el, idx) => {
             return (
               <Box key={"loc" + el.id}>
@@ -502,20 +509,24 @@ function Page() {
             );
           })}
 
-          <Box mb={4} mt={4}>
+          <Box mb={4} mt={4} display="none">
             <Checkbox>Remote available?</Checkbox>
           </Box>
 
           <AddLocation setProfileOrganization={setProfileOrganization} />
         </Box>
 
-        <Divider my={[6, 6, 10]} />
+        </Box>
+        
 
-       
-        <Box rounded="lg" bg="white" p={[4, 6]}>
-          <Heading size="lg" mb={2}>
+
+
+        <Box rounded="lg" bg="white" p={[4, 6]} shadow="lg">
+          <Heading >
             Gallery
           </Heading>
+          <Divider mb={2} />
+
         </Box>
       </PageContainer>
     </Layout>
@@ -526,7 +537,6 @@ export default withAuthenticationRequired(withRouter(Page), {
   onRedirecting: () => <Loading />,
 });
 
-
 function RadioCard(props) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
 
@@ -535,7 +545,7 @@ function RadioCard(props) {
 
   return (
     <Box as="label">
-      <input {...input}  />
+      <input {...input} />
       <Box
         {...checkbox}
         mb={4}
@@ -561,14 +571,8 @@ function RadioCard(props) {
   );
 }
 
-function BusinessSize ( props ) {
-  const options = [
-    "1-10",
-    "11-20",
-    "21-50",
-    "51-100",
-    "100+",
-  ];
+function BusinessSize(props) {
+  const options = ["1-10", "11-20", "21-50", "51-100", "100+"];
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "framework",
@@ -576,7 +580,7 @@ function BusinessSize ( props ) {
     onChange: props.setBusinessSize,
   });
 
-  console.log( props.org.businessSize );
+  console.log(props.org.businessSize);
   const group = getRootProps();
 
   return (
@@ -593,34 +597,31 @@ function BusinessSize ( props ) {
   );
 }
 
+function AlertDialogExample(props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
+  const cancelRef = useRef();
 
+  function actuallyRemove() {
+    // remove
 
-function AlertDialogExample ( props ) {
-  const [isOpen, setIsOpen] = useState(false)
-  const onClose = () => setIsOpen(false)
-  const cancelRef = useRef()
+    props.callback(props.id);
 
-  function actuallyRemove () {
-    // remove 
-
-    props.callback( props.id );
-    
     onClose();
   }
 
   return (
     <>
-
-<Box
-                            display="inline-block"
-                            color="red.500"
-                            cursor="pointer"
-                            _hover={{ opacity: 0.7 }}
-                            transition="0.2s ease"
-                            onClick={() => setIsOpen(true)}
-                          >
-                            <BiTrash style={{ display: "inline-block" }} />
-                          </Box>
+      <Box
+        display="inline-block"
+        color="red.500"
+        cursor="pointer"
+        _hover={{ opacity: 0.7 }}
+        transition="0.2s ease"
+        onClick={() => setIsOpen(true)}
+      >
+        <BiTrash style={{ display: "inline-block" }} />
+      </Box>
 
       <AlertDialog
         isOpen={isOpen}
@@ -633,15 +634,18 @@ function AlertDialogExample ( props ) {
               Remove Team Member
             </AlertDialogHeader>
 
-            <AlertDialogBody>
-              Are you sure?
-            </AlertDialogBody>
+            <AlertDialogBody>Are you sure?</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} colorScheme="blue" variant="outline" onClick={onClose}>
+              <Button
+                ref={cancelRef}
+                colorScheme="blue"
+                variant="outline"
+                onClick={onClose}
+              >
                 Cancel
               </Button>
-              <Button colorScheme="green"  onClick={ actuallyRemove } ml={3}>
+              <Button colorScheme="green" onClick={actuallyRemove} ml={3}>
                 Yes
               </Button>
             </AlertDialogFooter>
@@ -649,5 +653,5 @@ function AlertDialogExample ( props ) {
         </AlertDialogOverlay>
       </AlertDialog>
     </>
-  )
+  );
 }
