@@ -17,11 +17,13 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  Textarea,
   ModalCloseButton,
   useDisclosure,
   FormControl,
   FormLabel,
   Input,
+  IconButton,
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 
@@ -95,20 +97,12 @@ function AddLocation(props) {
 
   return (
     <Box>
-      <Box
-        display="inline-block"
-        color="blue.500"
-        cursor="pointer"
-        _hover={{ opacity: 0.7 }}
-        transition="0.2s ease"
-        onClick={onOpen}
-      >
-        <BiEdit style={{ display: "inline-block" }} />
-      </Box>
+        
+        <BiEdit onClick={onOpen} />
 
-      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
-        <ModalContent rounded="sm" mx={4}>
+        <ModalContent rounded="sm" mx={4} >
           <form onSubmit={formSubmit}>
             <ModalHeader>Edit Team Member</ModalHeader>
             <ModalCloseButton />
@@ -207,6 +201,19 @@ function AddLocation(props) {
                   type="phone"
                   data-path="phone"
                   defaultValue={  member.phone }
+                  onChange={update}
+                />
+              </FormControl>
+
+
+              <FormControl isRequired mb={3}>
+                <FormLabel>Bio</FormLabel>
+
+                <Textarea
+                  bg="white"
+                  rounded="sm"
+                  defaultValue={  member.name }
+                  data-path="bio"
                   onChange={update}
                 />
               </FormControl>

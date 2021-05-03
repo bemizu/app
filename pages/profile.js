@@ -27,9 +27,10 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  IconButton,
 } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
-import { BiPlus } from "react-icons/bi";
+import { BiPlus, BiPhoneCall, BiMailSend } from "react-icons/bi";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
@@ -215,6 +216,7 @@ function Page() {
             Profile
             <Box
               display="inline-block"
+              display="none"
               ml={3}
               height="100%"
               cursor="pointer"
@@ -235,7 +237,7 @@ function Page() {
           <Divider mb={[5]} />
 
           <form onSubmit={saveOrg}>
-            <Box mb={4}>
+            <Box mb={3}>
               <FormLabel>Logo</FormLabel>
               <Box
                 position="relative"
@@ -290,7 +292,7 @@ function Page() {
 
 
             <Box>
-              <FormControl isRequired mb={4}>
+              <FormControl isRequired mb={3}>
                 <FormLabel>Username</FormLabel>
 
                 <Input
@@ -302,13 +304,13 @@ function Page() {
                 />
                 
                 <FormHelperText>
-                  Lowercase letters and "-" only.
+                  Lowercase letters and "-" only. For setting the url of your business page. 
                 </FormHelperText>
               </FormControl>
             </Box>
 
             <Box>
-              <FormControl isRequired mb={4}>
+              <FormControl isRequired mb={3}>
                 <FormLabel>Name</FormLabel>
 
                 <Input
@@ -321,7 +323,7 @@ function Page() {
               </FormControl>
             </Box>
 
-            <FormControl mb={4}>
+            <FormControl mb={3}>
               <FormLabel>Description</FormLabel>
 
               <Textarea
@@ -335,7 +337,7 @@ function Page() {
               />
             </FormControl>
 
-            <FormControl mb={4}>
+            <FormControl mb={3}>
               <FormLabel>Website</FormLabel>
 
               <Input
@@ -349,7 +351,7 @@ function Page() {
               />
             </FormControl>
 
-            <FormControl mb={4}>
+            <FormControl mb={3} display="none">
               <FormLabel>Culture</FormLabel>
 
               <Textarea
@@ -362,7 +364,7 @@ function Page() {
               />
             </FormControl>
 
-            <FormControl mb={4}>
+            <FormControl mb={3}>
               <FormLabel>Industry</FormLabel>
               <Select
                 placeholder="Select option"
@@ -383,7 +385,7 @@ function Page() {
               </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl mb={3}>
               <FormLabel>Business Size</FormLabel>
               <BusinessSize
                 org={profileOrganization}
@@ -400,10 +402,10 @@ function Page() {
         <Box rounded="lg" shadow="lg" p={[4, 4, 6]} bg="white" mb={5}>
           <Heading>Team Members</Heading>
 
-          <Divider mb={[5]} />
+          <Divider mb={[4]} />
 
           <Box>
-            <SimpleGrid columns={[3, 4, 5, 6]} spacing={[5, 6, 8]} my={2}>
+            <SimpleGrid columns={[1]}  >
               {profileOrganization.team_members.map((el, idx) => {
                 let image = el.image ? (
                   <Image src={el.image} layout="fill" objectFit="cover" />
@@ -411,34 +413,68 @@ function Page() {
                   ""
                 );
                 return (
-                  <Box key={"mem" + el.id}>
-                    <Box fontWeight="600" mb={1}>
-                      {el.name}
-                    </Box>
+                  <Box key={"mem" + el.id} >
 
+                  <Grid templateColumns="80px calc(100% - 80px)" mb={2}>
+                    <Box>
                     <Box
-                      height="140px"
-                      width="115px"
+                      height="92px"
+                      width="80px"
+                      
                       position="relative"
                       bg={"gray.200"}
-                      rounded="sm"
+                      rounded="md"
                       overflow="hidden"
                       mb={1}
                     >
                       {image}
                     </Box>
+                    </Box>
 
-                    <HStack spacing="8px" mb={4}>
-                      <Box w="20px" h="20px">
-                        <EditTeam
+                    <Box pl={3} color={ theme.darkBlue }>
+
+                    <Box>
+                    <Box fontWeight="600" >
+                      {el.name}
+                    </Box>
+
+                    <Box fontWeight="300" fontSize="lg" lineHeight="18px" mb={2}>
+                      {el.title}
+                    </Box>
+                    </Box>
+
+
+                    <ButtonGroup isAttached variant="solid" rounded="sm" >
+                      <IconButton href={"phone:" + el.phone }  icon={<BiPhoneCall />} />
+                      <IconButton variant="solid" href={"mailto:" + el.email }  icon={ <BiMailSend />} />
+                      <IconButton variant="solid"   icon={ <EditTeam
                           el={el}
                           setProfileOrganization={setProfileOrganization}
-                        />
+                          /> } />
+                      
+
+<IconButton   variant="solid"   icon={ <AlertDialogExample id={el.id} callback={removeTeam} /> } />
+
+
+
+                    </ButtonGroup>
+
+                      
+
+                    
+
+                      
                       </Box>
-                      <Box w="20px" h="20px">
-                        <AlertDialogExample id={el.id} callback={removeTeam} />
-                      </Box>
-                    </HStack>
+
+                      
+                     
+                
+                   
+
+                   
+                  </Grid>
+
+                  <Divider mb={3} />
                   </Box>
                 );
               })}
@@ -521,13 +557,15 @@ function Page() {
 
 
 
-        <Box rounded="lg" bg="white" p={[4, 6]} shadow="lg">
+        <Box rounded="lg" bg="white" p={[4, 6]} mb={ 5 } shadow="lg">
           <Heading >
             Gallery
           </Heading>
           <Divider mb={2} />
 
         </Box>
+
+
       </PageContainer>
     </Layout>
   );
@@ -612,16 +650,8 @@ function AlertDialogExample(props) {
 
   return (
     <>
-      <Box
-        display="inline-block"
-        color="red.500"
-        cursor="pointer"
-        _hover={{ opacity: 0.7 }}
-        transition="0.2s ease"
-        onClick={() => setIsOpen(true)}
-      >
-        <BiTrash style={{ display: "inline-block" }} />
-      </Box>
+    
+        <BiTrash style={{ display: "inline-block" }}  onClick={() => setIsOpen(true)} />
 
       <AlertDialog
         isOpen={isOpen}

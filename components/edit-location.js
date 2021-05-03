@@ -7,6 +7,7 @@ import {
   Button,
   Modal,
   ModalOverlay,
+  Textarea, 
   ModalContent,
   ModalHeader,
   ModalFooter,
@@ -179,6 +180,9 @@ function AddLocation(props) {
                   onChange={update}
                 />
               </FormControl>
+
+
+            
             </ModalBody>
 
             <ModalFooter>
