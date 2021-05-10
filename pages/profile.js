@@ -71,12 +71,12 @@ function Page() {
     team_members: [],
   });
 
-  useEffect(() => {
+  (() => {
     if (!session.user) {
       GetUser(user, session, setProfileUser, setProfileOrganization);
     } else {
       setProfileUser(session.user);
-      setProfileOrganization(session.organization);
+      setProfileOrganizuseEffectation(session.organization);
     }
   }, [ session.organization ]);
 
@@ -228,7 +228,7 @@ function Page() {
               top={2}
             >
               <VerticalAlign>
-                <a href="/profile" target="_blank">
+                <a href={"/profile/"+profileOrganization.id} target="_blank">
                   <AiOutlineEye />
                 </a>
               </VerticalAlign>
@@ -238,10 +238,7 @@ function Page() {
           <Divider mb={[5]} />
 
 
-          <Box fontSize="sm" mb={4}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-          </Box>
+      
 
           <form onSubmit={saveOrg}>
             <Box mb={3}>
