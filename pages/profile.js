@@ -87,11 +87,11 @@ function Page() {
   });
 
   function updateQuill() {
-    quill.setContents(JSON.parse(profileOrganization.overview));
+    quill.setContents(JSON.parse( profileOrganization.overview ));
   }
 
   function effectCallback() {
-    if (quill) {
+    if (quill && profileOrganization.id) {
       setTimeout(updateQuill);
     }
 
