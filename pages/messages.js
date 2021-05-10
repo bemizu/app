@@ -30,7 +30,11 @@ function Page() {
   const session = Session((state) => state);
   const { user } = useAuth0();
   const [profileUser, setProfileUser] = useState({});
-  const [profileOrganization, setProfileOrganization] = useState({});
+  const [profileOrganization, setProfileOrganization] = useState( session.organization || {
+    locations: [],
+    jobs: [],
+    team_members: [],
+  });
 
   useEffect(() => {
     if (!session.user) {
@@ -38,8 +42,6 @@ function Page() {
     } else {
       setProfileUser(session.user);
       setProfileOrganization(session.organization);
-
-      // loginCometUser();
     }
   }, []);
 
@@ -88,6 +90,17 @@ function Page() {
         }
       );
     }
+  }
+
+
+
+
+  if ( !profileOrganization ) {
+    return <Loading />
+  }
+
+  if (typeof profileOrganization.id == undefined) {
+    return <Loading />;
   }
 
   return (

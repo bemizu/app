@@ -36,8 +36,11 @@ function Page() {
   const [profileUser, setProfileUser] = useState({});
 
 
-  const [profileOrganization, setProfileOrganization] = useState( session.organization || { locations: [], jobs: []});
-
+  const [profileOrganization, setProfileOrganization] = useState( session.organization || {
+    locations: [],
+    jobs: [],
+    team_members: [],
+  });
 
   useEffect(() => {
     if (!session.user) {

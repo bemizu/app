@@ -14,7 +14,7 @@ function PageContainer( props ) {
                       <Navigator path={ props.path } />
                   </Box>
   
-                  <Box  py={[0, 0, 6]}   minHeight={[400, 500, "500px"]} >
+                  <Box  py={[0, 0, 6]}   minHeight={[400, 500, "500px"]} mr={[0, 0, "5vw", "5vw", 0]} >
                       { props.children }
                   </Box>
   

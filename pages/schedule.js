@@ -29,16 +29,20 @@ function Page() {
   const session = Session((state) => state);
   const { user } = useAuth0();
   const [profileUser, setProfileUser] = useState({});
-  const [profileOrganization, setProfileOrganization] = useState({});
+  const [profileOrganization, setProfileOrganization] = useState( session.organization || {
+    locations: [],
+    jobs: [],
+    team_members: [],
+  });
 
-  useEffect( () => {
-    if ( !session.user ) {
-      GetUser( user, session, setProfileUser, setProfileOrganization )
+  useEffect(() => {
+    if (!session.user) {
+      GetUser(user, session, setProfileUser, setProfileOrganization);
     } else {
-      setProfileUser( session.user )
-      setProfileOrganization( session.organization )
+      setProfileUser(session.user);
+      setProfileOrganization(session.organization);
     }
-  } , [  ]);
+  }, []);
 
   return (
     <Layout title="Schedule">
