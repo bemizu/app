@@ -239,12 +239,12 @@ function Page() {
     <Layout title="Profile">
       <PageContainer path={router.pathname}>
         <Box
-          rounded="lg"
-          shadow="lg"
+          rounded={["none", "none", "lg"]}
+          shadow={["none", "none", "lg"]}
           p={[5, 5, 8]}
           py={[5, 5, 6]}
           bg={theme.white}
-          mb={5}
+          mb={[0, 0, 5]}
         >
           <form onSubmit={saveOrg}>
             <ButtonGroup variant="ghost" isAttached float="right">
@@ -274,7 +274,7 @@ function Page() {
             <Divider mb={[2, 2, 4]} />
 
             <Box mb={3}>
-              <FormLabel mb={0}>Logo</FormLabel>
+              <FormLabel mb={0} color={ theme.darkBlue }>Logo</FormLabel>
               <Box
                 position="relative"
                 overflow="hidden"
@@ -346,7 +346,7 @@ function Page() {
 
             <Box>
               <FormControl isRequired mb={3}>
-                <FormLabel mb={0}>Name</FormLabel>
+                <FormLabel mb={0} color={ theme.darkBlue }>Name</FormLabel>
 
                 <Input
                   bg="white"
@@ -359,7 +359,7 @@ function Page() {
             </Box>
 
             <FormControl mb={3}>
-              <FormLabel mb={0}>Overview</FormLabel>
+              <FormLabel mb={0} color={ theme.darkBlue }>Overview</FormLabel>
 
               <Box
                 bg="white"
@@ -383,7 +383,7 @@ function Page() {
             </FormControl>
 
             <FormControl mb={3}>
-              <FormLabel mb={0}>Website</FormLabel>
+              <FormLabel mb={0} color={ theme.darkBlue }>Website</FormLabel>
 
               <Input
                 type="url"
@@ -397,7 +397,7 @@ function Page() {
             </FormControl>
 
             <FormControl mb={3}>
-              <FormLabel mb={0}>Industry</FormLabel>
+              <FormLabel mb={0} color={ theme.darkBlue }>Industry</FormLabel>
               <Select
                 placeholder="Select option"
                 rounded="sm"
@@ -418,7 +418,7 @@ function Page() {
             </FormControl>
 
             <FormControl>
-              <FormLabel mb={0}>Business Size</FormLabel>
+              <FormLabel mb={0} color={ theme.darkBlue }>Business Size</FormLabel>
               <BusinessSize
                 org={profileOrganization}
                 setBusinessSize={setBusinessSize}
@@ -428,12 +428,12 @@ function Page() {
         </Box>
 
         <Box
-          rounded="lg"
-          shadow="lg"
+          rounded={["none", "none", "lg"]}
+          shadow={["none", "none", "lg"]}
           p={[5, 5, 8]}
           py={[5, 5, 6]}
           bg={theme.white}
-          mb={5}
+          mb={[0, 0, 5]}
         >
           <AddTeamMember setProfileOrganization={setProfileOrganization} />
 
@@ -457,7 +457,6 @@ function Page() {
                 return (
                   <Box
                     key={"mem" + el.id}
-                    bg="white"
                     rounded="lg"
                     mb={2}
                     py={[2, 3, 4]}
@@ -529,12 +528,12 @@ function Page() {
         </Box>
 
         <Box
-          rounded="lg"
-          shadow="lg"
+          rounded={["none", "none", "lg"]}
+          shadow={["none", "none", "lg"]}
           p={[5, 5, 8]}
           py={[5, 5, 6]}
           bg={theme.white}
-          mb={5}
+          mb={[0, 0, 5]}
         >
           <AddLocation setProfileOrganization={setProfileOrganization} />
 
@@ -597,24 +596,24 @@ function Page() {
         </Box>
 
         <Box
-          rounded="lg"
-          bg={theme.white}
+          rounded={["none", "none", "lg"]}
+          shadow={["none", "none", "lg"]}
           p={[5, 5, 8]}
           py={[5, 5, 6]}
-          mb={5}
-          shadow="lg"
+          bg={theme.white}
+          mb={[0, 0, 5]}
         >
           <Heading mb={2} color={ theme.darkBlue }>Gallery</Heading>
           <Divider mb={[2, 2, 4]} />
         </Box>
 
         <Box
-          rounded="lg"
-          bg={theme.white}
+          rounded={["none", "none", "lg"]}
+          shadow={["none", "none", "lg"]}
           p={[5, 5, 8]}
           py={[5, 5, 6]}
-          mb={5}
-          shadow="lg"
+          bg={theme.white}
+          mb={[0, 0, 5]}
         >
           <Heading mb={2} color={ theme.darkBlue }>Additional Information</Heading>
           <Divider mb={[2, 2, 4]} />
@@ -630,7 +629,7 @@ function Page() {
           </Box>
 
           <FormControl mb={3}>
-            <FormLabel mb={0}>Culture</FormLabel>
+            <FormLabel mb={0} color={ theme.darkBlue }>Culture</FormLabel>
 
             <Textarea
               bg="white"
