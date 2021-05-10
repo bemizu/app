@@ -80,10 +80,9 @@ function Page() {
       ],
     },
   });
-  const [profileOrganization, setProfileOrganization] = useState({
+  const [profileOrganization, setProfileOrganization] = useState( session.organization || {
     locations: [],
     jobs: [],
-
     team_members: [],
   });
 
@@ -232,7 +231,11 @@ function Page() {
     // }
   }
 
-  if (!profileOrganization.id) {
+  if ( !profileOrganization ) {
+    return <Loading />
+  }
+
+  if (typeof profileOrganization.id == undefined) {
     return <Loading />;
   }
 

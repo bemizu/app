@@ -9,10 +9,6 @@ import {
   Container,
 } from "@chakra-ui/react";
 
-
-
-
-
 import Image from "next/image";
 import EditProfile from "../Profile/edit";
 import VerticalAlign from "../verticalAlign";
@@ -53,56 +49,10 @@ function Page() {
   const router = useRouter();
   const session = Session(state => state);
   const { user } = useAuth0();
-  const [ first, setFirst ] = useState(true )
   const [profileUser, setProfileUser] = useState({});
   const [profileOrganization, setProfileOrganization] = useState({});
 
   useEffect(() => {
-    setFirst( false );
-
-    if (first ) {
-      return;
-      var ctx = document.getElementById('myChart');
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-          height: 350,
-            responsive: true,
-
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    }
-
 
     if (!session.user) {
       GetUser(user, session, setProfileUser, setProfileOrganization);
@@ -165,7 +115,6 @@ function Page() {
           <Box  bg="gray.100" py={5} rounded="lg" position="relative">
 
             <Box height="350px" position="relative">
-          <canvas id="myChart" width="100%" height="350px"></canvas>
           </Box>
 
 
@@ -217,12 +166,6 @@ function Page() {
         </SimpleGrid>
 
 
-        <ThemeBox>
-          <Heading>
-            Map
-          </Heading>
-
-        </ThemeBox>
       </PageContainer>
 
       </Styles>

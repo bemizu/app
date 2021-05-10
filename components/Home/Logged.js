@@ -8,9 +8,26 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {GetUser} from "../../utils/getUser";
 
 function Logged() {
-  const [ loading, setLoading ] = useState( true );
   const session = Session(state => state);
+
+  const [ loading, setLoading ] = useState( true );
+  const [profileUser, setProfileUser] = useState({});
+  const [profileOrganization, setProfileOrganization] = useState( session.organization || {
+    locations: [],
+    jobs: [],
+    team_members: [],
+  });
   const { user } = useAuth0();
+
+  useEffect(() => {
+    if (!session.user) {
+      GetUser(user, session, setProfileUser, setProfileOrganization);
+    } else {
+      setProfileUser(session.user);
+      setProfileOrganization(session.organization);
+    }
+  }, [session.organization ]);
+
 
   useEffect(async () => {
     const { data, error } = await session.supabase
