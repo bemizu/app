@@ -97,8 +97,8 @@ function AddLocation(props) {
 
   return (
     <Box>
+        <IconButton rounded="none" icon={ <BiEdit  /> } onClick={onOpen} />
         
-        <BiEdit onClick={onOpen} />
 
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />

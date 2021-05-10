@@ -1,8 +1,8 @@
 import { Widget } from "@uploadcare/react-widget";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useQuill } from 'react-quilljs';
-import 'quill/dist/quill.snow.css'; // Add css for snow theme
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css"; // Add css for snow theme
 import {
   Box,
   ButtonGroup,
@@ -32,7 +32,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
-import { BiPlus, BiPhoneCall, BiMailSend } from "react-icons/bi";
+import { BiPlus, BiPhoneCall, BiMailSend, BiSave } from "react-icons/bi";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
@@ -71,23 +71,29 @@ function Page() {
   const { quill, quillRef } = useQuill({
     modules: {
       toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],
-        ['link'],
-        [{ list: 'bullet' }], 
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
+        ["bold", "italic", "underline", "strike"],
+        ["link"],
+        [{ list: "bullet" }],
       ],
-    }
+    },
   });
   const [profileOrganization, setProfileOrganization] = useState({
     locations: [],
     jobs: [],
+
     team_members: [],
   });
 
-  useEffect(() => {
+  function updateQuill() {
+    quill.setContents(JSON.parse(profileOrganization.overview));
+  }
 
-
+  function effectCallback() {
+    if (quill) {
+      setTimeout(updateQuill);
+    }
 
     if (!session.user) {
       GetUser(user, session, setProfileUser, setProfileOrganization);
@@ -95,13 +101,15 @@ function Page() {
       setProfileUser(session.user);
       setProfileOrganization(session.organization);
     }
-  }, [ session.organization ]);
+  }
+
+  useEffect(effectCallback, [session.organization, quill]);
 
   async function saveOrg(e) {
     e.preventDefault();
 
     let orgToUpdate = JSON.parse(JSON.stringify(profileOrganization));
-    orgToUpdate.overview = JSON.stringify(quill.getContents() );
+    orgToUpdate.overview = JSON.stringify(quill.getContents());
     delete orgToUpdate.jobs;
     delete orgToUpdate.locations;
     delete orgToUpdate.team_members;
@@ -119,7 +127,7 @@ function Page() {
     }
   }
 
-  async function removeLocation( id ) {
+  async function removeLocation(id) {
     const { data, error } = await session.supabase
       .from("locations")
       .delete()
@@ -230,35 +238,41 @@ function Page() {
   return (
     <Layout title="Profile">
       <PageContainer path={router.pathname}>
-        <Box rounded="lg" shadow="lg" p={[5, 5, 8]} py={[5, 5, 6]} bg={ theme.white } mb={5}>
-          <Heading mb={1}>
-            Profile
-            <Box
-              display="inline-block"
-              // display="none"
-              ml={3}
-              height="100%"
-              cursor="pointer"
-              color={theme.darkBlue}
-              _hover={{ color: theme.blue }}
-              transition="0.2s ease"
-              position="relative"
-              top={2}
-            >
-              <VerticalAlign>
-                <a href={"/profile/"+profileOrganization.id} target="_blank">
-                  <AiOutlineEye />
-                </a>
-              </VerticalAlign>
-            </Box>
-          </Heading>
-
-          <Divider mb={[5]} />
-
-
-      
-
+        <Box
+          rounded="lg"
+          shadow="lg"
+          p={[5, 5, 8]}
+          py={[5, 5, 6]}
+          bg={theme.white}
+          mb={5}
+        >
           <form onSubmit={saveOrg}>
+            <ButtonGroup variant="ghost" isAttached float="right">
+              <IconButton
+                size="lg"
+                icon={<BiSave />}
+                color={theme.darkBlue}
+                fontSize="32px"
+                rounded="full"
+                type="submit"
+              />
+              <IconButton
+                size="lg"
+                href={"/profile/" + profileOrganization.id}
+                icon={<AiOutlineEye />}
+                color={theme.darkBlue}
+                rounded="full"
+                fontSize="32px"
+                type="submit"
+              />
+            </ButtonGroup>
+
+            <Heading mb={2} color={theme.darkBlue}>
+              Profile
+            </Heading>
+
+            <Divider mb={[2, 2, 4]} />
+
             <Box mb={3}>
               <FormLabel mb={0}>Logo</FormLabel>
               <Box
@@ -312,7 +326,6 @@ function Page() {
               />
             </Box>
 
-
             {/* <Box>
               <FormControl isRequired mb={3}>
                 <FormLabel mb={0}>Username</FormLabel>
@@ -345,19 +358,18 @@ function Page() {
               </FormControl>
             </Box>
 
-
             <FormControl mb={3}>
-              <FormLabel mb={0}>Description</FormLabel>
-
+              <FormLabel mb={0}>Overview</FormLabel>
 
               <Box
-              bg="white"
-              rounded="sm"
-              defaultValue={""}
-              // data-path="description"
-              // onChange={update}
-              ref={quillRef}
-            />
+                bg="white"
+                rounded="sm"
+                fontFamily="Roboto !important"
+                value={""}
+                // data-path="description"
+                // onChange={update}
+                ref={quillRef}
+              />
 
               {/* <Textarea
                 rows={10}
@@ -384,8 +396,6 @@ function Page() {
               />
             </FormControl>
 
-            
-
             <FormControl mb={3}>
               <FormLabel mb={0}>Industry</FormLabel>
               <Select
@@ -407,27 +417,37 @@ function Page() {
               </Select>
             </FormControl>
 
-            <FormControl mb={3}>
+            <FormControl>
               <FormLabel mb={0}>Business Size</FormLabel>
               <BusinessSize
                 org={profileOrganization}
                 setBusinessSize={setBusinessSize}
               />
             </FormControl>
-
-            <Button rounded="sm" colorScheme="orange" type="submit">
-              Save
-            </Button>
           </form>
         </Box>
 
-        <Box rounded="lg" shadow="lg" p={[4, 4, 6]} bg="white" mb={5}>
-          <Heading>Team Members</Heading>
+        <Box
+          rounded="lg"
+          shadow="lg"
+          p={[5, 5, 8]}
+          py={[5, 5, 6]}
+          bg={theme.white}
+          mb={5}
+        >
+          <AddTeamMember setProfileOrganization={setProfileOrganization} />
 
-          <Divider mb={[2]} />
+          <Heading mb={2} color={theme.darkBlue}>
+            Team Members
+          </Heading>
+
+          <Divider mb={[2, 2, 4]} />
 
           <Box>
-            <SimpleGrid columns={[1]}  >
+            <Grid
+              templateColumns="repeat(auto-fill, minmax(180px, 1fr))"
+              gap={[4, 5, 6]}
+            >
               {profileOrganization.team_members.map((el, idx) => {
                 let image = el.image ? (
                   <Image src={el.image} layout="fill" objectFit="cover" />
@@ -435,175 +455,193 @@ function Page() {
                   ""
                 );
                 return (
-                  <Box key={"mem" + el.id} >
-
-                  <Grid templateColumns="80px calc(100% - 80px)" mb={2}>
+                  <Box
+                    key={"mem" + el.id}
+                    bg="white"
+                    rounded="lg"
+                    mb={2}
+                    py={[2, 3, 4]}
+                    px={2}
+                  >
                     <Box>
-                    <Box
-                      height="92px"
-                      width="80px"
-                      
-                      position="relative"
-                      bg={"gray.200"}
-                      rounded="md"
-                      overflow="hidden"
-                      mb={1}
-                    >
-                      {image}
-                    </Box>
-                    </Box>
-
-                    <Box pl={3} color={ theme.darkBlue }>
-
-                    <Box>
-                    <Box fontWeight="500" >
-                      {el.name}
+                      <Box
+                        height="92px"
+                        margin="0 auto"
+                        width="80px"
+                        position="relative"
+                        bg={"gray.200"}
+                        rounded="md"
+                        overflow="hidden"
+                        mb={2}
+                      >
+                        {image}
+                      </Box>
                     </Box>
 
-                    <Box fontWeight="300" fontSize="lg" lineHeight="18px" mb={2}>
-                      {el.title}
-                    </Box>
-                    </Box>
+                    <Box textAlign="center">
+                      <Box>
+                        <Box fontWeight="500">{el.name}</Box>
 
-
-                    <ButtonGroup isAttached variant="solid" rounded="sm" >
-                      <IconButton href={"phone:" + el.phone }  icon={<BiPhoneCall />} />
-                      <IconButton variant="solid" href={"mailto:" + el.email }  icon={ <BiMailSend />} />
-                      <IconButton variant="solid"   icon={ <EditTeam
-                          el={el}
-                          setProfileOrganization={setProfileOrganization}
-                          /> } />
-                      
-
-<IconButton   variant="solid"   icon={ <AlertDialogExample id={el.id} callback={removeTeam} /> } />
-
-
-
-                    </ButtonGroup>
-
-                      
-
-                    
-
-                      
+                        <Box
+                          fontWeight="300"
+                          fontSize="lg"
+                          lineHeight="18px"
+                          mb={2}
+                        >
+                          {el.title}
+                        </Box>
                       </Box>
 
-                      
-                     
-                
-                   
+                      <ButtonGroup
+                        isAttached
+                        variant="ghost"
+                        rounded="sm"
+                        margin="0 auto"
+                      >
+                        <IconButton
+                          href={"phone:" + el.phone}
+                          icon={<BiPhoneCall />}
+                        />
+                        <IconButton
+                          href={"mailto:" + el.email}
+                          icon={<BiMailSend />}
+                        />
+                        <EditTeam
+                          el={el}
+                          setProfileOrganization={setProfileOrganization}
+                        />
 
-                   
-                  </Grid>
-
-                  <Divider mb={3} />
+                        <IconButton
+                          icon={
+                            <AlertDialogExample
+                              id={el.id}
+                              callback={removeTeam}
+                            />
+                          }
+                        />
+                      </ButtonGroup>
+                    </Box>
                   </Box>
                 );
               })}
-            </SimpleGrid>
-
-            <AddTeamMember setProfileOrganization={setProfileOrganization} />
+            </Grid>
           </Box>
         </Box>
 
-        
-        <Box rounded="lg" shadow="lg" p={[4, 4, 6]} bg="white" mb={5}>
+        <Box
+          rounded="lg"
+          shadow="lg"
+          p={[5, 5, 8]}
+          py={[5, 5, 6]}
+          bg={theme.white}
+          mb={5}
+        >
+          <AddLocation setProfileOrganization={setProfileOrganization} />
 
-        <Heading>
-          Locations
-        </Heading>
+          <Heading color={ theme.darkBlue } mb={2}>Locations</Heading>
 
-        <Divider mb={2} />
+          <Divider mb={[2, 2, 4]} />
 
+          <Box mb={3}>
+            {profileOrganization.locations.map((el, idx) => {
+              return (
+                <Box key={"loc" + el.id}>
+                  <Box>
+                    <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
+                      <Box>
+                        <Box fontWeight="500">{el.title}</Box>
 
-        <Box mb={3}>
-          {profileOrganization.locations.map((el, idx) => {
-            return (
-              <Box key={"loc" + el.id} >
-                <Box >
-                  <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
-                    <Box>
-                      
-                        <Box fontWeight="500">
-                          {el.title}
+                        <Box
+                          fontWeight="300"
+                          fontSize="lg"
+                          lineHeight="18px"
+                          mb={2}
+                        >
+                          Lorem ipsum ...
                         </Box>
 
-                        <Box fontWeight="300" fontSize="lg" lineHeight="18px" mb={2}>
-                      Lorem ipsum ...
-                    </Box>
-                    
+                        <ButtonGroup
+                          isAttached
+                          variant="solid"
+                          rounded="sm"
+                          mb={1}
+                        >
+                          <IconButton
+                            variant="solid"
+                            icon={
+                              <EditLocation
+                                el={el}
+                                setProfileOrganization={setProfileOrganization}
+                              />
+                            }
+                          />
 
-                        <ButtonGroup isAttached variant="solid" rounded="sm" mb={1}>
-                      <IconButton variant="solid"   icon={ <EditLocation
-                            el={el}
-                            setProfileOrganization={setProfileOrganization}
-                          />} />
-                      
-                       <AlertDialogExampleLocation id={el.id} callback={removeLocation} />
-                        
+                          <AlertDialogExampleLocation
+                            id={el.id}
+                            callback={removeLocation}
+                          />
+                        </ButtonGroup>
+                      </Box>
+                    </Grid>
+                  </Box>
 
-
-
-                    </ButtonGroup>
-                    </Box>
-
-                   
-                  </Grid>
+                  <Divider my={2} />
                 </Box>
+              );
+            })}
 
-                <Divider my={2} />
-              </Box>
-            );
-          })}
-
-          <Box mb={4} mt={4} display="none">
-            <Checkbox>Remote available?</Checkbox>
+            <Box mb={4} mt={4} display="none">
+              <Checkbox>Remote available?</Checkbox>
+            </Box>
           </Box>
-
         </Box>
 
-        <AddLocation setProfileOrganization={setProfileOrganization} />
-
-
-        </Box>
-        
-
-
-
-        <Box rounded="lg" bg="white" p={[4, 6]} mb={ 5 } shadow="lg">
-          <Heading >
-            Gallery
-          </Heading>
-          <Divider mb={2} />
-
+        <Box
+          rounded="lg"
+          bg={theme.white}
+          p={[5, 5, 8]}
+          py={[5, 5, 6]}
+          mb={5}
+          shadow="lg"
+        >
+          <Heading mb={2} color={ theme.darkBlue }>Gallery</Heading>
+          <Divider mb={[2, 2, 4]} />
         </Box>
 
-        <Box rounded="lg" bg="white" p={[4, 6]} mb={ 5 } shadow="lg">
-          <Heading >
-            Additional Information
-          </Heading>
-          <Divider mb={4} />
+        <Box
+          rounded="lg"
+          bg={theme.white}
+          p={[5, 5, 8]}
+          py={[5, 5, 6]}
+          mb={5}
+          shadow="lg"
+        >
+          <Heading mb={2} color={ theme.darkBlue }>Additional Information</Heading>
+          <Divider mb={[2, 2, 4]} />
 
           <Box fontSize="sm" mb={4}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
           </Box>
 
-          <FormControl mb={3} >
-              <FormLabel mb={0}>Culture</FormLabel>
+          <FormControl mb={3}>
+            <FormLabel mb={0}>Culture</FormLabel>
 
-              <Textarea
-                bg="white"
-                rounded="sm"
-                placeholder="What makes you great"
-                defaultValue={profileOrganization.culture}
-                data-path="culture"
-                onChange={update}
-              />
-            </FormControl>
-
+            <Textarea
+              bg="white"
+              rounded="sm"
+              placeholder="What makes you great"
+              defaultValue={profileOrganization.culture}
+              data-path="culture"
+              onChange={update}
+            />
+          </FormControl>
         </Box>
-
-
       </PageContainer>
     </Layout>
   );
@@ -656,7 +694,7 @@ function BusinessSize(props) {
     onChange: props.setBusinessSize,
   });
 
-  console.log(props.org.businessSize);
+  // console.log(props.org.businessSize);
   const group = getRootProps();
 
   return (
@@ -688,8 +726,10 @@ function AlertDialogExample(props) {
 
   return (
     <>
-    
-        <BiTrash style={{ display: "inline-block" }}  onClick={() => setIsOpen(true)} />
+      <BiTrash
+        style={{ display: "inline-block" }}
+        onClick={() => setIsOpen(true)}
+      />
 
       <AlertDialog
         isOpen={isOpen}
@@ -724,8 +764,7 @@ function AlertDialogExample(props) {
   );
 }
 
-
-function AlertDialogExampleLocation (props) {
+function AlertDialogExampleLocation(props) {
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => setIsOpen(false);
   const cancelRef = useRef();
@@ -740,7 +779,11 @@ function AlertDialogExampleLocation (props) {
 
   return (
     <>
-      <IconButton   variant="solid"   icon={ <BiTrash style={{ display: "inline-block" }}  /> } onClick={() => setIsOpen(true)} />
+      <IconButton
+        variant="solid"
+        icon={<BiTrash style={{ display: "inline-block" }} />}
+        onClick={() => setIsOpen(true)}
+      />
 
       <AlertDialog
         isOpen={isOpen}

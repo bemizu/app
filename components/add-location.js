@@ -2,6 +2,8 @@ import Session from "../contexts/session";
 import GooglePlacesAutocomplete, { geocodeByPlaceId } from "react-google-places-autocomplete";
 import GoogleMapReact from 'google-map-react';
 import { RiMapPinFill } from "react-icons/ri"
+import { BiPlus } from "react-icons/bi"
+import theme from "../public/theme";
 import {
   Box,
   Button,
@@ -17,6 +19,7 @@ import {
   FormLabel,
   Input,
   Divider,
+  IconButton, 
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
@@ -155,9 +158,7 @@ function AddTeam(props) {
 
   return (
     <Box >
-      <Button rounded="sm" colorScheme="green" onClick={onOpen}>
-        Add
-      </Button>
+      <IconButton size="lg" float="right" rounded="full" variant="ghost" icon={ <BiPlus />  } onClick={onOpen} color={ theme.darkBlue } fontSize="32px" />
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />

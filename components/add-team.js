@@ -20,8 +20,10 @@ import {
   FormControl,
   FormLabel,
   Input,
+  IconButton,
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
+import theme from "../public/theme";
 
 function useForceUpdate(){
   const [value, setValue] = useState(0); // integer state
@@ -95,9 +97,7 @@ function AddLocation(props) {
 
   return (
     <Box>
-      <Button rounded="sm" colorScheme="yellow" onClick={onOpen}>
-        Add
-      </Button>
+      <IconButton size="lg" rounded="full" float="right" variant="ghost" icon={ <BiPlus />  } onClick={onOpen} color={ theme.darkBlue } fontSize="32px" />
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
