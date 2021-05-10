@@ -97,7 +97,7 @@ function AddLocation(props) {
 
   return (
     <Box>
-      <IconButton size="lg" rounded="full" float="right" variant="ghost" icon={ <BiPlus />  } onClick={onOpen} color={ theme.darkBlue } fontSize="32px" />
+      <IconButton size="lg" rounded="lg" float="right" variant="ghost" icon={ <BiPlus />  } onClick={onOpen} color={ theme.darkBlue } fontSize="32px" />
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />

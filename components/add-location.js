@@ -158,7 +158,7 @@ function AddTeam(props) {
 
   return (
     <Box >
-      <IconButton size="lg" float="right" rounded="full" variant="ghost" icon={ <BiPlus />  } onClick={onOpen} color={ theme.darkBlue } fontSize="32px" />
+      <IconButton size="lg" float="right" rounded="lg" variant="ghost" icon={ <BiPlus />  } onClick={onOpen} color={ theme.darkBlue } fontSize="32px" />
 
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />

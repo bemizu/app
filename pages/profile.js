@@ -49,6 +49,7 @@ import { GetUser } from "../utils/getUser";
 import { BiTrash } from "react-icons/bi";
 import Image from "next/image";
 import AddLocation from "../components/add-location";
+import ThemeBox from "../components/theme-box";
 import AddTeamMember from "../components/add-team";
 import EditTeam from "../components/edit-team";
 import EditLocation from "../components/edit-location";
@@ -238,14 +239,7 @@ function Page() {
   return (
     <Layout title="Profile">
       <PageContainer path={router.pathname}>
-        <Box
-          rounded={["none", "none", "lg"]}
-          shadow={["none", "none", "lg"]}
-          p={[5, 5, 8]}
-          py={[5, 5, 6]}
-          bg={theme.white}
-          mb={[0, 0, 5]}
-        >
+        <ThemeBox>
           <form onSubmit={saveOrg}>
             <ButtonGroup variant="ghost" isAttached float="right">
               <IconButton
@@ -253,7 +247,7 @@ function Page() {
                 icon={<BiSave />}
                 color={theme.darkBlue}
                 fontSize="32px"
-                rounded="full"
+                rounded="lg"
                 type="submit"
               />
               <IconButton
@@ -261,7 +255,7 @@ function Page() {
                 href={"/profile/" + profileOrganization.id}
                 icon={<AiOutlineEye />}
                 color={theme.darkBlue}
-                rounded="full"
+                rounded="lg"
                 fontSize="32px"
                 type="submit"
               />
@@ -425,16 +419,9 @@ function Page() {
               />
             </FormControl>
           </form>
-        </Box>
+        </ThemeBox>
 
-        <Box
-          rounded={["none", "none", "lg"]}
-          shadow={["none", "none", "lg"]}
-          p={[5, 5, 8]}
-          py={[5, 5, 6]}
-          bg={theme.white}
-          mb={[0, 0, 5]}
-        >
+        <ThemeBox>
           <AddTeamMember setProfileOrganization={setProfileOrganization} />
 
           <Heading mb={2} color={theme.darkBlue}>
@@ -525,16 +512,9 @@ function Page() {
               })}
             </Grid>
           </Box>
-        </Box>
+        </ThemeBox>
 
-        <Box
-          rounded={["none", "none", "lg"]}
-          shadow={["none", "none", "lg"]}
-          p={[5, 5, 8]}
-          py={[5, 5, 6]}
-          bg={theme.white}
-          mb={[0, 0, 5]}
-        >
+        <ThemeBox>
           <AddLocation setProfileOrganization={setProfileOrganization} />
 
           <Heading color={ theme.darkBlue } mb={2}>Locations</Heading>
@@ -593,27 +573,14 @@ function Page() {
               <Checkbox>Remote available?</Checkbox>
             </Box>
           </Box>
-        </Box>
+        </ThemeBox>
 
-        <Box
-          rounded={["none", "none", "lg"]}
-          shadow={["none", "none", "lg"]}
-          p={[5, 5, 8]}
-          py={[5, 5, 6]}
-          bg={theme.white}
-          mb={[0, 0, 5]}
-        >
+        <ThemeBox>
           <Heading mb={2} color={ theme.darkBlue }>Gallery</Heading>
           <Divider mb={[2, 2, 4]} />
-        </Box>
+        </ThemeBox>
 
-        <Box
-          rounded={["none", "none", "lg"]}
-          shadow={["none", "none", "lg"]}
-          p={[5, 5, 8]}
-          py={[5, 5, 6]}
-          bg={theme.white}
-          mb={[0, 0, 5]}
+        <ThemeBox
         >
           <Heading mb={2} color={ theme.darkBlue }>Additional Information</Heading>
           <Divider mb={[2, 2, 4]} />
@@ -640,7 +607,7 @@ function Page() {
               onChange={update}
             />
           </FormControl>
-        </Box>
+        </ThemeBox>
       </PageContainer>
     </Layout>
   );
