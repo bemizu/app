@@ -11,7 +11,7 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import Link from "next/link"
-import VerticalAlign from "../components/verticalAlign";
+import ThemeBox from "../components/theme-box";
 import { BiTrash } from "react-icons/bi";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
@@ -64,7 +64,7 @@ function Page() {
   return (
     <Layout title="Jobs">
       <PageContainer path={router.pathname}>
-        <Box p={[4, 4, 6]} rounded="lg" shadow="lg" bg="white">
+        <ThemeBox>
         <Heading>Jobs</Heading>
 
         <Divider mb={2} />
@@ -116,7 +116,7 @@ function Page() {
         </Button>
         </Link>
         </Box>
-        </Box>
+        </ThemeBox>
       </PageContainer>
     </Layout>
   );

@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
+import ThemeBox from "../components/theme-box";
 import PageContainer from "../components/pageContainer";
 import styled from "@emotion/styled";
 import theme from "../public/theme";
@@ -92,10 +93,10 @@ function Page() {
   return (
     <Layout title="Messages">
       <PageContainer path={router.pathname}>
-        <Box rounded="lg" bg="white" shadow="lg" p={[4, 4, 6]}>
+        <ThemeBox>
         <Heading>Messages</Heading>
         <Divider mb={3} />
-        </Box>
+        </ThemeBox>
 
         {/* <CometChatUI /> */}
 

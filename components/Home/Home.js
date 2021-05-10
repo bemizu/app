@@ -17,6 +17,7 @@ import Image from "next/image";
 import EditProfile from "../Profile/edit";
 import VerticalAlign from "../verticalAlign";
 import PageContainer from "../pageContainer";
+import ThemeBox from "../theme-box";
 import Loading from "./Loading";
 import Link from "next/link";
 import Layout from "../layout";
@@ -115,7 +116,7 @@ function Page() {
     <Layout title={"Home"}>
       <Styles>
       <PageContainer path={router.pathname}>
-        <Box rounded="lg" p={[4, 6]} bg="white" shadow="md" mb={5}>
+        <ThemeBox>
           <Heading>
           Dashboard
           </Heading>
@@ -170,10 +171,10 @@ function Page() {
 
           </Box>
 
-        </Box>
+          </ThemeBox>
 
         <SimpleGrid columns={[1, 1, 2]} spacing={ 5 } mb={10}>
-        <Box bg="white" rounded="lg" shadow="md" p={[4, 6]}>
+        <ThemeBox>
           <Heading size="lg" mb={4}>
             Post a job
           </Heading>
@@ -193,9 +194,9 @@ function Page() {
               </Link>
               </ButtonGroup>
           
-        </Box>
+        </ThemeBox>
 
-        <Box bg="white" rounded="lg" shadow="md" p={[4, 6]}>
+        <ThemeBox>
 
         <Heading size="lg" mb={4}>
             Find qualified candidates
@@ -212,16 +213,16 @@ function Page() {
               </Button>
               </Link>
           
-        </Box>
+        </ThemeBox>
         </SimpleGrid>
 
 
-        <Box bg="white" rounded="lg" shadow="md" p={[4, 6]}>
+        <ThemeBox>
           <Heading>
             Map
           </Heading>
 
-        </Box>
+        </ThemeBox>
       </PageContainer>
 
       </Styles>

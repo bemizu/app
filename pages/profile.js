@@ -445,7 +445,6 @@ function Page() {
                   <Box
                     key={"mem" + el.id}
                     rounded="lg"
-                    mb={2}
                     py={[2, 3, 4]}
                     px={2}
                   >
@@ -521,13 +520,20 @@ function Page() {
 
           <Divider mb={[2, 2, 4]} />
 
-          <Box mb={3}>
+          <Grid
+              templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
+              gap={[4, 5, 6]}
+            >
             {profileOrganization.locations.map((el, idx) => {
               return (
                 <Box key={"loc" + el.id}>
                   <Box>
                     <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
-                      <Box>
+                      <Box textAlign="center">
+
+                        <Box height="150px" bg="gray.100" rounded="sm" mb={2}>
+
+                        </Box>
                         <Box fontWeight="500">{el.title}</Box>
 
                         <Box
@@ -541,12 +547,11 @@ function Page() {
 
                         <ButtonGroup
                           isAttached
-                          variant="solid"
+                          variant="ghost"
                           rounded="sm"
                           mb={1}
                         >
                           <IconButton
-                            variant="solid"
                             icon={
                               <EditLocation
                                 el={el}
@@ -564,15 +569,16 @@ function Page() {
                     </Grid>
                   </Box>
 
-                  <Divider my={2} />
                 </Box>
               );
             })}
 
-            <Box mb={4} mt={4} display="none">
+           
+          </Grid>
+
+          <Box mb={4} mt={4} display="none">
               <Checkbox>Remote available?</Checkbox>
             </Box>
-          </Box>
         </ThemeBox>
 
         <ThemeBox>
@@ -746,7 +752,6 @@ function AlertDialogExampleLocation(props) {
   return (
     <>
       <IconButton
-        variant="solid"
         icon={<BiTrash style={{ display: "inline-block" }} />}
         onClick={() => setIsOpen(true)}
       />

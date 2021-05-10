@@ -11,6 +11,7 @@ import {
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
 import PageContainer from "../components/pageContainer";
+import ThemeBox from "../components/theme-box";
 import styled from "@emotion/styled";
 import theme from "../public/theme";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
@@ -42,13 +43,13 @@ function Page() {
   return (
     <Layout title="Schedule">
       <PageContainer path={router.pathname}>
-      <Box rounded="lg" bg="white" shadow="lg" p={[4, 4, 6]}>
+      <ThemeBox>
       <Heading>
           Schedule
         </Heading>
 
         <Divider mb={3} />
-        </Box>
+        </ThemeBox>
 
 
       </PageContainer>
