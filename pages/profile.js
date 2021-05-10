@@ -217,7 +217,7 @@ function Page() {
             Profile
             <Box
               display="inline-block"
-              display="none"
+              // display="none"
               ml={3}
               height="100%"
               cursor="pointer"
