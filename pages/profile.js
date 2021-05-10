@@ -1,6 +1,8 @@
 import { Widget } from "@uploadcare/react-widget";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css'; // Add css for snow theme
 import {
   Box,
   ButtonGroup,
@@ -34,6 +36,7 @@ import { BiPlus, BiPhoneCall, BiMailSend } from "react-icons/bi";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
+import MyQuill from "../components/quill";
 import styled from "@emotion/styled";
 import theme from "../public/theme";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
@@ -65,18 +68,32 @@ function Page() {
   const session = Session((state) => state);
   const { user } = useAuth0();
   const [profileUser, setProfileUser] = useState({});
+  const { quill, quillRef } = useQuill({
+    modules: {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+        ['link'],
+        [{ list: 'bullet' }], 
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+      ],
+    }
+  });
   const [profileOrganization, setProfileOrganization] = useState({
     locations: [],
     jobs: [],
     team_members: [],
   });
 
-  (() => {
+  useEffect(() => {
+
+
+
     if (!session.user) {
       GetUser(user, session, setProfileUser, setProfileOrganization);
     } else {
       setProfileUser(session.user);
-      setProfileOrganizuseEffectation(session.organization);
+      setProfileOrganization(session.organization);
     }
   }, [ session.organization ]);
 
@@ -84,6 +101,7 @@ function Page() {
     e.preventDefault();
 
     let orgToUpdate = JSON.parse(JSON.stringify(profileOrganization));
+    orgToUpdate.overview = JSON.stringify(quill.getContents() );
     delete orgToUpdate.jobs;
     delete orgToUpdate.locations;
     delete orgToUpdate.team_members;
@@ -212,8 +230,8 @@ function Page() {
   return (
     <Layout title="Profile">
       <PageContainer path={router.pathname}>
-        <Box rounded="lg" shadow="lg" p={[4, 4, 6]} bg="white" mb={5}>
-          <Heading>
+        <Box rounded="lg" shadow="lg" p={[5, 5, 8]} py={[5, 5, 6]} bg={ theme.white } mb={5}>
+          <Heading mb={1}>
             Profile
             <Box
               display="inline-block"
@@ -295,7 +313,7 @@ function Page() {
             </Box>
 
 
-            <Box>
+            {/* <Box>
               <FormControl isRequired mb={3}>
                 <FormLabel mb={0}>Username</FormLabel>
 
@@ -311,7 +329,7 @@ function Page() {
                   Lowercase letters and "-" only. For setting the url of your business page. 
                 </FormHelperText>
               </FormControl>
-            </Box>
+            </Box> */}
 
             <Box>
               <FormControl isRequired mb={3}>
@@ -327,10 +345,21 @@ function Page() {
               </FormControl>
             </Box>
 
+
             <FormControl mb={3}>
               <FormLabel mb={0}>Description</FormLabel>
 
-              <Textarea
+
+              <Box
+              bg="white"
+              rounded="sm"
+              defaultValue={""}
+              // data-path="description"
+              // onChange={update}
+              ref={quillRef}
+            />
+
+              {/* <Textarea
                 rows={10}
                 bg="white"
                 rounded="sm"
@@ -338,7 +367,7 @@ function Page() {
                 defaultValue={profileOrganization.overview}
                 data-path="overview"
                 onChange={update}
-              />
+              /> */}
             </FormControl>
 
             <FormControl mb={3}>

@@ -75,6 +75,7 @@ function Navigator({ path }) {
           "repeat(100%)",
         ]}
         gap={[0, 0, "12px"]}
+        
       >
         {items.map((el) => {
           let color = el.active

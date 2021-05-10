@@ -1,14 +1,13 @@
-import { useRouter } from "next/router";
+import { useRouter, withRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { Box, Heading, Container, Text } from "@chakra-ui/react";
+import { Box, Heading, Container, Text, Grid, Divider,  } from "@chakra-ui/react";
 import Layout from "../../components/layout";
 import Loading from "../../components/Home/Loading";
 import Section from "../../components/section";
 import Session from "../../contexts/session";
 import { GetUser } from "../../utils/getUser";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-
-
+import theme from "../../public/theme";
 function Page() {
   const session = Session((state) => state);
   const { user } = useAuth0();
@@ -26,13 +25,16 @@ function Page() {
       setProfileUser(session.user);
       setProfileOrganization(session.organization);
     }
-  }, [ session.organization ]);
+  }, [session.organization]);
 
-
-  let fullName = profileOrganization.fullName ? (
-    <Heading size="sm" mb={4} color="gray.700">
-      {profileOrganization.fullName}
+  let name = profileOrganization.name ? (
+    <Box>
+    <Heading  color="gray.700">
+      {profileOrganization.name}
     </Heading>
+
+    <Divider mb={4}  />
+    </Box>
   ) : (
     ""
   );
@@ -52,10 +54,10 @@ function Page() {
 
   let skills = profileOrganization.skills ? (
     <Box mb={4}>
-       <Heading size="sm" mb={1} color="gray.600">
+      <Heading size="sm" mb={1} color="gray.600">
         Skills
       </Heading>
-    
+
       <Text mb={2} color="gray.500">
         {profileOrganization.skills}
       </Text>
@@ -66,10 +68,10 @@ function Page() {
 
   let certifications = profileOrganization.certifications ? (
     <Box mb={4}>
-       <Heading size="sm" mb={1} color="gray.600">
+      <Heading size="sm" mb={1} color="gray.600">
         Certifications
       </Heading>
-    
+
       <Text mb={2} color="gray.500">
         {profileOrganization.certifications}
       </Text>
@@ -80,10 +82,10 @@ function Page() {
 
   let availability = profileOrganization.availability ? (
     <Box mb={4}>
-       <Heading size="sm" mb={1} color="gray.600">
+      <Heading size="sm" mb={1} color="gray.600">
         Availability
       </Heading>
-    
+
       <Text mb={2} color="gray.500">
         {profileOrganization.availability}
       </Text>
@@ -94,10 +96,10 @@ function Page() {
 
   let references = profileOrganization.references ? (
     <Box mb={4}>
-       <Heading size="sm" mb={1} color="gray.600">
+      <Heading size="sm" mb={1} color="gray.600">
         References
       </Heading>
-    
+
       <Text mb={2} color="gray.500">
         {profileOrganization.references}
       </Text>
@@ -105,41 +107,51 @@ function Page() {
   ) : (
     ""
   );
-  
-    if (!profileOrganization.id) {
-      return <Loading />;
-    }
+
+  if (!profileOrganization.id) {
+    return <Loading />;
+  }
   return (
     <Layout title="Page">
       <Section>
-        <Container maxWidth="1200px">
-          <Box
-            rounded="full"
-            overflow="hidden"
-            borderWidth={2}
-            height="100px"
-            width="100px"
+        <Container
+          maxWidth="1200px"
+          bg={theme.white}
+          rounded="lg"
+          p={[3, 3, 5]}
+        >
+          <Grid
+            templateColumns={[
+              "100% 100%",
+              "100% 100%",
+              "100px calc(100% - 100px)",
+            ]}
           >
-            <img src={profileOrganization.profileImg} style={{ height: 100, width: 100 }} />{" "}
-          </Box>
+            <Box>
+              <Box
+                rounded="full"
+                overflow="hidden"
+                borderWidth={2}
+                height="100px"
+                width="100px"
+              >
+                <img
+                  src={profileOrganization.logo}
+                  style={{ height: 100, width: 100 }}
+                />{" "}
+              </Box>
+            </Box>
 
-          <Heading>{user.username}</Heading>
-
-          { fullName }
-
-          { bio }
-
-          { skills }
-
-          { certifications }
-
-          { availability }
-
-          { references }
+            <Box pl={[0, 0, 8]}>
+              <Heading>{name}</Heading>
+            </Box>
+          </Grid>
         </Container>
       </Section>
     </Layout>
   );
 }
 
-export default Page;
+export default withAuthenticationRequired(withRouter(Page), {
+  onRedirecting: () => <Loading />,
+});
