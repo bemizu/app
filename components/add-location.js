@@ -36,7 +36,7 @@ const Styles = styled.div`
 
 `
 
-function AddTeam(props) {
+function AddLocation(props) {
   const session = Session((state) => state);
   const [locationValue, setLocationValue ] = useState(null);
   const [myLatLng, setMyLatLng ] = useState(null);
@@ -86,7 +86,7 @@ function AddTeam(props) {
       setMyLatLng( latLng )
     })
     .catch(error => {
-      debugger
+      console.log( errror )
     });
   }
 
@@ -101,54 +101,16 @@ function AddTeam(props) {
 
     let loc = location;
     loc.oid = session.organization.id;
+    loc.locObj = locationValue;
+    loc.latLng = myLatLng;
 
     const { data, error } = await session.supabase
       .from("locations")
       .insert([loc]);
 
     if (!error) {
-      const org = await session.supabase
-        .from("organizations")
-        .select(
-          ` 
-          id,      
-          name,
-          website,
-          overview,
-          culture,
-          logo,
-          locations (
-            id,
-            title,
-            line1,
-            line2,
-            city,
-            state,
-            zip,
-            oid
-          ),
-          jobs (
-            id, 
-            title, 
-            oid,
-            lid,
-            description, 
-            salaryMin, 
-            salaryMax, 
-            salaryType
-          )
-            `
-        )
-        .eq("id", session.organization.id);
-
-      if (!org.error) {
-        session.setOrganization(org.data[0]);
-        props.setProfileOrganization(org.data[0]);
-        onClose();
-      } else {
-        console.log(error);
-        onClose();
-      }
+      session.refreshOrg( session );
+      onClose();
     } else {
       console.log(error);
     }
@@ -244,7 +206,7 @@ function AddTeam(props) {
   );
 }
 
-export default AddTeam;
+export default AddLocation;
 
 
 

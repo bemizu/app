@@ -1,6 +1,7 @@
 import { Widget } from "@uploadcare/react-widget";
 import toast from "react-hot-toast";
 import axios from "axios";
+import GoogleMapReact from "google-map-react";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css"; // Add css for snow theme
 import {
@@ -33,6 +34,7 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineEye } from "react-icons/ai";
 import { BiPlus, BiPhoneCall, BiMailSend, BiSave } from "react-icons/bi";
+import { RiMapPinFill } from "react-icons/ri";
 import Loading from "../components/Home/Loading";
 import Layout from "../components/layout";
 import VerticalAlign from "../components/verticalAlign";
@@ -80,14 +82,16 @@ function Page() {
       ],
     },
   });
-  const [profileOrganization, setProfileOrganization] = useState( session.organization || {
-    locations: [],
-    jobs: [],
-    team_members: [],
-  });
+  const [profileOrganization, setProfileOrganization] = useState(
+    session.organization || {
+      locations: [],
+      jobs: [],
+      team_members: [],
+    }
+  );
 
   function updateQuill() {
-    quill.setContents(JSON.parse( profileOrganization.overview ));
+    quill.setContents(JSON.parse(profileOrganization.overview));
   }
 
   function effectCallback() {
@@ -231,8 +235,8 @@ function Page() {
     // }
   }
 
-  if ( !profileOrganization ) {
-    return <Loading />
+  if (!profileOrganization) {
+    return <Loading />;
   }
 
   if (typeof profileOrganization.id == undefined) {
@@ -271,7 +275,9 @@ function Page() {
             <Divider mb={[2, 2, 4]} />
 
             <Box mb={3}>
-              <FormLabel mb={0} color={ theme.darkBlue }>Logo</FormLabel>
+              <FormLabel mb={0} color={theme.darkBlue}>
+                Logo
+              </FormLabel>
               <Box
                 position="relative"
                 overflow="hidden"
@@ -343,7 +349,9 @@ function Page() {
 
             <Box>
               <FormControl isRequired mb={3}>
-                <FormLabel mb={0} color={ theme.darkBlue }>Name</FormLabel>
+                <FormLabel mb={0} color={theme.darkBlue}>
+                  Name
+                </FormLabel>
 
                 <Input
                   bg="white"
@@ -356,7 +364,9 @@ function Page() {
             </Box>
 
             <FormControl mb={3}>
-              <FormLabel mb={0} color={ theme.darkBlue }>Overview</FormLabel>
+              <FormLabel mb={0} color={theme.darkBlue}>
+                Overview
+              </FormLabel>
 
               <Box
                 bg="white"
@@ -380,7 +390,9 @@ function Page() {
             </FormControl>
 
             <FormControl mb={3}>
-              <FormLabel mb={0} color={ theme.darkBlue }>Website</FormLabel>
+              <FormLabel mb={0} color={theme.darkBlue}>
+                Website
+              </FormLabel>
 
               <Input
                 type="url"
@@ -394,7 +406,9 @@ function Page() {
             </FormControl>
 
             <FormControl mb={3}>
-              <FormLabel mb={0} color={ theme.darkBlue }>Industry</FormLabel>
+              <FormLabel mb={0} color={theme.darkBlue}>
+                Industry
+              </FormLabel>
               <Select
                 placeholder="Select option"
                 rounded="sm"
@@ -415,7 +429,9 @@ function Page() {
             </FormControl>
 
             <FormControl>
-              <FormLabel mb={0} color={ theme.darkBlue }>Business Size</FormLabel>
+              <FormLabel mb={0} color={theme.darkBlue}>
+                Business Size
+              </FormLabel>
               <BusinessSize
                 org={profileOrganization}
                 setBusinessSize={setBusinessSize}
@@ -445,12 +461,7 @@ function Page() {
                   ""
                 );
                 return (
-                  <Box
-                    key={"mem" + el.id}
-                    rounded="lg"
-                    py={[2, 3, 4]}
-                    px={2}
-                  >
+                  <Box key={"mem" + el.id} rounded="lg" py={[2, 3, 4]} px={2}>
                     <Box>
                       <Box
                         height="92px"
@@ -487,10 +498,12 @@ function Page() {
                         margin="0 auto"
                       >
                         <IconButton
-                          href={"phone:" + el.phone}
+                          as="a"
+                          href={"tel:" + el.phone}
                           icon={<BiPhoneCall />}
                         />
                         <IconButton
+                          as="a"
                           href={"mailto:" + el.email}
                           icon={<BiMailSend />}
                         />
@@ -519,33 +532,64 @@ function Page() {
         <ThemeBox>
           <AddLocation setProfileOrganization={setProfileOrganization} />
 
-          <Heading color={ theme.darkBlue } mb={2}>Locations</Heading>
+          <Heading color={theme.darkBlue} mb={2}>
+            Locations
+          </Heading>
 
           <Divider mb={[2, 2, 4]} />
 
           <Grid
-              templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
-              gap={[4, 5, 6]}
-            >
+            templateColumns="repeat(auto-fill, minmax(100%, 1fr))"
+            gap={[4, 5, 6]}
+          >
             {profileOrganization.locations.map((el, idx) => {
+
+              console.log( el )
+              function marker() {
+                return (
+                  <Box
+                    style={{ transform: "translate(-50%, -100%)" }}
+                    height="40px"
+                    width="40px"
+                    rounded="full"
+                    color="blue.500"
+                    fontSize="40px"
+                    lat={el.latLng.lat}
+                    lng={el.latLng.lng}
+                    textAlign="center"
+                  >
+                    <VerticalAlign>
+                      <RiMapPinFill />
+                    </VerticalAlign>
+                  </Box>
+                );
+              }
+
               return (
                 <Box key={"loc" + el.id}>
                   <Box>
-                    <Grid templateColumns="calc(100% - 80px) 60px" gap="20px">
-                      <Box textAlign="center">
-
-                        <Box height="150px" bg="gray.100" rounded="sm" mb={2}>
-
-                        </Box>
-                        <Box fontWeight="500">{el.title}</Box>
-
-                        <Box
-                          fontWeight="300"
-                          fontSize="lg"
-                          lineHeight="18px"
-                          mb={2}
-                        >
-                          Lorem ipsum ...
+                    <Grid
+                      templateColumns={[
+                        "100% 100%",
+                        "100% 100%",
+                        "300px calc(100% - 280px)",
+                      ]}
+                      gap="20px"
+                    >
+                      <Box>
+                        <Box height="220px" bg="gray.100" rounded="sm" mb={2}>
+                          <GoogleMapReact
+                            bootstrapURLKeys={{
+                              key: "AIzaSyDixXZq9Kdeq-3cpsb1p0XgMQmVjkEvkRU",
+                            }}
+                            defaultCenter={{
+                              lat: el.latLng.lat,
+                              lng: el.latLng.lng,
+                            }}
+                            defaultZoom={12}
+                          >
+                            {marker()}
+                          </GoogleMapReact>
                         </Box>
 
                         <ButtonGroup
@@ -569,29 +613,52 @@ function Page() {
                           />
                         </ButtonGroup>
                       </Box>
+
+                      <Box>
+                        <Heading size="md" fontWeight="500" mb={2}>{el.title}</Heading>
+                        <ChakraLink href={`https://www.google.com/maps/place/?q=place_id:${ el.locObj.place_id }`} color={ theme.blue } target="_blank" display="inline-block" rounded="md">
+                        <Box
+                          fontWeight="300"
+                          maxWidth="250px"
+                          
+                        >
+                          {/* { el.locObj.label.split(",")[1] } */}
+                          { el.locObj.label }
+                        </Box>
+
+                        {/* <Box
+                          fontWeight="300"
+                        >
+                          { .split(",")[2] + ", " + el.locObj.label.split(",")[3] + ", " + el.locObj.label.split(",")[4] }
+                        </Box> */}
+                        </ChakraLink>
+
+                     
+                      </Box>
                     </Grid>
                   </Box>
-
                 </Box>
               );
             })}
-
-           
           </Grid>
 
           <Box mb={4} mt={4} display="none">
-              <Checkbox>Remote available?</Checkbox>
-            </Box>
+            <Checkbox>Remote available?</Checkbox>
+          </Box>
         </ThemeBox>
 
         <ThemeBox>
-          <Heading mb={2} color={ theme.darkBlue }>Gallery</Heading>
+          <Heading mb={2} color={theme.darkBlue}>
+            Gallery
+          </Heading>
           <Divider mb={[2, 2, 4]} />
         </ThemeBox>
 
-        <ThemeBox
-        >
-          <Heading mb={2} color={ theme.darkBlue }>Additional Information</Heading>
+{/*         
+        <ThemeBox>
+          <Heading mb={2} color={theme.darkBlue}>
+            Additional Information
+          </Heading>
           <Divider mb={[2, 2, 4]} />
 
           <Box fontSize="sm" mb={4}>
@@ -605,7 +672,9 @@ function Page() {
           </Box>
 
           <FormControl mb={3}>
-            <FormLabel mb={0} color={ theme.darkBlue }>Culture</FormLabel>
+            <FormLabel mb={0} color={theme.darkBlue}>
+              Culture
+            </FormLabel>
 
             <Textarea
               bg="white"
@@ -616,7 +685,7 @@ function Page() {
               onChange={update}
             />
           </FormControl>
-        </ThemeBox>
+        </ThemeBox> */}
       </PageContainer>
     </Layout>
   );

@@ -37,12 +37,9 @@ export async function GetUser(
         locations (
           id,
           title,
-          line1,
-          line2,
-          city,
-          state,
-          zip,
-          oid
+          oid,
+          locObj,
+          latLng
         ),
         jobs (
           id, 
