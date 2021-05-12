@@ -32,7 +32,7 @@ function App({ Component, pageProps, subdomain }) {
     <Auth0Provider
       domain={`${process.env.AUTH0_DOMAIN}`}
       clientId={`${process.env.AUTH0_CLIENT_ID}`}
-      redirectUri={ [`${process.env.AUTH0_REDIRECT}`, "https://business.bemizu.app/" ][0] }
+      redirectUri={ [`${process.env.AUTH0_REDIRECT}`, "https://business.bemizu.app/" ][1] }
     >
     {/* <AuthProvider session={pageProps.session}> */}
       <ChakraProvider theme={ theme }>
