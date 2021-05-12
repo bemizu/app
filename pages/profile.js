@@ -1,5 +1,6 @@
 import { Widget } from "@uploadcare/react-widget";
 import toast from "react-hot-toast";
+import Link from "next/link"
 import axios from "axios";
 import GoogleMapReact from "google-map-react";
 import { useQuill } from "react-quilljs";
@@ -257,15 +258,16 @@ function Page() {
                 rounded="lg"
                 type="submit"
               />
+                
+              <Link href={"/profile/" + profileOrganization.id}>
               <IconButton
                 size="lg"
-                href={"/profile/" + profileOrganization.id}
                 icon={<AiOutlineEye />}
                 color={theme.darkBlue}
                 rounded="lg"
                 fontSize="32px"
-                type="submit"
               />
+              </Link>
             </ButtonGroup>
 
             <Heading mb={2} color={theme.darkBlue}>
