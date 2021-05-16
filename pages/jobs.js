@@ -31,25 +31,14 @@ const Styles = styled.div``;
 
 function Page() {
   const router = useRouter();
-  const session = Session((state) => state);
+  const session = Session(state => state);
   const { user } = useAuth0();
-  const [profileUser, setProfileUser] = useState({});
-
-
-  const [profileOrganization, setProfileOrganization] = useState( session.organization || {
-    locations: [],
-    jobs: [],
-    team_members: [],
-  });
 
   useEffect(() => {
     if (!session.user) {
-      GetUser(user, session, setProfileUser, setProfileOrganization);
-    } else {
-      setProfileUser(session.user);
-      setProfileOrganization(session.organization);
-    }
-  }, [ session.organization ]);
+      GetUser(user, session);
+    } 
+  }, []);
 
   async function removeJob(e) {
     const { data, error } = await session.supabase
@@ -64,6 +53,11 @@ function Page() {
     }
   }
 
+  if ( !session.organization ) {
+    return <Loading />;
+  }
+
+
   return (
     <Layout title="Jobs">
       <PageContainer path={router.pathname}>
@@ -71,7 +65,7 @@ function Page() {
         <Heading>Jobs</Heading>
 
         <Divider mb={2} />
-        {profileOrganization.jobs.map((el, idx) => {
+        {session.organization.jobs.map((el, idx) => {
           return (
             <Box key={"loc" + el.id}>
               <Box mb={2}>
@@ -92,7 +86,6 @@ function Page() {
                       <IconButton>
                         <EditJob
                           el={el}
-                          setProfileOrganization={setProfileOrganization}
                         />
                       </IconButton>
 

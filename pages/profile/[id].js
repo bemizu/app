@@ -1,4 +1,5 @@
 import { useRouter, withRouter } from "next/router";
+import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { Box, Heading, Container, Text, Grid, Divider,  } from "@chakra-ui/react";
 import Layout from "../../components/layout";
@@ -20,12 +21,37 @@ function Page() {
 
   useEffect(() => {
     if (!session.user) {
+      // await
       GetUser(user, session, setProfileUser, setProfileOrganization);
+
+      setTimeout(iterateViewCount , 2000)
     } else {
       setProfileUser(session.user);
       setProfileOrganization(session.organization);
+      setTimeout(iterateViewCount.bind(this) , 2000)
     }
   }, [session.organization]);
+
+
+  async function iterateViewCount () {
+    let orgToUpdate = JSON.parse(JSON.stringify(profileOrganization));
+    orgToUpdate.views = profileOrganization.views + 1;
+    delete orgToUpdate.jobs;
+    delete orgToUpdate.locations;
+    delete orgToUpdate.team_members;
+
+    
+    const { data, error } = await session.supabase
+      .from("organizations")
+      .update(orgToUpdate)
+      .match({ uuid: session.user.id });
+
+    if (!error) {
+      session.refreshOrg(session);
+    } else {
+      console.log(error);
+    }
+  }
 
   let name = profileOrganization.name ? (
     <Box>

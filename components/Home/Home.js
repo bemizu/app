@@ -49,18 +49,18 @@ function Page() {
   const router = useRouter();
   const session = Session(state => state);
   const { user } = useAuth0();
-  const [profileUser, setProfileUser] = useState({});
-  const [profileOrganization, setProfileOrganization] = useState({});
 
   useEffect(() => {
-
     if (!session.user) {
-      GetUser(user, session, setProfileUser, setProfileOrganization);
-    } else {
-      setProfileUser(session.user);
-      setProfileOrganization(session.organization);
-    }
-  }, [ session.organization ]);
+      GetUser(user, session);
+    } 
+  }, []);
+
+
+
+  if ( !session.organization ) {
+    return <Loading />;
+  }
 
   return (
     <Layout title={"Home"}>
@@ -76,7 +76,7 @@ function Page() {
           <SimpleGrid columns={[1, 3]} spacing={ 5 } py={ 4 }>
             <Box>
               <Heading fontSize="80px" textAlign="center">
-                0
+                { session.organization.views }
               </Heading>
               <Heading textAlign="center" size="md">Profile Views</Heading>
 

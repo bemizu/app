@@ -25,6 +25,7 @@ const Session = create(set => ({
           logo,
           businessSize, 
           industry,
+          views, 
           locations (
             id,
             title,

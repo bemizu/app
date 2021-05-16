@@ -1,10 +1,14 @@
+import { createClient } from "@supabase/supabase-js";
+
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_PUBLIC_ANON
+  );
+
 export async function GetUser(
-  user,
-  session,
-  setProfileUser,
-  setProfileOrganization
+  user, session
 ) {
-  const { data, error } = await session.supabase
+  const { data, error } = await supabase
     .from("business_users")
     .select(
       `
@@ -19,9 +23,8 @@ export async function GetUser(
 
   if (!error && data.length) {
     session.setUser(data[0]);
-    setProfileUser(data[0]);
 
-    const orgReq = await session.supabase
+    const orgReq = await supabase
       .from("organizations")
       .select(
         ` 
@@ -34,6 +37,7 @@ export async function GetUser(
         logo,
         businessSize, 
         industry,
+        views, 
         locations (
           id,
           title,
@@ -66,7 +70,6 @@ export async function GetUser(
 
     if (!orgReq.error && orgReq.data.length) {
       session.setOrganization(orgReq.data[0]);
-      setProfileOrganization(orgReq.data[0]);
     } else {
       console.log(orgReq.error);
     }

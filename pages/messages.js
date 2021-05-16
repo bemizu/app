@@ -27,22 +27,13 @@ const Styles = styled.div``;
 
 function Page() {
   const router = useRouter();
-  const session = Session((state) => state);
+  const session = Session(state => state);
   const { user } = useAuth0();
-  const [profileUser, setProfileUser] = useState({});
-  const [profileOrganization, setProfileOrganization] = useState( session.organization || {
-    locations: [],
-    jobs: [],
-    team_members: [],
-  });
 
   useEffect(() => {
     if (!session.user) {
-      GetUser(user, session, setProfileUser, setProfileOrganization);
-    } else {
-      setProfileUser(session.user);
-      setProfileOrganization(session.organization);
-    }
+      GetUser(user, session);
+    } 
   }, []);
 
   function loginCometUser() {
@@ -95,11 +86,7 @@ function Page() {
 
 
 
-  if ( !profileOrganization ) {
-    return <Loading />
-  }
-
-  if (typeof profileOrganization.id == undefined) {
+  if ( !session.organization ) {
     return <Loading />;
   }
 
